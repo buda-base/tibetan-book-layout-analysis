@@ -1,0 +1,18 @@
+# Native test-set eval (RT-DETR, imgsz 1024, dataset_v5 test = 860 images)
+# Metrics from eval_ckpts.py on each model's own label schema.
+
+########## baseline (RT-DETR 4-class, dataset_v5) ##########
+  overall  mAP50=0.9564  mAP50-95=0.7654  P=0.9306 R=0.9157 F1=0.9231
+    class            P      R     F1   mAP50  mAP50-95
+    header       0.982  0.941  0.961  0.9809    0.7089
+    text-area    0.871  0.833  0.851  0.9229    0.8642
+    footnote     0.921  0.956  0.938  0.9768    0.8253
+    footer       0.949  0.934  0.941  0.9449    0.6632
+
+########## tam2col (RT-DETR 4-class, text-area merged except 2-col pages, dataset_v5_tam2col) ##########
+  overall  mAP50=0.9761  mAP50-95=0.7883  P=0.9470 R=0.9572 F1=0.9521
+    class            P      R     F1   mAP50  mAP50-95
+    header       0.964  0.951  0.957  0.9778    0.7096
+    text-area    0.978  0.995  0.987  0.9935    0.9800
+    footnote     0.933  0.931  0.932  0.9859    0.8215
+    footer       0.913  0.952  0.932  0.9472    0.6420

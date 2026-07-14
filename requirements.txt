@@ -1,0 +1,18 @@
+# Core training / inference / evaluation stack.
+# RT-DETR-l and YOLO26 are trained and served through Ultralytics.
+ultralytics>=8.3.0
+
+# Plotting the PR curves (evaluation/eval_results/plot_pr.py).
+matplotlib>=3.7
+
+# Data-pipeline helpers (image download + decoding for the NDJSON converter).
+pillow>=10.0
+requests>=2.31
+numpy>=1.24
+
+# Releasing the dataset / model to the Hugging Face Hub.
+huggingface_hub>=0.23
+
+# NOTE: DocLayout-YOLO (one of the Round-1 baselines) has dependencies that
+# conflict with mainline ultralytics. Install it in a SEPARATE virtualenv with
+# training/setup_doclayout.sh (it pulls `doclayout_yolo`), not here.
