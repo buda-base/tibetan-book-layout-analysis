@@ -20,9 +20,11 @@ one envelope per page *except* on genuine two-column pages (where it keeps one b
 per column). It reaches **canonical mean AP50 0.981**, best-in-class text-area and
 footnote localization, and handles two-column layouts correctly.
 
-One serving detail matters: header/footer should be thresholded higher than the
-other classes (**conf ≈ 0.60** vs ≈ 0.25), which lifts their precision from ~0.83
-to ~0.95 at almost no recall cost. See the model card and `inference/infer.py`.
+One serving detail matters: use **per-class confidence thresholds**
+(header/footer ≈ 0.60, text-area ≈ 0.55, footnote ≈ 0.25). A native per-class
+sweep shows this lifts header/footer precision ~0.83 → ~0.95 and text-area
+~0.955 → ~0.98 at almost no recall cost. See the model card and
+`inference/infer.py`.
 
 ## Repository layout
 

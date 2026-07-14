@@ -7,12 +7,14 @@ detector is deliberately recall-happy on the small marginal header/footer boxes,
 so the single best operating point differs by class:
 
     header  (0)  conf >= 0.60      footnote (2)  conf >= 0.25
-    text-area(1) conf >= 0.25      footer   (3)  conf >= 0.60
+    text-area(1) conf >= 0.55      footer   (3)  conf >= 0.60
 
 Raising the header/footer threshold to ~0.60 lifts their precision from ~0.83 to
-~0.95 for only a ~0.02 recall cost (see the model card / blog post). Text-area
-already comes out as one clean box per column (two on genuine two-column pages),
-so no text-area post-processing is needed.
+~0.95 for only a ~0.02 recall cost, and raising text-area to ~0.55 lifts its
+precision from ~0.955 to ~0.98 for a ~0.002 recall cost (see the model card /
+blog post). Footnote is best left low (~0.25) where recall is ~1.0. Text-area
+comes out as one clean box per column (two on genuine two-column pages), so no
+text-area post-processing is needed.
 
 Usage:
     python infer.py --weights tibetan_book_layout.pt --source page.jpg
@@ -26,8 +28,8 @@ from pathlib import Path
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tif", ".tiff"}
 
 # Recommended per-class operating points (see model card). Use a single global
-# 0.45 instead if you prefer one number for all classes.
-CLASS_THRESHOLDS = {0: 0.60, 1: 0.25, 2: 0.25, 3: 0.60}
+# 0.50 instead if you prefer one number for all classes.
+CLASS_THRESHOLDS = {0: 0.60, 1: 0.55, 2: 0.25, 3: 0.60}
 CONF_FLOOR = min(CLASS_THRESHOLDS.values())  # predict once at the lowest floor
 
 

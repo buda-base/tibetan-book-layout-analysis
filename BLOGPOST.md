@@ -144,7 +144,7 @@ Recall is uniformly high (0.90–1.00); **precision is the differentiator**.
 
 ![Canonical 3-class PR curves](evaluation/eval_results/pr_canonical.png)
 
-### Setting the confidence threshold for header/footer
+### Setting the confidence thresholds
 
 The one operating-point trap worth calling out: at the naive default of
 `conf=0.25`, header/footer **precision collapses to ~0.83** because the detector
@@ -160,11 +160,21 @@ shows how sharp the fix is:
 | 0.65 | 0.96 | 0.94 | 0.950 |
 
 Raising the header/footer threshold from 0.25 to **~0.60** buys +0.12 precision
-for only −0.02 recall — F1 0.894 → 0.950. Text-area (a single merged envelope) is
-essentially threshold-insensitive, and footnote is best left *low* (~0.25, where
-recall is 1.00). So the practical recipe is **per-class thresholds**
-(header/footer ≈ 0.60, text-area ≈ 0.25, footnote ≈ 0.25); if a single global
-value is required, **0.45** is the best compromise.
+for only −0.02 recall — F1 0.894 → 0.950.
+
+Text-area tells a subtler story. In the *canonical* (merged-envelope) space it
+looks threshold-insensitive, because the envelope inherits the max confidence of
+its boxes. But a **native per-class sweep** (each text-area box scored on its own)
+shows a real, cheap precision gain: raising text-area from 0.25 to **~0.55** lifts
+precision 0.955 → 0.98 for a 0.002 recall cost (it drops ~23 low-confidence
+spurious boxes). Footnote, by contrast, is best left *low* (~0.25, recall 1.00) —
+its handful of false positives are high-confidence and can't be thresholded away
+without losing real footnotes.
+
+So the practical recipe is **per-class thresholds** (header/footer ≈ 0.60,
+text-area ≈ 0.55, footnote ≈ 0.25); if a single global value is required,
+**0.50** is the best compromise. The sweep behind these numbers is
+`evaluation/native_sweep.py`.
 
 ## Two-column pages
 
@@ -198,8 +208,8 @@ merges text-area into one envelope *except* on genuine two-column pages, where i
 returns one box per column. It has the best canonical AP50 (0.981) and the best
 text-area and footnote scores, ties everything else on header/footer, and is the
 only variant that handles two-column layouts correctly. Serve it with per-class
-confidence thresholds (**header/footer ≈ 0.60**, text-area ≈ 0.25,
-footnote ≈ 0.25), or a single global **0.45** if simplicity is preferred.
+confidence thresholds (**header/footer ≈ 0.60**, **text-area ≈ 0.55**,
+footnote ≈ 0.25), or a single global **0.50** if simplicity is preferred.
 
 **Artifacts.** The trained model, with usage and the per-class thresholds, is on
 the Hugging Face Hub at
