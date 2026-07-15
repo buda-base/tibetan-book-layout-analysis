@@ -1,0 +1,40 @@
+FAILURE-MODE ANALYSIS — does a model fold missed header/footer/footnote regions
+INTO the predicted text-area (contaminating OCR), or drop them cleanly?
+860-image modern-Tibetan test split. 'absorbed' = missed AND >=50% of the GT
+region lies inside the predicted text-area envelope.
+
+###### OUR tam2col (fine-tuned RT-DETR) @conf 0.5 ######
+failure analysis: /home/eroux/azure_di_eval/tam2col_pred/labels  (conf>=0.5, absorb if >=50% of missed region inside predicted text-area envelope)
+==============================================================================
+region            GT  detected  MISSED  absorbed→TA  clean-miss
+header-footer   1493   1427( 96%)      66       9( 14%)          57
+footnote          45     42( 93%)       3       1( 33%)           2
+------------------------------------------------------------------------------
+absorbed→TA = missed region folded INTO the OCR text block (bad); clean-miss = dropped, text stays clean
+
+###### Surya fast layout (RF-DETR) @conf 0.3 ######
+failure analysis: /home/eroux/azure_di_eval/surya_pred/labels  (conf>=0.3, absorb if >=50% of missed region inside predicted text-area envelope)
+==============================================================================
+region            GT  detected  MISSED  absorbed→TA  clean-miss
+header-footer   1493   1355( 91%)     138      18( 13%)         120
+footnote          45     25( 56%)      20       7( 35%)          13
+------------------------------------------------------------------------------
+absorbed→TA = missed region folded INTO the OCR text block (bad); clean-miss = dropped, text stays clean
+
+###### Azure AI Document Intelligence (single op point) ######
+failure analysis: /home/eroux/azure_di_eval/azure_pred/labels  (conf>=0.0, absorb if >=50% of missed region inside predicted text-area envelope)
+==============================================================================
+region            GT  detected  MISSED  absorbed→TA  clean-miss
+header-footer   1493    864( 58%)     629     184( 29%)         445
+footnote          45     20( 44%)      25      10( 40%)          15
+------------------------------------------------------------------------------
+absorbed→TA = missed region folded INTO the OCR text block (bad); clean-miss = dropped, text stays clean
+
+###### DocLayout-YOLO (DocStructBench) @conf 0.2 ######
+failure analysis: /home/eroux/azure_di_eval/doclayout_pred/labels  (conf>=0.2, absorb if >=50% of missed region inside predicted text-area envelope)
+==============================================================================
+region            GT  detected  MISSED  absorbed→TA  clean-miss
+header-footer   1493   1004( 67%)     489      93( 19%)         396
+footnote          45      0(  0%)      45       9( 20%)          36
+------------------------------------------------------------------------------
+absorbed→TA = missed region folded INTO the OCR text block (bad); clean-miss = dropped, text stays clean

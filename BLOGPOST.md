@@ -1,108 +1,175 @@
-# Detecting headers, footers, footnotes and text areas in Tibetan books
+# We just wanted to delete the headers
 
-*A practical write-up of how we built a document-layout detector for scans of
-modern Tibetan books — the data pipeline, the model bake-off, and a few
-counter-intuitive lessons about evaluation.*
+*How a small "solved" preprocessing step for Tibetan OCR turned into a proper
+model bake-off — and a few counter-intuitive lessons about how you measure
+success.*
 
-## The problem
+We are building a high-accuracy OCR system for scanned **modern Tibetan books**.
+Our goal downstream is clean etext: the actual body of the work, with none of the
+clutter that lives around it. On a Tibetan page that clutter is very real —
+running headers (མགོ་བྱང་) march along the top or side margin, folio numbers and
+marginal notes sit in the footer, and footnotes crowd the bottom of the block. If
+you feed all of that to an OCR engine and concatenate the output, you get a text
+stream where a chapter title interrupts a sentence and a page number lands in the
+middle of a word. So before we OCR anything, we want to find and set aside the
+headers and footers, and isolate the footnotes from the main text.
 
-This work targets **modern Tibetan books** (not traditional pecha). For
-downstream OCR and etext production we need to know, for every page image, where
-the four structural regions are:
+Simple enough. Our first instinct was *not* to train anything. Document layout
+analysis is a mature field; there are open-source detectors, cloud APIs, and now
+vision-language models that will happily draw boxes around anything you ask. This
+felt like a solved problem that we could solve with an API key.
 
-- **text-area** — the main body text (can be split into several blocks, and on
-  some pages laid out in **two columns**);
+So we ran a benchmark. Colleagues on the BDRC Etext / OpenPecha team put nine
+systems up against a Tibetan layout benchmark and
+[wrote up the results](https://forum.openpecha.org/t/how-well-do-existing-layout-detection-models-handle-tibetan-books/610).
+The short version: it is not a solved problem.
+
+- The best off-the-shelf model, **Surya**, reached 81.9% mAP@0.5 — but only after
+  a heavy post-processing pass that merged same-class boxes within a 1500-px
+  radius. Its *raw* output scored **34%**, because it shattered each text region
+  into a thousand-plus fragments per page.
+- **Footnotes** were where most systems simply gave up: DocYOLO, PaddleOCR, and
+  YOLO11 scored **0–1% AP** on them.
+- The general-purpose **VLMs** were the most humbling. Gemini 2.5 Flash nailed the
+  text body (90.7% AP) and then collapsed on the margins — **5.3% AP on headers,
+  1.4% on footers** — hallucinating hundreds of phantom headers along the way.
+
+### A fair complaint about our own benchmark
+
+Reading that benchmark critically, there's a gap: it evaluated open-source layout
+models and VLMs, but never tried the **commercial document-AI incumbents** — the
+services whose entire pitch is structured layout with named roles. That omission
+is worth naming:
+
+- **Azure AI Document Intelligence** is the strongest "should have tried"
+  candidate. Its layout model assigns paragraph *roles* that include
+  `pageHeader`, `pageFooter`, `pageNumber` and — unusually — an explicit
+  **`footnote`** role. On paper it targets exactly our four regions.
+- **AWS Textract** (Layout) returns `HEADER`, `FOOTER`, and `PAGE_NUMBER` blocks,
+  but has **no footnote class**.
+- **Google Document AI** and **ABBYY FineReader** both reconstruct document
+  structure and separate running heads/footers, though footnote handling is
+  weaker or geared toward reflowing Latin-script PDFs.
+
+So could one of these have quietly solved our problem? We doubt it, for reasons
+the benchmark already hints at. Every one of these products is trained
+overwhelmingly on Western business documents — invoices, contracts, English
+books. Tibetan uchen script, dense pointed text, and margin-hugging running
+titles are wildly out of distribution, and the one general commercial-grade proxy
+we *did* test (Gemini) fell apart on precisely the header/footer regions that make
+Tibetan layout distinctive. On top of that, these are closed, per-page-priced
+services: for a corpus that will run to millions of pages, and for a project whose
+output is meant to be an **open, reproducible dataset and model**, we can neither
+afford them nor retune them to Tibetan conventions.
+
+The honest conclusion is that there is no off-the-shelf system that both (a)
+exposes header/footer/footnote as targetable classes *and* (b) has seen anything
+like a Tibetan book. So we trained our own. This is the story of how — and why the
+interesting part turned out to be not the training, but the measuring.
+
+## What we're actually detecting
+
+Four regions per page:
+
+- **text-area** — the main body text (sometimes several blocks, and on some pages
+  laid out in **two columns**);
 - **header** — running title / marginal text at the top or side;
 - **footer** — folio numbers and marginal text at the bottom or side;
 - **footnote** — notes below the main text area.
 
-The goal: a robust object detector that finds these four regions, trained on a
-clean, releasable dataset.
+Downstream we mostly care about three things: keep the text-area, drop
+header+footer, and peel off footnotes. (Whether a marginal box is a "header" or a
+"footer" barely matters to us — a distinction that will come back later.)
 
-## The data
+## The data: the part that actually took the time
 
+Building a trustworthy dataset was more work than any of the training runs.
 Annotations were produced on the [Ultralytics platform](https://platform.ultralytics.com/)
-across several batches. A key constraint surfaced immediately: the platform only
-supports **axis-aligned bounding boxes** (AABB). Slightly rotated scans therefore
-get slightly loose boxes. We decided this was acceptable (the looseness is small
-and consistent) rather than switching to oriented boxes.
+across several batches. The first thing we hit was a modeling constraint: the
+platform only supports **axis-aligned bounding boxes**. On a slightly rotated
+scan, an axis-aligned box is a little loose. We decided to live with it — the
+looseness is small and consistent — rather than jump to oriented boxes.
 
-Building a trustworthy dataset took more work than training the models:
+The rest was discipline:
 
-1. **Pooling & dedup.** Several NDJSON exports (`tdla-v10`, `tdlabatch3reviewed`,
-   `batch4`, an augmented `batch-11`) were pooled. We ignored the platform's own
-   train/val/test splits and deduplicated by pixel MD5.
-2. **Leakage-free splitting.** We split at the **volume** level (all pages of a
-   book/volume stay in one split), stratified so footnote-bearing volumes are
-   spread across train/val/test. **Augmented images were forced into train only**
-   so the val/test sets stay clean and representative.
-3. **Consistency audit.** A geometric/logical audit flagged likely annotation
-   mistakes: near-duplicate boxes (IoU > 0.9), conflicting classes on the same
-   region, impossible orderings (footer above header, header below the text
-   centre, footnote not below the text area), out-of-bounds and degenerate boxes,
-   plus unusually tiny or corner-placed headers/footers. Flagged pages (≈260)
-   were exported back to the platform, manually corrected, and re-imported.
-4. **Release.** The cleaned dataset was published as a gated dataset on the
-   Hugging Face Hub with a fair-use disclaimer (all coordinates clamped to
-   `[0,1]` to avoid rounding issues on import).
+- **Leakage-free splitting.** We split at the **volume** level — every page of a
+  given book stays in one split — and stratified so that the rare footnote-bearing
+  volumes are represented in train, val, and test. Augmented images were confined
+  to **train only**, so validation and test are clean, original scans.
+- **A consistency audit.** A geometric/logical pass flagged likely annotation
+  mistakes: near-duplicate boxes (IoU > 0.9), conflicting classes on the same
+  region, physically impossible orderings (a footer above a header, a header below
+  the middle of the text, a footnote that isn't below the text), out-of-bounds and
+  degenerate boxes, and suspiciously tiny or corner-stuck headers/footers. About
+  260 flagged pages went back for manual correction.
+- **Release.** The cleaned dataset is published (gated, fair-use) on the Hugging
+  Face Hub, with every coordinate clamped to `[0,1]`.
 
-Final dataset: **8,325 images** (6,751 train / 714 val / 860 test), ~25,500 boxes.
+Final tally: **8,325 images** (6,751 train / 714 val / 860 test), ~25,500 boxes.
 
 ## Round 1 — which architecture?
 
-We trained several detectors at 1024 px and evaluated on the held-out test split:
-YOLO26s/m, **DocLayout-YOLO** (a YOLOv10 fork pre-trained on document structure),
-and **RT-DETR-l**.
+We trained several detectors at 1024 px and scored them on the held-out test
+split: YOLO26s/m, **DocLayout-YOLO** (a YOLOv10 fork pre-trained on document
+structure), and **RT-DETR-l**.
 
 | model | test mAP50 | test mAP50-95 |
 |---|---|---|
 | DocLayout-YOLO (best) | 0.936 | 0.745 |
 | **RT-DETR-l (best)** | **0.954** | **0.754** |
 
-**RT-DETR-l won** and became our reference model.
+RT-DETR-l won and became our reference model. (These numbers are on our own
+860-image test split and are *not* directly comparable to the benchmark's smaller,
+differently-annotated set — but they were enough to tell us domain-specific
+training was worth it.)
 
-### A useful detour: which checkpoint?
+### A useful detour: which checkpoint do you keep?
 
-We compared the "elbow" checkpoint (just after the loss stops dropping quickly)
-against the converged, validation-selected `best.pt`. Two clean findings:
+Here's a question that sounds pedantic and isn't: once training is done, *which*
+epoch's weights do you ship? We compared the "elbow" checkpoint (just after the
+loss stops dropping quickly) against the converged, validation-selected `best.pt`:
 
-- DocLayout kept *improving on the test set* all the way to its val-best — no
-  marginal-tail overfitting; the elbow checkpoint underfit (footnote AP 0.76 →
-  0.95 with more training).
-- RT-DETR, trained a few epochs *past* its val-best, **regressed on test**
-  (footer mAP50-95 0.63 → 0.52).
+- DocLayout kept *improving on the test set* right up to its val-best — no
+  marginal-tail overfitting at all; the elbow checkpoint simply underfit (footnote
+  AP climbed 0.76 → 0.95 with more training).
+- RT-DETR, pushed a few epochs *past* its val-best, **regressed on test** (footer
+  mAP50-95 slid 0.63 → 0.52).
 
-The literature (early stopping — Prechelt 1998; deep double descent — Nakkiran
-et al. 2019; SWA — Izmailov et al. 2018) says neither the elbow nor the last
-epoch is reliably best; the robust choice is the **validation-selected checkpoint
-with weight averaging (EMA)**, which is exactly what the Ultralytics stack saves.
-So we simply keep `best.pt`.
+The literature (early stopping — Prechelt 1998; deep double descent — Nakkiran et
+al. 2019; stochastic weight averaging — Izmailov et al. 2018) is clear that
+neither the elbow nor the last epoch is reliably best; the robust choice is the
+**validation-selected checkpoint with EMA weight averaging** — which is exactly
+what the Ultralytics stack saves as `best.pt`. So we kept it and moved on.
 
 ## Round 2 — does relabelling help? (and a lesson in fair evaluation)
 
-We then asked whether changing the *label formulation* helps. Three RT-DETR
-variants, all on the same test split:
+Now the interesting part. We suspected that *how you frame the labels* might
+matter as much as the architecture, so we trained four RT-DETR variants on the
+same split:
 
 - **baseline** — 4 classes, text-area left as-is (possibly several boxes/page).
 - **tam** — 4 classes, but all text-area boxes **merged** into one envelope/page.
 - **3cls** — header and footer **merged** into a single `header-footer` class.
 - **3cls_tam** — both of the above.
 
-Taken at face value, the curricula looked great (tam text-area mAP50-95 jumped
-0.86 → 0.98!). But that is a **measurement artifact**: a single merged box is
-trivial to localize, which inflates per-class mAP. To compare fairly we built a
-**canonical evaluator** that maps *every* model into one common space, applying
-the merges as post-processing so the metric is identical for all:
+Taken at face value, the merged curricula looked spectacular — `tam`'s text-area
+mAP50-95 leapt from 0.86 to 0.98! But that is a **measurement artifact**: a single
+big merged box is trivial to localize, so the per-class mAP inflates for free. If
+we'd stopped there we'd have fooled ourselves.
 
-- **header+footer combined** into one class, with boxes matched *individually*
-  (relabelling — NOT enveloping, since a header at the top and a footer at the
-  bottom would merge into a page-sized box);
-- **text-area merged** into one envelope per page (done as post-processing for
-  models not trained that way);
-- **footnote** unchanged.
+To compare honestly, we built a **canonical evaluator** that maps *every* model
+into one common space and applies the merges as post-processing, so the metric is
+identical for all of them:
 
-In this fair, apples-to-apples space (all five variants retrained on the final
-`v5` dataset, 860 test images):
+- **header + footer combined** into one class, with boxes matched *individually*
+  (a relabelling, **not** an envelope — a header at the top and a footer at the
+  bottom must not merge into a page-sized box);
+- **text-area merged** into one envelope per page, done as post-processing even
+  for models that weren't trained that way;
+- **footnote** left untouched.
+
+In this apples-to-apples space (all five variants retrained on the final dataset,
+860 test images):
 
 | model | header-footer | text-area | footnote | mean AP50 | mean AP50-95 |
 |---|---|---|---|---|---|
@@ -112,27 +179,26 @@ In this fair, apples-to-apples space (all five variants retrained on the final
 | 3cls | 0.959 / 0.676 | 0.967 / 0.869 | 0.984 / 0.808 | 0.970 | 0.784 |
 | 3cls_tam | 0.964 / 0.705 | 0.981 / 0.929 | 0.968 / 0.796 | 0.971 | 0.810 |
 
-*(each cell is AP50 / AP50-95)*
+*(each cell is AP50 / AP50-95; `tam2col` is introduced below)*
 
-**The headline result: on the merged canonical metric the curricula are all within
-noise of each other on AP50-95 (0.78–0.81).** Three genuine signals survive the
-fair comparison:
+Once the playing field is level, the dramatic gaps evaporate: on AP50-95 the
+curricula are all within noise of each other (0.78–0.81). But three real signals
+survive:
 
-- **Keep header and footer as *separate* training classes.** Models trained with
-  them distinct score as high or higher on the combined class than the model
-  trained with them pre-merged — distinct supervision plus lossless post-hoc
-  combining wins, and never hurts.
-- **Training on merged text-area genuinely helps text-area** specifically
-  (0.902 → 0.929 AP50-95), at the cost of needing a higher confidence threshold.
-- **`tam2col` has the best AP50 and the best text-area/footnote localization**,
-  and — crucially — the canonical metric *understates* it, because it merges the
-  two columns of a two-column page back into a single envelope (see below).
+- **Keep header and footer as *separate* training classes.** Models given the
+  distinction score as high or higher on the *combined* class than the model
+  trained on pre-merged labels. Richer supervision plus a loss-free post-hoc merge
+  beats throwing the distinction away up front.
+- **Training on merged text-area genuinely helps text-area** (0.902 → 0.929
+  AP50-95) — but it needs a higher confidence threshold to pay off.
+- The canonical metric, by construction, **can't see** one thing that turned out
+  to matter a lot: two-column pages.
 
-### Precision / recall (the 3 classes we actually care about)
+### Precision and recall — the three classes we actually care about
 
-Header-vs-footer confusion is irrelevant downstream, so we evaluate the three
-classes **text-area, header+footer, footnote** and sweep the confidence
-threshold. Best-F1 operating points (F1 @conf, canonical space):
+Since header-vs-footer confusion is irrelevant to us, we evaluate the three
+meaningful classes — **text-area, header+footer, footnote** — and sweep the
+confidence threshold. Best-F1 operating points (canonical space):
 
 | class | baseline | tam | **tam2col** | 3cls | 3cls_tam |
 |---|---|---|---|---|---|
@@ -144,12 +210,14 @@ Recall is uniformly high (0.90–1.00); **precision is the differentiator**.
 
 ![Canonical 3-class PR curves](evaluation/eval_results/pr_canonical.png)
 
-### Setting the confidence thresholds
+### The confidence threshold is not one number
 
-The one operating-point trap worth calling out: at the naive default of
-`conf=0.25`, header/footer **precision collapses to ~0.83** because the detector
-happily over-predicts small marginal boxes. Sweeping the threshold on `tam2col`
-shows how sharp the fix is:
+The single most useful practical lesson: **the right confidence threshold differs
+by class**, and the Ultralytics default of 0.25 is wrong for most of them.
+
+At `conf=0.25`, header/footer **precision collapses to ~0.83** — the detector
+cheerfully over-predicts small marginal boxes. Sweeping the threshold shows how
+cheap the fix is:
 
 | conf | P | R | F1 |
 |---|---|---|---|
@@ -159,38 +227,35 @@ shows how sharp the fix is:
 | **0.60** | **0.95** | **0.95** | **0.950** |
 | 0.65 | 0.96 | 0.94 | 0.950 |
 
-Raising the header/footer threshold from 0.25 to **~0.60** buys +0.12 precision
-for only −0.02 recall — F1 0.894 → 0.950.
+Nudging header/footer from 0.25 to **~0.60** buys +0.12 precision for a −0.02
+recall cost — F1 0.894 → 0.950.
 
-Text-area tells a subtler story. In the *canonical* (merged-envelope) space it
-looks threshold-insensitive, because the envelope inherits the max confidence of
-its boxes. But a **native per-class sweep** (each text-area box scored on its own)
-shows a real, cheap precision gain: raising text-area from 0.25 to **~0.55** lifts
-precision 0.955 → 0.98 for a 0.002 recall cost (it drops ~23 low-confidence
-spurious boxes). Footnote, by contrast, is best left *low* (~0.25, recall 1.00) —
-its handful of false positives are high-confidence and can't be thresholded away
-without losing real footnotes.
+Text-area is subtler, and nearly tricked us. In the *canonical* (merged-envelope)
+space it looks threshold-insensitive, because the envelope inherits the highest
+confidence among its boxes. But a **native per-class sweep** (scoring each
+text-area box on its own) reveals a real, cheap precision gain: raising text-area
+from 0.25 to **~0.55** lifts precision 0.955 → 0.98 for a 0.002 recall cost,
+quietly dropping ~23 low-confidence spurious boxes. Footnote, meanwhile, is best
+left *low* (~0.25, recall 1.00) — its few false positives are high-confidence and
+can't be thresholded away without losing genuine footnotes.
 
-So the practical recipe is **per-class thresholds** (header/footer ≈ 0.60,
-text-area ≈ 0.55, footnote ≈ 0.25); if a single global value is required,
-**0.50** is the best compromise. The sweep behind these numbers is
-`evaluation/native_sweep.py`.
+The practical recipe: **per-class thresholds** — header/footer ≈ 0.60, text-area
+≈ 0.55, footnote ≈ 0.25 — or a single global **0.50** if you need one knob.
 
-## Two-column pages
+## The two-column problem
 
-Some pages lay the body text out in two columns, and merging those into one box
-is wrong. We added a **heuristic** that keeps two text-area boxes when a page is a
-genuine two-column layout: the text-area boxes must split into a left/right group
-that are **horizontally disjoint** (overlap < 20% of the smaller column's width)
-and **vertically co-extensive** (share ≥ 30% of the smaller column's height).
-On the full dataset this flags ~175 pages (~2%). We trained a `tam2col` variant
-(text-area merged *except* on two-column pages), which turned out to be the
-strongest model overall.
+Some pages set the body text in two columns, and squashing those into one box is
+just wrong. We added a small **heuristic** that keeps two text-area boxes when a
+page is genuinely two-column: the boxes must split into a left/right pair that are
+**horizontally disjoint** (overlap < 20% of the narrower column's width) and
+**vertically co-extensive** (share ≥ 30% of the shorter column's height). Across
+the dataset this fires on ~175 pages (~2%). We trained a variant, **`tam2col`**,
+that merges text-area *except* on those pages — and it turned out to be the
+strongest model of the lot.
 
-The payoff is only visible on the model's **own** label schema, because the
-canonical evaluator re-merges the two columns into one envelope and cannot reward
-the split. On the native 4-class test set, keeping the columns lifts text-area
-localization dramatically:
+The catch is that its advantage is invisible to the canonical metric, which
+re-merges the two columns back into one envelope. You only see it on the model's
+own label schema:
 
 | model | text-area mAP50 | text-area mAP50-95 |
 |---|---|---|
@@ -198,30 +263,32 @@ localization dramatically:
 | **tam2col** | **0.994** | **0.980** |
 
 That is the real reason to prefer `tam2col`: it gets two-column pages right —
-returning one clean box per column — without regressing anything else.
+one clean box per column — without regressing anything else.
 
-## Recommendation & reproducibility
+## Where we landed
 
-Our production choice is **`tam2col`** — a 4-class RT-DETR-l that keeps header and
-footer as separate training classes (combined losslessly in post-processing) and
-merges text-area into one envelope *except* on genuine two-column pages, where it
-returns one box per column. It has the best canonical AP50 (0.981) and the best
-text-area and footnote scores, ties everything else on header/footer, and is the
-only variant that handles two-column layouts correctly. Serve it with per-class
-confidence thresholds (**header/footer ≈ 0.60**, **text-area ≈ 0.55**,
-footnote ≈ 0.25), or a single global **0.50** if simplicity is preferred.
+Our production model is **`tam2col`**: a 4-class RT-DETR-l that keeps header and
+footer as separate training classes (combined losslessly afterward), merges
+text-area into a single envelope *except* on genuine two-column pages, and is
+served with per-class thresholds (header/footer ≈ 0.60, text-area ≈ 0.55, footnote
+≈ 0.25). It has the best canonical AP50 (0.981), the best text-area and footnote
+localization, and is the only variant that handles two columns correctly.
 
-**Artifacts.** The trained model, with usage and the per-class thresholds, is on
-the Hugging Face Hub at
+The bigger takeaways, though, are the ones we didn't expect going in:
+
+1. **"Solved problem" is a trap.** For a low-resource script, the mature tooling —
+   open-source *and* commercial — mostly isn't built for you.
+2. **The metric will lie to you if you let it.** Half of our "wins" were
+   measurement artifacts until we forced every model into a common evaluation
+   space.
+3. **Thresholds are a per-class decision**, and getting them right was worth as
+   much as any architecture change.
+
+Everything is open. The trained model (with usage and thresholds) is on the
+Hugging Face Hub at
 [BDRC/Tibetan-Modern-Book-Layout-Detection](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection);
-the cleaned, audited dataset is released (gated) at
+the cleaned, audited dataset is at
 [BDRC/TDLA-Training-Dataset-v2](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset-v2);
-and all training/evaluation code and recipes live in the
+and all training, evaluation, and threshold-sweep code lives in the
 [tibetan-book-layout-analysis](https://github.com/buda-base/tibetan-book-layout-analysis)
-GitHub repository (raw weights + metrics are also mirrored to
-`s3://bec.bdrc.io/models/hff-detection/`).
-
-*Tooling note:* every metric in this post is reproducible with three small,
-self-contained scripts — `canon_eval.py` (fair per-class AP), `canon_sweep.py`
-(confidence sweep / PR curves), and `merged_eval.py` (region-level merged boxes) —
-all schema-aware so they work for the 3-class and 4-class models alike.
+repository. Every number in this post is reproducible from the scripts there.
