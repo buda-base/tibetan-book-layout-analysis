@@ -1,0 +1,8 @@
+canonical eval of predictions in /home/eroux/azure_di_eval/surya_pred/labels over 860 test images (IoU>=0.5, conf>=0.3, text-area merged, header+footer combined)
+==========================================================================
+class               P       R      F1  meanIoU    TP    FP    FN
+header-footer   0.883   0.908   0.895    0.673  1355   179   138
+text-area       0.989   0.989   0.989    0.924   844     9     9
+footnote        0.362   0.556   0.439    0.765    25    44    20
+--------------------------------------------------------------------------
+mean F1                         0.774

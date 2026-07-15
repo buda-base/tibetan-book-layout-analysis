@@ -1,0 +1,8 @@
+canonical eval of predictions in /home/eroux/azure_di_eval/doclayout_pred/labels over 860 test images (IoU>=0.5, conf>=0.2, text-area merged, header+footer combined)
+==========================================================================
+class               P       R      F1  meanIoU    TP    FP    FN
+header-footer   0.643   0.672   0.657    0.679  1004   557   489
+text-area       0.950   0.830   0.886    0.915   708    37   145
+footnote        1.000   0.000   0.000    0.000     0     0    45
+--------------------------------------------------------------------------
+mean F1                         0.515
