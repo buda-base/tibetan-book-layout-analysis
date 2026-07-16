@@ -62,10 +62,15 @@ services: for a corpus that will run to millions of pages, and for a project who
 output is meant to be an **open, reproducible dataset and model**, we can neither
 afford them nor retune them to Tibetan conventions.
 
-The honest conclusion is that there is no off-the-shelf system that both (a)
-exposes header/footer/footnote as targetable classes *and* (b) has seen anything
-like a Tibetan book. So we trained our own. This is the story of how — and why the
-interesting part turned out to be not the training, but the measuring.
+Our prior was that no off-the-shelf system both (a) exposes
+header/footer/footnote as targetable classes *and* (b) has seen anything like a
+Tibetan book — so we trained our own. But a prior isn't a measurement, so later in
+this post we stop speculating and actually run the two strongest candidates —
+**Azure AI Document Intelligence** and **Surya** — on our own 860-page test set
+(see [*So could we have just used an off-the-shelf system?*](#so-could-we-have-just-used-an-off-the-shelf-system)).
+The verdict is mostly "yes, we were right," with one genuine surprise. This is the
+story of how — and why the interesting part turned out to be not the training, but
+the measuring.
 
 ## What we're actually detecting
 
@@ -265,6 +270,142 @@ own label schema:
 That is the real reason to prefer `tam2col`: it gets two-column pages right —
 one clean box per column — without regressing anything else.
 
+## So could we have just used an off-the-shelf system?
+
+We opened with a hunch that the commercial and open incumbents wouldn't cut it.
+Hunches are cheap, so we tested it properly: we ran several off-the-shelf systems on
+our own 860-page test set and scored them with the **exact same canonical
+evaluator** as our own models (header+footer combined, text-area merged into one
+envelope, IoU ≥ 0.5). The contenders:
+
+- **Azure AI Document Intelligence** (`prebuilt-layout`) — the commercial
+  incumbent that, on paper, has the perfect schema: `pageHeader`, `pageFooter`,
+  `pageNumber`, and an explicit `footnote` role. It returns no confidence scores,
+  so it has a single, un-thresholdable operating point.
+- **Surya** — the best performer in the OpenPecha benchmark. Modern Surya routes
+  layout through a 650M vision-language model, but it also ships a lightweight,
+  pure-PyTorch layout detector (`surya_layout2`, an **RF-DETR** — Roboflow's
+  DINOv2-based detector, *not* to be confused with the Baidu **RT-DETR** we
+  fine-tuned). We benchmark that detector at its best-F1 confidence.
+- **DocLayout-YOLO** (DocStructBench) — the strong open-source document detector,
+  swept to its best-F1 confidence.
+- **PP-DocLayout-L** (PaddleOCR) — Baidu's document-layout RT-DETR variant,
+  pretrained on Chinese document structure, swept to its best-F1 confidence.
+- **Docling layout-heron** (IBM) — an RT-DETRv2 detector with explicit
+  `page_header`, `page_footer`, and `footnote` classes, swept to its best-F1
+  confidence.
+
+Everyone gets the easy question right and diverges on the hard ones (best-F1
+operating points, canonical 3-class F1):
+
+| system | header-footer | text-area | footnote | **mean F1** |
+|---|---|---|---|---|
+| **Ours — `tam2col` (fine-tuned RT-DETR-l)** | 0.949 | 0.998 | **0.933** | **0.960** |
+| Surya fast layout (RF-DETR, off-the-shelf) | 0.895 | 0.989 | 0.439 | 0.774 |
+| PP-DocLayout-L (off-the-shelf) | 0.485 | 0.865 | 0.667 | 0.672 |
+| Docling layout-heron (off-the-shelf) | 0.481 | 0.992 | 0.397 | 0.624 |
+| Azure AI Document Intelligence | 0.625 | 0.989 | 0.404 | 0.673 |
+| DocLayout-YOLO (DocStructBench) | 0.657 | 0.886 | 0.000 | 0.515 |
+
+Three things jump out. **Text-area is a solved problem** — Azure, Surya, Docling
+heron, and PP-DocLayout-L all tie or nearly tie our model at ~0.99–1.00 on
+text-area, so if all you want is "where is the body text," an API key or an
+off-the-shelf detector would do. The **surprise** is that Surya's off-the-shelf
+RF-DETR is a genuinely good header/footer detector (0.895, essentially our
+level) — much better than the OpenPecha benchmark's raw-Surya numbers suggested.
+PP-DocLayout-L and Docling heron off-the-shelf are weaker on headers (≈0.48) but
+already expose a footnote class — PP-DocLayout reaches 0.667, Docling 0.397. And
+**footnotes remain the wall for anything not fine-tuned**: only trained models
+clear 0.92; DocLayout-YOLO, which has no page-footnote class, scores a literal
+zero.
+
+### The failure that actually matters: contamination
+
+An F1 number hides *how* a model fails, and for our pipeline the *how* is
+everything. We crop the predicted text-area and send it to OCR, so there are two
+very different ways to miss a header:
+
+1. **Absorb it** — the text-area box grows to swallow the header, and its text
+   gets OCR'd as body text. This silently corrupts the etext. **This is the
+   failure we cannot tolerate.**
+2. **Drop it cleanly** — no header box is emitted, but the text-area stays tight,
+   so the body text is still clean. We lose the header, but we don't poison the
+   text.
+
+So we measured, for every ground-truth header/footer and footnote, whether a model
+that *failed to detect it* had **folded that region into its text-area envelope**
+(≥ 50% of the region inside the predicted body block):
+
+| system | header/footer detected | …folded into text-area | footnote detected | …folded into text-area |
+|---|---|---|---|---|
+| **Ours — `tam2col`** | 96% | **0.6%** | 93% | **2%** |
+| Surya fast layout | 91% | 1.2% | 56% | 16% |
+| Azure Document Intelligence | 58% | **12%** | 44% | **22%** |
+| DocLayout-YOLO | 67% | 6% | 0% | 20% |
+
+*("folded into text-area" = share of **all** ground-truth regions of that type
+that the system both missed **and** buried inside its OCR text block.)*
+
+This is the number that answers the title question. **Azure would fold roughly one
+in eight running heads / folio numbers, and more than one in five footnotes,
+straight into the body text.** On a corpus headed for millions of pages, that is
+systematic, silent contamination of exactly the etext we are trying to keep clean
+— precisely the problem we set out to solve. Its headline text-area F1 of 0.989
+looks reassuring right up until you notice *what* that text block contains.
+
+Surya is the real revelation: as a header/footer detector it is nearly as clean as
+our fine-tuned model (1.2% absorbed), so for header/footer removal alone it would
+be a defensible off-the-shelf choice. But it still buries **16% of footnotes** in
+the body text, and its strongest configuration is the heavyweight VLM stack; the
+weights are also OpenRAIL-M-licensed (free for research and nonprofits, paid above
+a revenue threshold), which complicates an open release.
+
+Our `tam2col` model, by contrast, contaminates the body text on **0.6%** of
+headers/footers and **2%** of footnotes — an order of magnitude cleaner than
+Azure, and the deciding factor for a downstream OCR pipeline.
+
+So: **could we have used Azure? No.** Not because it can't find the text — it can
+— but because when it misses the clutter, it hides that clutter *inside* the text.
+Surya could plausibly handle header/footer stripping, but not footnotes, and not
+under a license we'd want for an open release. The one-sentence answer to the
+question we started with is: the off-the-shelf systems are good enough to find your
+text and not good enough to protect it.
+
+### Fine-tuning the strongest off-the-shelf candidates
+
+The Surya result raised a natural follow-up: Surya's fast layout detector *is*
+Roboflow's RF-DETR (DINOv2 backbone, Apache-2.0 weights) — a different
+architecture from the Baidu RT-DETR-l we trained as `tam2col`, but fine-tunable
+with the same `dataset_v5_tam2col` labels. We also fine-tuned **Docling
+layout-heron** (RT-DETRv2, IBM) on the same data. **PP-DocLayout-L** fine-tuning
+was started on the same recipe but is still in progress at the time of writing.
+
+All three were scored on the same 860-page test split with the canonical evaluator
+(confidence swept per model; best mean-F1 operating point):
+
+| system | header-footer | text-area | footnote | **mean F1** | best conf |
+|---|---|---|---|---|---|
+| **Ours — `tam2col` (RT-DETR-l)** | 0.949 | 0.998 | 0.933 | **0.960** | 0.50 |
+| **RF-DETR-L fine-tuned** (Roboflow) | 0.963 | 0.994 | 0.923 | **0.960** | 0.30 |
+| Docling heron fine-tuned | 0.940 | 0.934 | 0.923 | 0.932 | 0.05 |
+| Docling heron off-the-shelf | 0.481 | 0.992 | 0.397 | 0.624 | 0.55 |
+| PP-DocLayout-L off-the-shelf | 0.485 | 0.865 | 0.667 | 0.672 | 0.30 |
+
+The headline: **fine-tuning RF-DETR (Roboflow) on our Tibetan data matches
+`tam2col` exactly** — mean F1 0.960, with footnote F1 0.923. That is a useful
+licensing datapoint: Roboflow's Apache-2.0 RF-DETR base is a viable alternative
+to Ultralytics RT-DETR-l for this task, at least on our benchmark.
+
+Docling heron fine-tuning is a clear step up from off-the-shelf (0.624 → 0.932) and
+gets footnotes to 0.923, but it lands just below `tam2col` on text-area and
+header-footer. PP-DocLayout-L off-the-shelf already has a usable footnote class
+(0.667) — better than Surya or Azure — but still well short of fine-tuned
+performance; its fine-tune run was interrupted once by disk exhaustion and
+restarted with checkpoint pruning.
+
+Checkpoints, prediction dumps, and full confidence sweeps for the RF-DETR and
+Docling runs are archived at `s3://bec.bdrc.io/models/hff-detection/`.
+
 ## Where we landed
 
 Our production model is **`tam2col`**: a 4-class RT-DETR-l that keeps header and
@@ -277,7 +418,9 @@ localization, and is the only variant that handles two columns correctly.
 The bigger takeaways, though, are the ones we didn't expect going in:
 
 1. **"Solved problem" is a trap.** For a low-resource script, the mature tooling —
-   open-source *and* commercial — mostly isn't built for you.
+   open-source *and* commercial — mostly isn't built for you — though fine-tuning
+   a strong off-the-shelf detector (RF-DETR) can match a from-scratch RT-DETR-l
+   training run.
 2. **The metric will lie to you if you let it.** Half of our "wins" were
    measurement artifacts until we forced every model into a common evaluation
    space.
