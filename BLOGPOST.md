@@ -377,8 +377,8 @@ The Surya result raised a natural follow-up: Surya's fast layout detector *is*
 Roboflow's RF-DETR (DINOv2 backbone, Apache-2.0 weights) — a different
 architecture from the Baidu RT-DETR-l we trained as `tam2col`, but fine-tunable
 with the same `dataset_v5_tam2col` labels. We also fine-tuned **Docling
-layout-heron** (RT-DETRv2, IBM) on the same data. **PP-DocLayout-L** fine-tuning
-was started on the same recipe but is still in progress at the time of writing.
+layout-heron** (RT-DETRv2, IBM) on the same data. **PP-DocLayout-L** was fine-tuned
+on the same recipe (early-stopped at epoch 25; best val bbox AP 0.809 @ epoch 6).
 
 All three were scored on the same 860-page test split with the canonical evaluator
 (confidence swept per model; best mean-F1 operating point):
@@ -389,6 +389,7 @@ All three were scored on the same 860-page test split with the canonical evaluat
 | **RF-DETR-L fine-tuned** (Roboflow) | 0.963 | 0.994 | 0.923 | **0.960** | 0.30 |
 | Docling heron fine-tuned | 0.940 | 0.934 | 0.923 | 0.932 | 0.05 |
 | Docling heron off-the-shelf | 0.481 | 0.992 | 0.397 | 0.624 | 0.55 |
+| PP-DocLayout-L fine-tuned | 0.954 | 0.995 | 0.920 | **0.956** | 0.75 |
 | PP-DocLayout-L off-the-shelf | 0.485 | 0.865 | 0.667 | 0.672 | 0.30 |
 
 The headline: **fine-tuning RF-DETR (Roboflow) on our Tibetan data matches
@@ -398,13 +399,13 @@ to Ultralytics RT-DETR-l for this task, at least on our benchmark.
 
 Docling heron fine-tuning is a clear step up from off-the-shelf (0.624 → 0.932) and
 gets footnotes to 0.923, but it lands just below `tam2col` on text-area and
-header-footer. PP-DocLayout-L off-the-shelf already has a usable footnote class
-(0.667) — better than Surya or Azure — but still well short of fine-tuned
-performance; its fine-tune run was interrupted once by disk exhaustion and
-restarted with checkpoint pruning.
+header-footer. PP-DocLayout-L fine-tuning reaches **0.956 mean F1** (0.672
+off-the-shelf → 0.956), essentially matching `tam2col` on this benchmark; its
+first run was interrupted by disk exhaustion, then restarted with checkpoint
+pruning and early-stopped at epoch 25.
 
-Checkpoints, prediction dumps, and full confidence sweeps for the RF-DETR and
-Docling runs are archived at `s3://bec.bdrc.io/models/hff-detection/`.
+Checkpoints, prediction dumps, and full confidence sweeps for the RF-DETR,
+Docling, and PP-DocLayout runs are archived at `s3://bec.bdrc.io/models/hff-detection/`.
 
 ## Where we landed
 
