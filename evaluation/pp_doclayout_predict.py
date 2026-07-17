@@ -66,11 +66,16 @@ def main() -> int:
     ap.add_argument("--model-dir", default="",
                     help="Fine-tuned Paddle inference dir (default: off-the-shelf)")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--device", default="gpu", choices=["gpu", "cpu"],
+                    help="gpu (default) or cpu; cpu forces MKL-DNN off (see below)")
     args = ap.parse_args()
 
     src = Path(args.source)
     lbl_dir = Path(args.out) / "labels"
     lbl_dir.mkdir(parents=True, exist_ok=True)
+
+    for stray in lbl_dir.glob("*.txt.tmp"):
+        stray.unlink()  # left over from a run killed mid-write
 
     imgs = sorted(p for p in src.iterdir() if p.suffix.lower() in IMG_EXT)
     if args.limit:
@@ -81,15 +86,23 @@ def main() -> int:
 
     from paddleocr import LayoutDetection
 
-    model_kwargs = {"model_name": "PP-DocLayout-L"}
+    engine_config = {"device_type": args.device}
+    if args.device == "cpu":
+        # "paddle" run_mode disables MKL-DNN, which crashes on this CPU/model
+        # combo with a PIR attribute conversion error (oneDNN kernel
+        # incompatibility).
+        engine_config["run_mode"] = "paddle"
+    model_kwargs = {"model_name": "PP-DocLayout-L", "engine_config": engine_config}
     if args.model_dir:
         model_kwargs["model_dir"] = str(Path(args.model_dir).expanduser().resolve())
         print(f"model_dir={model_kwargs['model_dir']}", flush=True)
     model = LayoutDetection(**model_kwargs)
 
+    from tqdm import tqdm
+
     dropped = {}
     done = 0
-    for i, ip in enumerate(todo, 1):
+    for i, ip in enumerate(tqdm(todo, desc="PP-DocLayout-L", mininterval=0.1), 1):
         out = model.predict(str(ip), batch_size=1, layout_nms=True, threshold=args.conf)
         lines = []
         for res in out:
@@ -126,10 +139,11 @@ def main() -> int:
                 line = bbox_to_yolo(coord, W, H, cls, score)
                 if line:
                     lines.append(line)
-        (lbl_dir / f"{ip.stem}.txt").write_text("\n".join(lines))
+        dst = lbl_dir / f"{ip.stem}.txt"
+        tmp = dst.with_suffix(".txt.tmp")
+        tmp.write_text("\n".join(lines))
+        tmp.replace(dst)  # atomic: a kill mid-run can't leave a half-written label file
         done += 1
-        if i % 50 == 0 or i == len(todo):
-            print(f"  {i}/{len(todo)} ...", flush=True)
 
     print(f"done: {done} images -> {lbl_dir}", flush=True)
     if dropped:

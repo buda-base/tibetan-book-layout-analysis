@@ -215,6 +215,8 @@ envelope** (≥ 50% of the region inside the predicted body block):
 | Azure Document Intelligence | 58% | **12%** | 44% | **22%** |
 | DocLayout-YOLO | 67% | 6% | 0% | 20% |
 | AWS Textract | 15% | **20%** | 0% | **56%** |
+| Docling layout-heron (off-the-shelf) | 53% | 7% | 58% | 21% |
+| PP-DocLayout-L (off-the-shelf) | 44% | 21% | 53% | **90%** |
 
 *("folded into text-area" = share of **all** ground-truth regions of that type
 that the system both missed **and** buried inside its OCR text block.)*
@@ -229,6 +231,15 @@ Textract is worse on both counts at once: it finds only 15% of headers/footers
 in the first place, and of everything it misses, one in five still ends up
 folded into the OCR text — plus more than half of all footnotes, since it has
 no footnote class to catch them with.
+
+Docling layout-heron and PP-DocLayout-L round out the picture, and PP-DocLayout-L
+delivers the cleanest illustration of the whole point of this section.
+Recall it had the *best* off-the-shelf footnote F1 in our first table (0.667) —
+on paper, the strongest footnote detector we tested. Look at what it does with
+the footnotes it misses, though: **90% of them get folded straight into the
+body text.** A good aggregate footnote score and near-total contamination on
+the footnotes it doesn't catch turn out to be entirely compatible facts about
+the same model.
 
 Surya is the one genuine bright spot: as a header/footer detector it barely
 contaminates at all (1.2% absorbed), so for header/footer removal alone it
@@ -375,9 +386,7 @@ All were scored on the same 860-page test split with the canonical evaluator
 | **Ours — `tam2col` (RT-DETR-l)** | 0.949 | 0.998 | 0.933 | **0.960** | 0.50 |
 | **RF-DETR-L fine-tuned** (Roboflow) | 0.963 | 0.994 | 0.923 | **0.960** | 0.30 |
 | Docling heron fine-tuned | 0.940 | 0.934 | 0.923 | 0.932 | 0.05 |
-| Docling heron off-the-shelf | 0.481 | 0.992 | 0.397 | 0.624 | 0.55 |
 | PP-DocLayout-L fine-tuned | 0.954 | 0.995 | 0.920 | **0.956** | 0.75 |
-| PP-DocLayout-L off-the-shelf | 0.485 | 0.865 | 0.667 | 0.672 | 0.30 |
 | DocLayout-YOLO fine-tuned | 0.948 | 0.996 | 0.897 | 0.947 | 0.30 |
 
 The headline: **fine-tuning RF-DETR (Roboflow) on our Tibetan data matches
