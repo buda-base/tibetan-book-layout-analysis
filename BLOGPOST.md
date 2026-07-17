@@ -391,6 +391,7 @@ All three were scored on the same 860-page test split with the canonical evaluat
 | Docling heron off-the-shelf | 0.481 | 0.992 | 0.397 | 0.624 | 0.55 |
 | PP-DocLayout-L fine-tuned | 0.954 | 0.995 | 0.920 | **0.956** | 0.75 |
 | PP-DocLayout-L off-the-shelf | 0.485 | 0.865 | 0.667 | 0.672 | 0.30 |
+| DocLayout-YOLO fine-tuned | 0.948 | 0.996 | 0.897 | 0.947 | 0.30 |
 
 The headline: **fine-tuning RF-DETR (Roboflow) on our Tibetan data matches
 `tam2col` exactly** — mean F1 0.960, with footnote F1 0.923. That is a useful
@@ -402,10 +403,13 @@ gets footnotes to 0.923, but it lands just below `tam2col` on text-area and
 header-footer. PP-DocLayout-L fine-tuning reaches **0.956 mean F1** (0.672
 off-the-shelf → 0.956), essentially matching `tam2col` on this benchmark; its
 first run was interrupted by disk exhaustion, then restarted with checkpoint
-pruning and early-stopped at epoch 25.
+pruning and early-stopped at epoch 25. **DocLayout-YOLO** (DocStructBench base,
+same recipe) early-stopped at epoch 61 (best @ epoch 41) and reaches **0.947 mean
+F1** — strong on text-area (0.996) but slightly below on footnotes (0.897).
 
 Checkpoints, prediction dumps, and full confidence sweeps for the RF-DETR,
-Docling, and PP-DocLayout runs are archived at `s3://bec.bdrc.io/models/hff-detection/`.
+Docling, PP-DocLayout, and DocLayout-YOLO runs are archived at
+`s3://bec.bdrc.io/models/hff-detection/`.
 
 ## Where we landed
 

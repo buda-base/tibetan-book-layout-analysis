@@ -41,6 +41,8 @@ def main() -> int:
     ap.add_argument("--device", default="0")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--native-classes", action="store_true",
+                    help="Fine-tuned on our 4-class schema; pass class ids through")
     args = ap.parse_args()
 
     src = Path(args.source)
@@ -73,7 +75,7 @@ def main() -> int:
             if r.boxes is not None:
                 for b, cf, cl in zip(r.boxes.xyxy.tolist(), r.boxes.conf.tolist(),
                                      r.boxes.cls.tolist()):
-                    cls = DOCSTRUCT_MAP.get(int(cl))
+                    cls = int(cl) if args.native_classes else DOCSTRUCT_MAP.get(int(cl))
                     if cls is None:
                         continue
                     x1, y1, x2, y2 = b
