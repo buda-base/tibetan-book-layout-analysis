@@ -214,9 +214,9 @@ envelope** (≥ 50% of the region inside the predicted body block):
 | Surya fast layout | 91% | 1.2% | 56% | 16% |
 | Azure Document Intelligence | 58% | **12%** | 44% | **22%** |
 | DocLayout-YOLO | 67% | 6% | 0% | 20% |
-| AWS Textract | 15% | **20%** | 0% | **56%** |
-| Docling layout-heron (off-the-shelf) | 53% | 7% | 58% | 21% |
-| PP-DocLayout-L (off-the-shelf) | 44% | 21% | 53% | **90%** |
+| AWS Textract | 15% | **17%** | 0% | **56%** |
+| Docling layout-heron (off-the-shelf) | 53% | 3% | 58% | 9% |
+| PP-DocLayout-L (off-the-shelf) | 44% | 12% | 53% | **42%** |
 
 *("folded into text-area" = share of **all** ground-truth regions of that type
 that the system both missed **and** buried inside its OCR text block.)*
@@ -228,18 +228,18 @@ contamination of exactly the etext we are trying to keep clean — precisely the
 problem we set out to solve. Its headline text-area F1 of 0.989 looks
 reassuring right up until you notice *what* that text block contains. AWS
 Textract is worse on both counts at once: it finds only 15% of headers/footers
-in the first place, and of everything it misses, one in five still ends up
-folded into the OCR text — plus more than half of all footnotes, since it has
-no footnote class to catch them with.
+in the first place, and 17% of *all* of them end up folded into the OCR
+text — plus more than half of all footnotes, since it has no footnote class
+to catch them with.
 
 Docling layout-heron and PP-DocLayout-L round out the picture, and PP-DocLayout-L
 delivers the cleanest illustration of the whole point of this section.
 Recall it had the *best* off-the-shelf footnote F1 in our first table (0.667) —
 on paper, the strongest footnote detector we tested. Look at what it does with
-the footnotes it misses, though: **90% of them get folded straight into the
-body text.** A good aggregate footnote score and near-total contamination on
-the footnotes it doesn't catch turn out to be entirely compatible facts about
-the same model.
+the footnotes it misses, though: of the 47% of footnotes it doesn't detect,
+almost all of them (42% of *all* footnotes) get folded straight into the body
+text. A good aggregate footnote score and heavy contamination on the footnotes
+it doesn't catch turn out to be entirely compatible facts about the same model.
 
 Surya is the one genuine bright spot: as a header/footer detector it barely
 contaminates at all (1.2% absorbed), so for header/footer removal alone it
@@ -383,49 +383,77 @@ All were scored on the same 860-page test split with the canonical evaluator
 
 | system | header-footer | text-area | footnote | **mean F1** | best conf |
 |---|---|---|---|---|---|
-| **Ours — `tam2col` (RT-DETR-l)** | 0.949 | 0.998 | 0.933 | **0.960** | 0.50 |
+| **RT-DETR-l fine-tuned (Ours)** | 0.949 | 0.998 | 0.933 | **0.960** | 0.50 |
 | **RF-DETR-L fine-tuned** (Roboflow) | 0.963 | 0.994 | 0.923 | **0.960** | 0.30 |
 | Docling heron fine-tuned | 0.940 | 0.934 | 0.923 | 0.932 | 0.05 |
 | PP-DocLayout-L fine-tuned | 0.954 | 0.995 | 0.920 | **0.956** | 0.75 |
 | DocLayout-YOLO fine-tuned | 0.948 | 0.996 | 0.897 | 0.947 | 0.30 |
 
 The headline: **fine-tuning RF-DETR (Roboflow) on our Tibetan data matches
-`tam2col` exactly** — mean F1 0.960, with footnote F1 0.923. That is a useful
-licensing datapoint: Roboflow's Apache-2.0 RF-DETR base is a viable alternative
-to Ultralytics RT-DETR-l for this task, at least on our benchmark.
+our RT-DETR-l fine-tuned baseline exactly** — mean F1 0.960, with footnote F1
+0.923. That is a useful licensing datapoint: Roboflow's Apache-2.0 RF-DETR base
+is a viable alternative to Ultralytics RT-DETR-l for this task, at least on our
+benchmark.
 
 Docling heron fine-tuning is a clear step up from off-the-shelf (0.624 → 0.932) and
-gets footnotes to 0.923, but it lands just below `tam2col` on text-area and
-header-footer. PP-DocLayout-L fine-tuning reaches **0.956 mean F1** (0.672
-off-the-shelf → 0.956), essentially matching `tam2col` on this benchmark; its
+gets footnotes to 0.923, but it lands just below our RT-DETR-l fine-tuned baseline
+on text-area and header-footer. PP-DocLayout-L fine-tuning reaches **0.956 mean
+F1** (0.672 off-the-shelf → 0.956), essentially matching that baseline; its
 first run was interrupted by disk exhaustion, then restarted with checkpoint
 pruning and early-stopped at epoch 25. **DocLayout-YOLO** (DocStructBench base,
 same recipe) early-stopped at epoch 61 (best @ epoch 41) and reaches **0.947 mean
 F1** — strong on text-area (0.996) but slightly below on footnotes (0.897).
 
-Checkpoints, prediction dumps, and full confidence sweeps for the RF-DETR,
-Docling, PP-DocLayout, and DocLayout-YOLO runs aren't published alongside this
-post, but are available on request.
+The RF-DETR-L and DocLayout-YOLO checkpoints are published alongside the
+primary RT-DETR-l release — see [Our models](#our-models) below. Checkpoints,
+prediction dumps, and full confidence sweeps for the Docling and PP-DocLayout
+runs aren't published alongside this post, but are available on request.
+
+The convergence holds on contamination too, which is the check that actually
+matters for this project. Run the same failure-mode analysis from the
+contamination section on all five fine-tuned models, at each one's best-F1
+confidence:
+
+| system | header/footer detected | …folded into text-area | footnote detected | …folded into text-area |
+|---|---|---|---|---|
+| **RT-DETR-l fine-tuned (Ours)** | 96% | 0.6% | 93% | 2% |
+| RF-DETR-L fine-tuned | 97% | 0.1% | 93% | 7% |
+| Docling heron fine-tuned | 95% | 0.1% | 93% | 2% |
+| PP-DocLayout-L fine-tuned | 93% | 0.2% | 89% | 7% |
+| DocLayout-YOLO fine-tuned | 96% | 0.1% | 87% | 0% |
+
+Where the off-the-shelf systems spanned a 40-point range on header/footer
+contamination alone (1.2% to 56%), every fine-tuned model lands under 1%. All
+five still leave some footnote contamination on the table (0–7%), which
+tracks with footnote being the class with the least training data — but
+that's an order of magnitude better than any off-the-shelf system managed.
+Notably, our RT-DETR-l fine-tuned model's footnote F1 is the best of the five
+in the architecture table above, yet its footnote contamination (2%) is merely
+mid-pack here —
+another small reminder that F1 and contamination are related but not
+interchangeable measurements.
 
 So architecture, in the end, mattered less than we expected: several
 architectures, fine-tuned on the same audited Tibetan dataset, converge to
-roughly the same ceiling. What mattered was having that dataset, the canonical
-evaluator, and the labelling lessons from the previous section — the model
-family was almost a free choice once those were right.
+roughly the same ceiling, on the failure mode we actually care about as well
+as on F1. What mattered was having that dataset, the canonical evaluator, and
+the labelling lessons from the previous section — the model family was almost
+a free choice once those were right.
 
-## Our model
+## Our models
 
-Our production model is **`tam2col`**: a 4-class RT-DETR-l that keeps header and
-footer as separate training classes (combined losslessly afterward), merges
-text-area into a single envelope *except* on genuine two-column pages, and is
-served with per-class thresholds (header/footer ≈ 0.60, text-area ≈ 0.55, footnote
-≈ 0.25). It has the best canonical AP50 (0.981), the best text-area and footnote
-localization, and is the only variant that handles two columns correctly.
+Our production model is **RT-DETR-l fine-tuned** on the `tam2col`-labelled data:
+a 4-class RT-DETR-l that keeps header and footer as separate training classes
+(combined losslessly afterward), merges text-area into a single envelope
+*except* on genuine two-column pages, and is served with per-class thresholds
+(header/footer ≈ 0.60, text-area ≈ 0.55, footnote ≈ 0.25). It has the best
+canonical AP50 (0.981), the best text-area and footnote localization, and is
+the only variant that handles two columns correctly.
 
 It also closes the loop on the question that started this post. On the same
 contamination test that showed Azure folding 12% of headers/footers and 22% of
-footnotes into the body text, `tam2col` folds in **0.6%** and **2%** — an order
-of magnitude cleaner, and the number that actually matters for a downstream OCR
+footnotes into the body text, it folds in **0.6%** and **2%** — an order of
+magnitude cleaner, and the number that actually matters for a downstream OCR
 pipeline that will run across millions of pages.
 
 The bigger takeaways, though, are the ones we didn't expect going in:
@@ -443,10 +471,17 @@ The bigger takeaways, though, are the ones we didn't expect going in:
 3. **Thresholds are a per-class decision**, and getting them right was worth as
    much as any architecture change.
 
-Everything is open. The trained model (with usage and thresholds) is on the
-Hugging Face Hub at
-[BDRC/Tibetan-Modern-Book-Layout-Detection](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection);
-the cleaned, audited dataset is at
+Everything is open. The primary trained model (with usage and thresholds) is
+on the Hugging Face Hub at
+[BDRC/Tibetan-Modern-Book-Layout-Detection-RTDETR](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection-RTDETR)
+(MIT); the two runner-up architectures from the bake-off above are published
+alongside it, at
+[BDRC/Tibetan-Modern-Book-Layout-Detection-RFDETR](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection-RFDETR)
+(Apache-2.0) and
+[BDRC/Tibetan-Modern-Book-Layout-Detection-DocLayout-YOLO](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection-DocLayout-YOLO)
+(AGPL-3.0, inherited from DocLayout-YOLO's own codebase — check that license
+fits your use case before adopting it over the other two). The cleaned,
+audited dataset is at
 [BDRC/TDLA-Training-Dataset-v2](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset-v2);
 and all training, evaluation, and threshold-sweep code lives in the
 [tibetan-book-layout-analysis](https://github.com/buda-base/tibetan-book-layout-analysis)
@@ -484,8 +519,9 @@ A few things we didn't test, in the interest of not overclaiming:
   itself — ambiguous cases, small inconsistencies in where a box edge should
   fall — rather than genuine headroom being exhausted. We haven't measured
   inter-annotator agreement on our own boxes, so we'd treat a future model
-  that claims a small improvement over `tam2col` on this exact benchmark
-  with some skepticism until it's been checked against that noise floor.
+  that claims a small improvement over our fine-tuned baselines on this exact
+  benchmark with some skepticism until it's been checked against that noise
+  floor.
 
 ## Acknowledgements
 
