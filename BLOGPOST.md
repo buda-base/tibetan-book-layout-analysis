@@ -245,8 +245,12 @@ same split:
 
 - **baseline** — 4 classes, text-area left as-is (possibly several boxes/page).
 - **tam** — 4 classes, but all text-area boxes **merged** into one envelope/page.
-- **tam2col** — like `tam`, but on genuine two-column pages the two columns
-  are kept as two separate boxes instead of one (more on why below).
+- **tam2col** — like `tam`, except on genuine two-column pages, where two
+  boxes are kept instead of one. A single merged envelope reads fine for one
+  column, but on a two-column page it makes the OCR read straight across
+  both columns instead of finishing the left one first; a simple
+  disjointness heuristic flags the ~175 pages (~2% of the dataset) where
+  that applies.
 - **3cls** — header and footer **merged** into a single `header-footer` class.
 - **3cls_tam** — both `tam` and `3cls`.
 
@@ -269,7 +273,7 @@ In this apples-to-apples space (all five variants retrained on the final dataset
 | 3cls | 0.959 / 0.676 | 0.967 / 0.869 | 0.984 / 0.808 | 0.970 | 0.784 |
 | 3cls_tam | 0.964 / 0.705 | 0.981 / 0.929 | 0.968 / 0.796 | 0.971 | 0.810 |
 
-*(each cell is AP50 / AP50-95; `tam2col` is introduced below)*
+*(each cell is AP50 / AP50-95)*
 
 Once the playing field is level, the dramatic gaps evaporate: on AP50-95 the
 curricula are all within noise of each other (0.78–0.81). But three real signals
@@ -282,7 +286,10 @@ survive:
 - **Training on merged text-area genuinely helps text-area** (0.902 → 0.929
   AP50-95) — but it needs a higher confidence threshold to pay off.
 - The canonical metric, by construction, **can't see** one thing that turned out
-  to matter a lot: two-column pages.
+  to matter a lot: two-column pages. `tam2col` — the only variant that keeps
+  two boxes there — is the strongest model of the whole lot (best mean AP50
+  above, 0.981), which was a genuinely good surprise given we mostly added it
+  just to check whether the two-column case was worth the bother.
 
 ### Precision and recall — the three classes we actually care about
 
@@ -297,8 +304,6 @@ confidence threshold. Best-F1 operating points (canonical space):
 | footnote | 0.957 @.63 | 0.946 @.25 | **0.957 @.23** | 0.954 @.70 | 0.946 @.46 |
 
 Recall is uniformly high (0.90–1.00); **precision is the differentiator**.
-
-![Canonical 3-class PR curves](evaluation/eval_results/pr_canonical.png)
 
 ### The confidence threshold is not one number
 
@@ -331,36 +336,6 @@ can't be thresholded away without losing genuine footnotes.
 
 The practical recipe: **per-class thresholds** — header/footer ≈ 0.60, text-area
 ≈ 0.55, footnote ≈ 0.25 — or a single global **0.50** if you need one knob.
-
-### The two-column problem
-
-Merging text-area into one envelope is good for OCR *when there's one column*:
-the crop reads top to bottom and the recognizer gets the text in the right
-order. Force that same merge on a two-column page, though, and you get a box
-that reads straight across both columns, line by line — which scrambles the
-text just as badly as leaving a header in. So some pages need two boxes, not
-one, purely so the OCR reads column A to the end before starting column B.
-
-We added a small **heuristic** to detect when a page is genuinely two-column:
-the boxes must split into a left/right pair that are **horizontally disjoint**
-(overlap < 20% of the narrower column's width) and **vertically co-extensive**
-(share ≥ 30% of the shorter column's height). Across the dataset this fires on
-~175 pages (~2%). We mostly built this variant to check whether the two-column
-case was worth the extra complexity at all — and it was a good surprise:
-**`tam2col`**, which merges text-area *except* on those pages, didn't just fix
-reading order, it turned out to be the strongest model of the lot overall.
-
-The catch is that its advantage is invisible to the canonical metric, which
-re-merges the two columns back into one envelope. You only see it on the model's
-own label schema:
-
-| model | text-area mAP50 | text-area mAP50-95 |
-|---|---|---|
-| baseline (raw multi-box) | 0.923 | 0.864 |
-| **tam2col** | **0.994** | **0.980** |
-
-That is the real reason to prefer `tam2col`: it gets two-column pages right —
-one clean box per column — without regressing anything else.
 
 ## Finding the right architecture
 
