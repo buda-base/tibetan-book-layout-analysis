@@ -139,12 +139,15 @@ With that scoring in place, we could finally put the prior to the test.
 
 ## Off-the-shelf and commercial systems look promising
 
-We tested five systems on our own 860-page test set, scored with the
+We tested six systems on our own 860-page test set, scored with the
 canonical evaluator above:
 
 - **Azure AI Document Intelligence** (`prebuilt-layout`) — the commercial
   incumbent with, on paper, the perfect schema. It returns no confidence
   scores, so it has a single, un-thresholdable operating point.
+- **AWS Textract** (Layout) — returns block-level confidence, but sweeping it
+  never beat simply keeping every box, so in practice it too has one
+  operating point worth reporting.
 - **Surya** — the best performer in the OpenPecha benchmark. Modern Surya
   routes layout through a 650M vision-language model, but it also ships a
   lightweight, pure-PyTorch layout detector (`surya_layout2`, an
@@ -172,17 +175,22 @@ operating points, canonical 3-class F1):
 | PP-DocLayout-L (off-the-shelf) | 0.485 | 0.865 | 0.667 | 0.672 |
 | Docling layout-heron (off-the-shelf) | 0.481 | 0.992 | 0.397 | 0.624 |
 | DocLayout-YOLO (DocStructBench) | 0.657 | 0.886 | 0.000 | 0.515 |
+| AWS Textract | 0.186 | 0.893 | 0.000 | 0.360 |
 
-A few things jump out, and all of them are encouraging. **Text-area looks like
-a solved problem** — Azure, Surya, Docling heron, and PP-DocLayout-L all tie or
-nearly tie at ~0.87–0.99, so if all you want is "where is the body text," an API
-key or an off-the-shelf detector would do. The real surprise is that **Surya's
-off-the-shelf RF-DETR is a genuinely good header/footer detector** (0.895) —
-much better than the OpenPecha benchmark's raw-Surya numbers suggested. And
-footnote support already exists in more places than you'd guess — Azure,
-Docling heron, and PP-DocLayout-L all ship an explicit footnote class, and
-PP-DocLayout-L's off-the-shelf footnote F1 (0.667) is the best score in the
-table. On this table, an argument for "just use what's out there" looks almost plausible.
+A few things jump out, and most of them are encouraging. **Text-area looks like
+a solved problem** — Azure, Surya, Docling heron, PP-DocLayout-L, and even AWS
+Textract all tie or nearly tie at ~0.87–0.99, so if all you want is "where is
+the body text," an API key or an off-the-shelf detector would do. The real
+surprise is that **Surya's off-the-shelf RF-DETR is a genuinely good
+header/footer detector** (0.895) — much better than the OpenPecha benchmark's
+raw-Surya numbers suggested. And footnote support already exists in more
+places than you'd guess — Azure, Docling heron, and PP-DocLayout-L all ship an
+explicit footnote class, and PP-DocLayout-L's off-the-shelf footnote F1
+(0.667) is the best score in the table. AWS Textract is the outlier that
+matches its documented schema exactly: no footnote class, and (unlike its
+peers) it also just doesn't find most headers and footers on a Tibetan page
+(0.186). Still, on this table as a whole, an argument for "just use what's out
+there" looks almost plausible.
 
 ## Until we look at contamination
 
@@ -206,6 +214,7 @@ envelope** (≥ 50% of the region inside the predicted body block):
 | Surya fast layout | 91% | 1.2% | 56% | 16% |
 | Azure Document Intelligence | 58% | **12%** | 44% | **22%** |
 | DocLayout-YOLO | 67% | 6% | 0% | 20% |
+| AWS Textract | 15% | **20%** | 0% | **56%** |
 
 *("folded into text-area" = share of **all** ground-truth regions of that type
 that the system both missed **and** buried inside its OCR text block.)*
@@ -215,7 +224,11 @@ folio numbers, and more than one in five footnotes, straight into the body
 text.** On a corpus headed for millions of pages, that is systematic, silent
 contamination of exactly the etext we are trying to keep clean — precisely the
 problem we set out to solve. Its headline text-area F1 of 0.989 looks
-reassuring right up until you notice *what* that text block contains.
+reassuring right up until you notice *what* that text block contains. AWS
+Textract is worse on both counts at once: it finds only 15% of headers/footers
+in the first place, and of everything it misses, one in five still ends up
+folded into the OCR text — plus more than half of all footnotes, since it has
+no footnote class to catch them with.
 
 Surya is the one genuine bright spot: as a header/footer detector it barely
 contaminates at all (1.2% absorbed), so for header/footer removal alone it
@@ -225,12 +238,13 @@ heavyweight VLM stack; the weights are also OpenRAIL-M-licensed (free for
 research and nonprofits, paid above a revenue threshold), which complicates an
 open release.
 
-So: **could we have used Azure? No.** Not because it can't find the text — it
-can — but because when it misses the clutter, it hides that clutter *inside*
-the text. Surya could plausibly handle header/footer stripping, but not
-footnotes, and not under a license we'd want for an open release. The
-one-sentence answer to the question we started with is: the off-the-shelf
-systems are good enough to find your text and not good enough to protect it.
+So: **could we have used Azure, or AWS Textract? No.** Azure can find the
+text, but hides the clutter *inside* it when it misses; AWS Textract simply
+doesn't find most of the clutter in the first place. Surya could plausibly
+handle header/footer stripping, but not footnotes, and not under a license
+we'd want for an open release. The one-sentence answer to the question we
+started with is: the off-the-shelf systems are good enough to find your text
+and not good enough to protect it.
 
 Which meant training our own — and the two questions that turned out to
 matter most were not the ones we expected.
@@ -433,11 +447,14 @@ repository. Every number in this post is reproducible from the scripts there.
 
 A few things we didn't test, in the interest of not overclaiming:
 
-- **We only actually ran Azure and Surya end-to-end.** AWS Textract, Google
-  Document AI, and ABBYY FineReader were assessed from their documented
-  schemas and our prior about their training data, not from running them on
-  our test set. It's possible one of them would do better than we expect —
-  we just haven't measured it.
+- **We ran Azure, Surya, and AWS Textract end-to-end; Google Document AI and
+  ABBYY FineReader we didn't.** For Google Document AI we got far enough to
+  confirm its Layout Parser correctly tags Tibetan text as header/paragraph/footer
+  — but its bounding-box output is currently broken (an open bug on Google's
+  side, unrelated to Tibetan specifically), so we couldn't score it against our
+  IoU-based evaluator. ABBYY FineReader was assessed from its documented schema
+  and our prior about its training data only. It's possible one of them would
+  do better than we expect — we just haven't measured it.
 - **We only tested vision-based, pre-OCR layout detection.** A different
   approach entirely is to run OCR first and strip headers, footers, and
   footnotes afterward using textual signals — a line that repeats
