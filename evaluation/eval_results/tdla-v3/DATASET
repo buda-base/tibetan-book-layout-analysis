@@ -1,0 +1,6 @@
+dataset_tag: v3
+hub: BDRC/TDLA-Training-Dataset
+revision: v3
+images: 8093
+splits: train=6751 val=615 test=727
+split_unit: volume (i_id); series-leaking val/test pages dropped

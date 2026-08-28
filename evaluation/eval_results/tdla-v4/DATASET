@@ -1,0 +1,6 @@
+dataset_tag: v4
+hub: BDRC/TDLA-Training-Dataset
+revision: v4
+images: 8325
+splits: train=6743 val=749 test=833
+split_unit: series (w_id), stratified on classes and side vs top/bottom header/footer

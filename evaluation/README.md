@@ -40,6 +40,11 @@ Headline findings:
 Per-class precision / recall / meanIoU and the full confidence sweeps are in
 [`eval_results/`](eval_results/) (`*_canon_eval.txt`, `*_sweep.txt`).
 
+**Which dataset version:** Hub tags `v2` / `v3` / `v4` are different test sets
+(860 / 727 / 833 pages). Store new scores in `eval_results/tdla-v<N>/` — see
+[`eval_results/README.md`](eval_results/README.md). The table above and
+`eval_results/literature/` are **v2**.
+
 ## RF-DETR vs. RT-DETR (they are not the same model)
 
 The names collide but the architectures don't:

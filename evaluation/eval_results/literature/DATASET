@@ -1,0 +1,7 @@
+dataset_tag: v2
+hub: BDRC/TDLA-Training-Dataset
+revision: v2
+images: 8325
+splits: train=6751 val=714 test=860
+split_unit: volume (i_id); series leakage present
+note: frozen paper comparison; do not add new runs here. New v2-test scores go in ../tdla-v2/
