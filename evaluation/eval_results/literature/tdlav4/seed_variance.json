@@ -1,0 +1,175 @@
+{
+  "method": "training-seed variance: 5 independent RT-DETR-l tam2col runs (seeds 0-4), scored on the leak-free v4 test split (833 pages), canonical schema, operating conf 0.50",
+  "conf": 0.5,
+  "recipe": "rtdetr-l.pt, imgsz 1024, epochs 100, patience 20, batch 8, deterministic=True; only the seed differs",
+  "per_seed": {
+    "seed0": {
+      "n_pages": 833,
+      "mean_F1": 0.9500210045942011,
+      "F1": {
+        "header-footer": 0.9536553524804177,
+        "text-area": 0.9939686369119421,
+        "footnote": 0.9024390243902439
+      },
+      "canonical_mean_AP50_95": 0.7859199161225567,
+      "canonical_mean_AP50": 0.9736883387482255,
+      "text_area_AP50_95": 0.9576942531291095,
+      "text_area_AP50": 0.9898178268222991
+    },
+    "seed1": {
+      "n_pages": 833,
+      "mean_F1": 0.9361586397115137,
+      "F1": {
+        "header-footer": 0.9400773195876289,
+        "text-area": 0.9903498190591074,
+        "footnote": 0.8780487804878049
+      },
+      "canonical_mean_AP50_95": 0.7659718464108197,
+      "canonical_mean_AP50": 0.9656039759392986,
+      "text_area_AP50_95": 0.9262639857140785,
+      "text_area_AP50": 0.9896062482726987
+    },
+    "seed2": {
+      "n_pages": 833,
+      "mean_F1": 0.9399749225517301,
+      "F1": {
+        "header-footer": 0.9560117302052786,
+        "text-area": 0.9903498190591074,
+        "footnote": 0.8735632183908045
+      },
+      "canonical_mean_AP50_95": 0.764466022530026,
+      "canonical_mean_AP50": 0.9689755475278012,
+      "text_area_AP50_95": 0.9198153543424387,
+      "text_area_AP50": 0.9893532421228403
+    },
+    "seed3": {
+      "n_pages": 833,
+      "mean_F1": 0.9345949361056419,
+      "F1": {
+        "header-footer": 0.9541761455963601,
+        "text-area": 0.9891435464414958,
+        "footnote": 0.8604651162790697
+      },
+      "canonical_mean_AP50_95": 0.7728072233851551,
+      "canonical_mean_AP50": 0.9711329168218917,
+      "text_area_AP50_95": 0.9258297406490005,
+      "text_area_AP50": 0.9798034372264024
+    },
+    "seed4": {
+      "n_pages": 833,
+      "mean_F1": 0.95906711714936,
+      "F1": {
+        "header-footer": 0.953405017921147,
+        "text-area": 0.985524728588661,
+        "footnote": 0.9382716049382717
+      },
+      "canonical_mean_AP50_95": 0.778102754290492,
+      "canonical_mean_AP50": 0.9750312136210488,
+      "text_area_AP50_95": 0.9319502919979389,
+      "text_area_AP50": 0.9793137553695855
+    }
+  },
+  "summary": {
+    "canonical_mean_F1": {
+      "mean": 0.9439633240224894,
+      "std": 0.009267223924937567,
+      "sample_std": 0.010361071329436405,
+      "min": 0.9345949361056419,
+      "max": 0.95906711714936,
+      "n": 5,
+      "values": [
+        0.9500210045942011,
+        0.9361586397115137,
+        0.9399749225517301,
+        0.9345949361056419,
+        0.95906711714936
+      ]
+    },
+    "header_footer_F1": {
+      "mean": 0.9514651131581664,
+      "std": 0.005766517920502399,
+      "sample_std": 0.006447163031857046,
+      "min": 0.9400773195876289,
+      "max": 0.9560117302052786,
+      "n": 5,
+      "values": [
+        0.9536553524804177,
+        0.9400773195876289,
+        0.9560117302052786,
+        0.9541761455963601,
+        0.953405017921147
+      ]
+    },
+    "text_area_F1": {
+      "mean": 0.9898673100120627,
+      "std": 0.0027080753100897203,
+      "sample_std": 0.0030277202407747185,
+      "min": 0.985524728588661,
+      "max": 0.9939686369119421,
+      "n": 5,
+      "values": [
+        0.9939686369119421,
+        0.9903498190591074,
+        0.9903498190591074,
+        0.9891435464414958,
+        0.985524728588661
+      ]
+    },
+    "footnote_F1": {
+      "mean": 0.8905575488972389,
+      "std": 0.027454076787025734,
+      "sample_std": 0.030694590977644275,
+      "min": 0.8604651162790697,
+      "max": 0.9382716049382717,
+      "n": 5,
+      "values": [
+        0.9024390243902439,
+        0.8780487804878049,
+        0.8735632183908045,
+        0.8604651162790697,
+        0.9382716049382717
+      ]
+    },
+    "canonical_mean_AP50_95": {
+      "mean": 0.7734535525478099,
+      "std": 0.00792710112902912,
+      "sample_std": 0.008862768494512221,
+      "min": 0.764466022530026,
+      "max": 0.7859199161225567,
+      "n": 5,
+      "values": [
+        0.7859199161225567,
+        0.7659718464108197,
+        0.764466022530026,
+        0.7728072233851551,
+        0.778102754290492
+      ]
+    },
+    "text_area_AP50_95": {
+      "mean": 0.9323107251665133,
+      "std": 0.013260120016424582,
+      "sample_std": 0.014825264873265498,
+      "min": 0.9198153543424387,
+      "max": 0.9576942531291095,
+      "n": 5,
+      "values": [
+        0.9576942531291095,
+        0.9262639857140785,
+        0.9198153543424387,
+        0.9258297406490005,
+        0.9319502919979389
+      ]
+    }
+  },
+  "dataset": {
+    "source": "BDRC/Tibetan-Modern-Book-Layout-Detection @ tag v4 (commit db4bff9), series-level stratified split",
+    "curriculum": "tam2col (build_curricula.py)",
+    "train": 6737,
+    "val": 749,
+    "test": 833,
+    "leak_check": "work-id disjoint across splits (train/val/test intersections all 0)",
+    "gt": "s3://bec.bdrc.io/models/hff-detection/datasets/tdlav4_testset/ (labels + test_image_sizes.json)",
+    "predictions": "s3://bec.bdrc.io/models/hff-detection/seed-variance-tdlav4/seed{0..4}/labels (+ best.pt)"
+  },
+  "note": "Six of 6743 train images (0.09%) failed the HF pull and were absent for all seeds identically; harmless. Native VOC test mAP50-95 per seed: 0.732/0.721/0.722/0.726/0.725."
+}

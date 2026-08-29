@@ -1,0 +1,6079 @@
+{
+  "meta": {
+    "n_images": 860,
+    "gt_dir": "/home/eroux/azure_di_eval/testset/labels/test",
+    "img_dir": "/home/eroux/azure_di_eval/testset/images/test",
+    "wall_s": 295.87010049819946,
+    "host": "local-cpu",
+    "pycocotools": true,
+    "cotescore": "0.2.0",
+    "doclaynet_detector": "docling-project/docling-layout-heron",
+    "doclaynet_heron_published": 0.699,
+    "doclaynet_ours": 0.005721996383477036
+  },
+  "rank_agreement": {
+    "spearman_trespass": 0.9340659340659341,
+    "spearman_merge": 0.2835164835164835,
+    "contam_rank": {
+      "doclayout_yolo_ft": 1,
+      "docling_heron_ft": 2,
+      "rfdetr_tam2col": 3,
+      "pp_doclayout_ft": 4,
+      "rtdetr_tam2col": 5,
+      "chandra_ots": 6,
+      "surya_vlm_ots": 7,
+      "surya_ots": 8,
+      "docling_heron_ots": 9,
+      "doclayout_yolo_ots": 10,
+      "azure_di": 11,
+      "pp_doclayout_ots": 12,
+      "aws_textract": 13,
+      "google_docai": 14
+    },
+    "trespass_rank": {
+      "doclayout_yolo_ft": 1,
+      "docling_heron_ft": 2,
+      "chandra_ots": 3,
+      "pp_doclayout_ft": 4,
+      "rtdetr_tam2col": 5,
+      "rfdetr_tam2col": 6,
+      "surya_vlm_ots": 7,
+      "surya_ots": 8,
+      "doclayout_yolo_ots": 9,
+      "azure_di": 10,
+      "pp_doclayout_ots": 11,
+      "docling_heron_ots": 12,
+      "aws_textract": 13,
+      "google_docai": 14
+    },
+    "merge_rank": {
+      "aws_textract": 1,
+      "doclayout_yolo_ft": 2,
+      "pp_doclayout_ft": 3,
+      "chandra_ots": 4,
+      "docling_heron_ots": 5,
+      "surya_vlm_ots": 6,
+      "azure_di": 7,
+      "rtdetr_tam2col": 8,
+      "rfdetr_tam2col": 9,
+      "docling_heron_ft": 10,
+      "pp_doclayout_ots": 11,
+      "surya_ots": 12,
+      "google_docai": 13,
+      "doclayout_yolo_ots": 14
+    }
+  },
+  "systems": [
+    {
+      "id": "rtdetr_tam2col",
+      "name": "RT-DETR-l tam2col (ours)",
+      "group": "released",
+      "role": "ours",
+      "notes": "Production HF checkpoint; 4-class tam2col.",
+      "paper_conf": 0.5,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/tam2col_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.9604329469319158,
+            "ap5095": 0.6812079676146414
+          },
+          "text-area": {
+            "ap50": 0.9801033104322009,
+            "ap5095": 0.9057412491370772
+          },
+          "footnote": {
+            "ap50": 0.989966212088915,
+            "ap5095": 0.821958398442167
+          }
+        },
+        "mean_ap50": 0.9768341564843439,
+        "mean_ap5095": 0.8029692050646284,
+        "n_gt": 2391,
+        "n_dt": 6263,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.5,
+        "per_class": {
+          "header-footer": {
+            "P": 0.9425363276089829,
+            "R": 0.955793703951775,
+            "F1": 0.9491187229797141,
+            "meanIoU": 0.8596271865209939,
+            "tp": 1427,
+            "fp": 87,
+            "fn": 66,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9882766705744431,
+            "R": 0.9882766705744431,
+            "F1": 0.9882766705744431,
+            "meanIoU": 0.9513262478955848,
+            "tp": 843,
+            "fp": 10,
+            "fn": 10,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.9333333333333333,
+            "R": 0.9333333333333333,
+            "F1": 0.9333333333333333,
+            "meanIoU": 0.9030704088616156,
+            "tp": 42,
+            "fp": 3,
+            "fn": 3,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.9569095756291635
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.9601984324071428,
+        "best_mean_conf": 0.49,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.950354609929078,
+            "conf": 0.66
+          },
+          "text-area": {
+            "F1": 0.9900176159718145,
+            "conf": 0.84
+          },
+          "footnote": {
+            "F1": 0.9473684210526316,
+            "conf": 0.22
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.938239159001314,
+              "R": 0.956463496316142,
+              "F1": 0.9472636815920399,
+              "meanIoU": 0.8596350996492695,
+              "tp": 1428,
+              "fp": 94,
+              "fn": 65,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9882766705744431,
+              "R": 0.9882766705744431,
+              "F1": 0.9882766705744431,
+              "meanIoU": 0.9513262478955848,
+              "tp": 843,
+              "fp": 10,
+              "fn": 10,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.9347826086956522,
+              "R": 0.9555555555555556,
+              "F1": 0.945054945054945,
+              "meanIoU": 0.9026877091484362,
+              "tp": 43,
+              "fp": 3,
+              "fn": 2,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.9601984324071428
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9740770969986161,
+            "ap5095": 0.7074848762932375
+          },
+          "text-area": {
+            "ap50": 0.7236595309141461,
+            "ap5095": 0.6883107762497375
+          },
+          "footnote": {
+            "ap50": 0.989966212088915,
+            "ap5095": 0.821958398442167
+          },
+          "page-footer": {
+            "ap50": 0.9420558185204199,
+            "ap5095": 0.639597441053849
+          }
+        },
+        "mean_ap50": 0.9686997092026504,
+        "mean_ap5095": 0.7230135719297511,
+        "n_gt": 2663,
+        "n_dt": 6787,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9740770969986161,
+            "ap5095": 0.7074848762932375
+          },
+          "text-area": {
+            "ap50": 0.7236595309141461,
+            "ap5095": 0.6883107762497375
+          },
+          "footnote": {
+            "ap50": 0.989966212088915,
+            "ap5095": 0.821958398442167
+          },
+          "page-footer": {
+            "ap50": 0.9420558185204199,
+            "ap5095": 0.639597441053849
+          }
+        },
+        "mean_ap50": 0.9074396646305242,
+        "mean_ap5095": 0.7143378730097476,
+        "n_gt": 2663,
+        "n_dt": 6787,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.5,
+        "per_class": {
+          "page-header": {
+            "P": 0.9641148325358851,
+            "R": 0.9527186761229315,
+            "F1": 0.9583828775267539,
+            "meanIoU": 0.863049902560363,
+            "tp": 806,
+            "fp": 30,
+            "fn": 40,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.9113355780022446,
+            "R": 0.7217777777777777,
+            "F1": 0.8055555555555556,
+            "meanIoU": 0.9646480495342367,
+            "tp": 812,
+            "fp": 79,
+            "fn": 313,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.9333333333333333,
+            "R": 0.9333333333333333,
+            "F1": 0.9333333333333333,
+            "meanIoU": 0.9030704088616156,
+            "tp": 42,
+            "fp": 3,
+            "fn": 3,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.9100294985250738,
+            "R": 0.9536321483771252,
+            "F1": 0.9313207547169812,
+            "meanIoU": 0.8555585840358592,
+            "tp": 617,
+            "fp": 61,
+            "fn": 30,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.907148130283156
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.9091200625266997,
+        "best_mean_conf": 0.49,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.9583828775267539,
+            "conf": 0.5
+          },
+          "text-area": {
+            "F1": 0.8083832335329341,
+            "conf": 0.77
+          },
+          "footnote": {
+            "F1": 0.9473684210526316,
+            "conf": 0.22
+          },
+          "page-footer": {
+            "F1": 0.9423520368946964,
+            "conf": 0.66
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.9618138424821002,
+              "R": 0.9527186761229315,
+              "F1": 0.9572446555819478,
+              "meanIoU": 0.863049902560363,
+              "tp": 806,
+              "fp": 32,
+              "fn": 40,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.9113355780022446,
+              "R": 0.7217777777777777,
+              "F1": 0.8055555555555556,
+              "meanIoU": 0.9646480495342367,
+              "tp": 812,
+              "fp": 79,
+              "fn": 313,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.9347826086956522,
+              "R": 0.9555555555555556,
+              "F1": 0.945054945054945,
+              "meanIoU": 0.9026877091484362,
+              "tp": 43,
+              "fp": 3,
+              "fn": 2,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.9035087719298246,
+              "R": 0.955177743431221,
+              "F1": 0.9286250939143501,
+              "meanIoU": 0.855583452239197,
+              "tp": 618,
+              "fp": 66,
+              "fn": 29,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.9091200625266997
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1427,
+          "absorbed": 9,
+          "clean": 57,
+          "recoverable": 4,
+          "hidden": 9,
+          "in_ta": 13,
+          "as_ta": 2,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 2,
+          "detected_rate": 0.955793703951775,
+          "contamination_rate": 0.006028131279303416,
+          "clean_miss_rate": 0.038178164768921635,
+          "recoverable_contamination_rate": 0.0026791694574681848,
+          "hidden_contamination_rate": 0.006028131279303416,
+          "total_in_ta_rate": 0.008707300736771601,
+          "as_textarea_rate": 0.0013395847287340924,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0013395847287340924
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 42,
+          "absorbed": 1,
+          "clean": 2,
+          "recoverable": 1,
+          "hidden": 1,
+          "in_ta": 2,
+          "as_ta": 2,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.9333333333333333,
+          "contamination_rate": 0.022222222222222223,
+          "clean_miss_rate": 0.044444444444444446,
+          "recoverable_contamination_rate": 0.022222222222222223,
+          "hidden_contamination_rate": 0.022222222222222223,
+          "total_in_ta_rate": 0.044444444444444446,
+          "as_textarea_rate": 0.044444444444444446,
+          "dual_as_textarea_rate": 0.022222222222222223,
+          "hidden_as_textarea_rate": 0.022222222222222223
+        },
+        "header": {
+          "gt": 846,
+          "det": 806,
+          "absorbed": 8,
+          "clean": 32,
+          "recoverable": 4,
+          "hidden": 8,
+          "in_ta": 12,
+          "as_ta": 2,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 2,
+          "detected_rate": 0.9527186761229315,
+          "contamination_rate": 0.009456264775413711,
+          "clean_miss_rate": 0.037825059101654845,
+          "recoverable_contamination_rate": 0.004728132387706856,
+          "hidden_contamination_rate": 0.009456264775413711,
+          "total_in_ta_rate": 0.014184397163120567,
+          "as_textarea_rate": 0.002364066193853428,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.002364066193853428
+        },
+        "footer": {
+          "gt": 647,
+          "det": 617,
+          "absorbed": 1,
+          "clean": 29,
+          "recoverable": 0,
+          "hidden": 1,
+          "in_ta": 1,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9536321483771252,
+          "contamination_rate": 0.0015455950540958269,
+          "clean_miss_rate": 0.04482225656877898,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.0015455950540958269,
+          "total_in_ta_rate": 0.0015455950540958269,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 836,
+          "missing": 31,
+          "merge": 5,
+          "split": 3,
+          "hallucination": 13,
+          "matched": 815
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 678,
+          "missing": 10,
+          "merge": 1,
+          "split": 0,
+          "hallucination": 28,
+          "matched": 637
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 45,
+          "missing": 3,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 3,
+          "matched": 42
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1514,
+          "missing": 36,
+          "merge": 6,
+          "split": 3,
+          "hallucination": 36,
+          "matched": 1457
+        }
+      },
+      "cote": {
+        "cote": 0.9834688224636353,
+        "coverage": 0.9860261447698411,
+        "overlap": 0.001326070722913459,
+        "trespass": 0.0012312515832921427,
+        "excess": 0.020013976772154947,
+        "n_pages": 854
+      },
+      "wall_s": 21.65
+    },
+    {
+      "id": "rfdetr_tam2col",
+      "name": "RF-DETR-L tam2col (ours)",
+      "group": "released",
+      "role": "ours",
+      "notes": "Apache-2.0 runner-up HF checkpoint.",
+      "paper_conf": 0.3,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/ft_preds/rfdetr/rfdetr_tam2col_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.9730621593359959,
+            "ap5095": 0.7316544331068077
+          },
+          "text-area": {
+            "ap50": 0.9692554845292964,
+            "ap5095": 0.7970810488604158
+          },
+          "footnote": {
+            "ap50": 0.9715698560678353,
+            "ap5095": 0.8145855409696392
+          }
+        },
+        "mean_ap50": 0.9712958333110425,
+        "mean_ap5095": 0.7811070076456209,
+        "n_gt": 2391,
+        "n_dt": 15910,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.3,
+        "per_class": {
+          "header-footer": {
+            "P": 0.9564068692206077,
+            "R": 0.9698593436034829,
+            "F1": 0.9630861323578318,
+            "meanIoU": 0.8798342877402392,
+            "tp": 1448,
+            "fp": 66,
+            "fn": 45,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9730363423212193,
+            "R": 0.9730363423212193,
+            "F1": 0.9730363423212193,
+            "meanIoU": 0.903192495896163,
+            "tp": 830,
+            "fp": 23,
+            "fn": 23,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.9130434782608695,
+            "R": 0.9333333333333333,
+            "F1": 0.9230769230769231,
+            "meanIoU": 0.9099125303752382,
+            "tp": 42,
+            "fp": 4,
+            "fn": 3,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.9530664659186581
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.9530664659186581,
+        "best_mean_conf": 0.3,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.9659818120579321,
+            "conf": 0.52
+          },
+          "text-area": {
+            "F1": 0.9739644970414202,
+            "conf": 0.95
+          },
+          "footnote": {
+            "F1": 0.9230769230769231,
+            "conf": 0.26
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.9564068692206077,
+              "R": 0.9698593436034829,
+              "F1": 0.9630861323578318,
+              "meanIoU": 0.8798342877402392,
+              "tp": 1448,
+              "fp": 66,
+              "fn": 45,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9730363423212193,
+              "R": 0.9730363423212193,
+              "F1": 0.9730363423212193,
+              "meanIoU": 0.903192495896163,
+              "tp": 830,
+              "fp": 23,
+              "fn": 23,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.9130434782608695,
+              "R": 0.9333333333333333,
+              "F1": 0.9230769230769231,
+              "meanIoU": 0.9099125303752382,
+              "tp": 42,
+              "fp": 4,
+              "fn": 3,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.9530664659186581
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.98237119882539,
+            "ap5095": 0.7556674645542442
+          },
+          "text-area": {
+            "ap50": 0.7311148010461822,
+            "ap5095": 0.6901359288565988
+          },
+          "footnote": {
+            "ap50": 0.9715698560678353,
+            "ap5095": 0.8145855409696392
+          },
+          "page-footer": {
+            "ap50": 0.9616412123893053,
+            "ap5095": 0.6956315118296504
+          }
+        },
+        "mean_ap50": 0.9718607557608436,
+        "mean_ap5095": 0.7552948391178447,
+        "n_gt": 2663,
+        "n_dt": 18470,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.98237119882539,
+            "ap5095": 0.7556674645542442
+          },
+          "text-area": {
+            "ap50": 0.7311148010461822,
+            "ap5095": 0.6901359288565988
+          },
+          "footnote": {
+            "ap50": 0.9715698560678353,
+            "ap5095": 0.8145855409696392
+          },
+          "page-footer": {
+            "ap50": 0.9616412123893053,
+            "ap5095": 0.6956315118296504
+          }
+        },
+        "mean_ap50": 0.9116742670821782,
+        "mean_ap5095": 0.7390051115525331,
+        "n_gt": 2663,
+        "n_dt": 18470,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.3,
+        "per_class": {
+          "page-header": {
+            "P": 0.963572267920094,
+            "R": 0.9692671394799054,
+            "F1": 0.966411314083677,
+            "meanIoU": 0.8834245960167765,
+            "tp": 820,
+            "fp": 31,
+            "fn": 26,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.9206349206349206,
+            "R": 0.7217777777777777,
+            "F1": 0.8091679123069258,
+            "meanIoU": 0.9655904794679128,
+            "tp": 812,
+            "fp": 70,
+            "fn": 313,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.9130434782608695,
+            "R": 0.9333333333333333,
+            "F1": 0.9230769230769231,
+            "meanIoU": 0.9099125303752382,
+            "tp": 42,
+            "fp": 4,
+            "fn": 3,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.9441930618401206,
+            "R": 0.9675425038639877,
+            "F1": 0.9557251908396948,
+            "meanIoU": 0.8757903432142793,
+            "tp": 626,
+            "fp": 37,
+            "fn": 21,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.9135953350768052
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.9145303033809062,
+        "best_mean_conf": 0.52,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.9683959451401313,
+            "conf": 0.46
+          },
+          "text-area": {
+            "F1": 0.8095952023988006,
+            "conf": 0.57
+          },
+          "footnote": {
+            "F1": 0.9230769230769231,
+            "conf": 0.26
+          },
+          "page-footer": {
+            "F1": 0.9629629629629629,
+            "conf": 0.52
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.9794437726723095,
+              "R": 0.9574468085106383,
+              "F1": 0.9683203825463239,
+              "meanIoU": 0.8840229206860644,
+              "tp": 810,
+              "fp": 17,
+              "fn": 36,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.9236031927023945,
+              "R": 0.72,
+              "F1": 0.8091908091908091,
+              "meanIoU": 0.9656851146016242,
+              "tp": 810,
+              "fp": 67,
+              "fn": 315,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.975,
+              "R": 0.8666666666666667,
+              "F1": 0.9176470588235294,
+              "meanIoU": 0.9126775675169438,
+              "tp": 39,
+              "fp": 1,
+              "fn": 6,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.9614791987673343,
+              "R": 0.964451313755796,
+              "F1": 0.9629629629629629,
+              "meanIoU": 0.8762758503201408,
+              "tp": 624,
+              "fp": 25,
+              "fn": 23,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.9145303033809062
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1448,
+          "absorbed": 1,
+          "clean": 44,
+          "recoverable": 2,
+          "hidden": 1,
+          "in_ta": 3,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9698593436034829,
+          "contamination_rate": 0.0006697923643670462,
+          "clean_miss_rate": 0.029470864032150032,
+          "recoverable_contamination_rate": 0.0013395847287340924,
+          "hidden_contamination_rate": 0.0006697923643670462,
+          "total_in_ta_rate": 0.0020093770931011385,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 42,
+          "absorbed": 3,
+          "clean": 0,
+          "recoverable": 3,
+          "hidden": 3,
+          "in_ta": 6,
+          "as_ta": 3,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 2,
+          "detected_rate": 0.9333333333333333,
+          "contamination_rate": 0.06666666666666667,
+          "clean_miss_rate": 0.0,
+          "recoverable_contamination_rate": 0.06666666666666667,
+          "hidden_contamination_rate": 0.06666666666666667,
+          "total_in_ta_rate": 0.13333333333333333,
+          "as_textarea_rate": 0.06666666666666667,
+          "dual_as_textarea_rate": 0.022222222222222223,
+          "hidden_as_textarea_rate": 0.044444444444444446
+        },
+        "header": {
+          "gt": 846,
+          "det": 820,
+          "absorbed": 1,
+          "clean": 25,
+          "recoverable": 2,
+          "hidden": 1,
+          "in_ta": 3,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9692671394799054,
+          "contamination_rate": 0.001182033096926714,
+          "clean_miss_rate": 0.02955082742316785,
+          "recoverable_contamination_rate": 0.002364066193853428,
+          "hidden_contamination_rate": 0.001182033096926714,
+          "total_in_ta_rate": 0.0035460992907801418,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "footer": {
+          "gt": 647,
+          "det": 626,
+          "absorbed": 0,
+          "clean": 21,
+          "recoverable": 0,
+          "hidden": 0,
+          "in_ta": 0,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9675425038639877,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.03245749613601236,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.0,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 851,
+          "missing": 16,
+          "merge": 7,
+          "split": 3,
+          "hallucination": 15,
+          "matched": 830
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 663,
+          "missing": 7,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 19,
+          "matched": 640
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 46,
+          "missing": 3,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 4,
+          "matched": 42
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1514,
+          "missing": 22,
+          "merge": 7,
+          "split": 3,
+          "hallucination": 32,
+          "matched": 1471
+        }
+      },
+      "cote": {
+        "cote": 0.9853777224538083,
+        "coverage": 0.9891863520344292,
+        "overlap": 0.00204841060507031,
+        "trespass": 0.0017602189755507778,
+        "excess": 0.018359682165898516,
+        "n_pages": 854
+      },
+      "wall_s": 24.43
+    },
+    {
+      "id": "doclayout_yolo_ft",
+      "name": "DocLayout-YOLO tam2col (ours)",
+      "group": "released",
+      "role": "ours",
+      "notes": "AGPL-3.0 runner-up HF checkpoint.",
+      "paper_conf": 0.3,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/ft_preds/dl_yolo/dl_yolo_ft_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.9596291522484545,
+            "ap5095": 0.6996109088988983
+          },
+          "text-area": {
+            "ap50": 1.0,
+            "ap5095": 0.978544355133107
+          },
+          "footnote": {
+            "ap50": 0.9241472871465871,
+            "ap5095": 0.7220565545579917
+          }
+        },
+        "mean_ap50": 0.9612588131316805,
+        "mean_ap5095": 0.8000706061966657,
+        "n_gt": 2391,
+        "n_dt": 2835,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.3,
+        "per_class": {
+          "header-footer": {
+            "P": 0.9377865094957433,
+            "R": 0.9591426657736102,
+            "F1": 0.9483443708609272,
+            "meanIoU": 0.8744209904625637,
+            "tp": 1432,
+            "fp": 95,
+            "fn": 61,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 1.0,
+            "R": 0.9941383352872216,
+            "F1": 0.9970605526161083,
+            "meanIoU": 0.9746108910651654,
+            "tp": 848,
+            "fp": 0,
+            "fn": 5,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.9285714285714286,
+            "R": 0.8666666666666667,
+            "F1": 0.896551724137931,
+            "meanIoU": 0.8912560575302981,
+            "tp": 39,
+            "fp": 3,
+            "fn": 6,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.9473188825383222
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.951405432654131,
+        "best_mean_conf": 0.29,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.9556153328850033,
+            "conf": 0.44
+          },
+          "text-area": {
+            "F1": 1.0,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.9090909090909092,
+            "conf": 0.27
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.9366013071895425,
+              "R": 0.9598124581379772,
+              "F1": 0.9480648362553755,
+              "meanIoU": 0.8744270749410901,
+              "tp": 1433,
+              "fp": 97,
+              "fn": 60,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 1.0,
+              "R": 0.9941383352872216,
+              "F1": 0.9970605526161083,
+              "meanIoU": 0.9746108910651654,
+              "tp": 848,
+              "fp": 0,
+              "fn": 5,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.9302325581395349,
+              "R": 0.8888888888888888,
+              "F1": 0.9090909090909092,
+              "meanIoU": 0.8914684567409946,
+              "tp": 40,
+              "fp": 3,
+              "fn": 5,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.951405432654131
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9601794930721819,
+            "ap5095": 0.7130870122648043
+          },
+          "text-area": {
+            "ap50": 0.7060314591997,
+            "ap5095": 0.6648288678954867
+          },
+          "footnote": {
+            "ap50": 0.9241472871465871,
+            "ap5095": 0.7220565545579917
+          },
+          "page-footer": {
+            "ap50": 0.9594300140204227,
+            "ap5095": 0.6820766973962369
+          }
+        },
+        "mean_ap50": 0.9479189314130639,
+        "mean_ap5095": 0.705740088073011,
+        "n_gt": 2663,
+        "n_dt": 2946,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9601794930721819,
+            "ap5095": 0.7130870122648043
+          },
+          "text-area": {
+            "ap50": 0.7060314591997,
+            "ap5095": 0.6648288678954867
+          },
+          "footnote": {
+            "ap50": 0.9241472871465871,
+            "ap5095": 0.7220565545579917
+          },
+          "page-footer": {
+            "ap50": 0.9594300140204227,
+            "ap5095": 0.6820766973962369
+          }
+        },
+        "mean_ap50": 0.8874470633597229,
+        "mean_ap5095": 0.69551228302863,
+        "n_gt": 2663,
+        "n_dt": 2946,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.3,
+        "per_class": {
+          "page-header": {
+            "P": 0.9385150812064965,
+            "R": 0.9562647754137116,
+            "F1": 0.9473067915690867,
+            "meanIoU": 0.8776755733246846,
+            "tp": 809,
+            "fp": 53,
+            "fn": 37,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.8967813540510544,
+            "R": 0.7182222222222222,
+            "F1": 0.7976307996051333,
+            "meanIoU": 0.9623748504976968,
+            "tp": 808,
+            "fp": 93,
+            "fn": 317,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.9285714285714286,
+            "R": 0.8666666666666667,
+            "F1": 0.896551724137931,
+            "meanIoU": 0.8912560575302981,
+            "tp": 39,
+            "fp": 3,
+            "fn": 6,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.9368421052631579,
+            "R": 0.9629057187017002,
+            "F1": 0.9496951219512195,
+            "meanIoU": 0.8701947343863904,
+            "tp": 623,
+            "fp": 42,
+            "fn": 24,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.8977961093158426
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.9007654875019058,
+        "best_mean_conf": 0.29,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.9536266349583828,
+            "conf": 0.42
+          },
+          "text-area": {
+            "F1": 0.8013972055888223,
+            "conf": 0.58
+          },
+          "footnote": {
+            "F1": 0.9090909090909092,
+            "conf": 0.27
+          },
+          "page-footer": {
+            "F1": 0.9596899224806201,
+            "conf": 0.48
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.9375,
+              "R": 0.9574468085106383,
+              "F1": 0.9473684210526315,
+              "meanIoU": 0.8776823195899515,
+              "tp": 810,
+              "fp": 54,
+              "fn": 36,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.8967813540510544,
+              "R": 0.7182222222222222,
+              "F1": 0.7976307996051333,
+              "meanIoU": 0.9623748504976968,
+              "tp": 808,
+              "fp": 93,
+              "fn": 317,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.9302325581395349,
+              "R": 0.8888888888888888,
+              "F1": 0.9090909090909092,
+              "meanIoU": 0.8914684567409946,
+              "tp": 40,
+              "fp": 3,
+              "fn": 5,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.9354354354354354,
+              "R": 0.9629057187017002,
+              "F1": 0.9489718202589489,
+              "meanIoU": 0.8701947343863904,
+              "tp": 623,
+              "fp": 43,
+              "fn": 24,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.9007654875019058
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1432,
+          "absorbed": 1,
+          "clean": 60,
+          "recoverable": 4,
+          "hidden": 1,
+          "in_ta": 5,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9591426657736102,
+          "contamination_rate": 0.0006697923643670462,
+          "clean_miss_rate": 0.04018754186202277,
+          "recoverable_contamination_rate": 0.0026791694574681848,
+          "hidden_contamination_rate": 0.0006697923643670462,
+          "total_in_ta_rate": 0.003348961821835231,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 39,
+          "absorbed": 0,
+          "clean": 6,
+          "recoverable": 0,
+          "hidden": 0,
+          "in_ta": 0,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.8666666666666667,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.13333333333333333,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.0,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "header": {
+          "gt": 846,
+          "det": 809,
+          "absorbed": 1,
+          "clean": 36,
+          "recoverable": 1,
+          "hidden": 1,
+          "in_ta": 2,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9562647754137116,
+          "contamination_rate": 0.001182033096926714,
+          "clean_miss_rate": 0.0425531914893617,
+          "recoverable_contamination_rate": 0.001182033096926714,
+          "hidden_contamination_rate": 0.001182033096926714,
+          "total_in_ta_rate": 0.002364066193853428,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "footer": {
+          "gt": 647,
+          "det": 623,
+          "absorbed": 0,
+          "clean": 24,
+          "recoverable": 3,
+          "hidden": 0,
+          "in_ta": 3,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9629057187017002,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.03709428129829984,
+          "recoverable_contamination_rate": 0.00463678516228748,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.00463678516228748,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 862,
+          "missing": 30,
+          "merge": 3,
+          "split": 4,
+          "hallucination": 18,
+          "matched": 816
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 665,
+          "missing": 10,
+          "merge": 1,
+          "split": 0,
+          "hallucination": 16,
+          "matched": 637
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 42,
+          "missing": 6,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 2,
+          "matched": 39
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1527,
+          "missing": 40,
+          "merge": 4,
+          "split": 4,
+          "hallucination": 34,
+          "matched": 1453
+        }
+      },
+      "cote": {
+        "cote": 0.9759398186110629,
+        "coverage": 0.9772031029501622,
+        "overlap": 0.0010717325549425918,
+        "trespass": 0.0001915517841566934,
+        "excess": 0.017684749755338198,
+        "n_pages": 854
+      },
+      "wall_s": 21.08
+    },
+    {
+      "id": "pp_doclayout_ft",
+      "name": "PP-DocLayout-L tam2col",
+      "group": "finetuned",
+      "role": "ours",
+      "notes": "Fine-tuned, not a separate HF release.",
+      "paper_conf": 0.75,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/ft_preds/pp_doclayout/pp_doclayout_ft_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.9728358924387784,
+            "ap5095": 0.7264104978980856
+          },
+          "text-area": {
+            "ap50": 0.96950473652793,
+            "ap5095": 0.9005930111982788
+          },
+          "footnote": {
+            "ap50": 0.928859078950662,
+            "ap5095": 0.7947747385798266
+          }
+        },
+        "mean_ap50": 0.9570665693057901,
+        "mean_ap5095": 0.8072594158920636,
+        "n_gt": 2391,
+        "n_dt": 14743,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.75,
+        "per_class": {
+          "header-footer": {
+            "P": 0.9761570827489481,
+            "R": 0.9323509711989283,
+            "F1": 0.9537512846865365,
+            "meanIoU": 0.8804900162144739,
+            "tp": 1392,
+            "fp": 34,
+            "fn": 101,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9788235294117648,
+            "R": 0.9753810082063306,
+            "F1": 0.9770992366412214,
+            "meanIoU": 0.9525634676585182,
+            "tp": 832,
+            "fp": 18,
+            "fn": 21,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.9523809523809523,
+            "R": 0.8888888888888888,
+            "F1": 0.9195402298850575,
+            "meanIoU": 0.9239780416369656,
+            "tp": 40,
+            "fp": 2,
+            "fn": 5,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.9501302504042718
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.9510043393306183,
+        "best_mean_conf": 0.72,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.9580958766342608,
+            "conf": 0.51
+          },
+          "text-area": {
+            "F1": 0.9781968179139658,
+            "conf": 0.88
+          },
+          "footnote": {
+            "F1": 0.9195402298850575,
+            "conf": 0.71
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.9736294240111034,
+              "R": 0.9397186872069658,
+              "F1": 0.956373551465576,
+              "meanIoU": 0.8795616278561509,
+              "tp": 1403,
+              "fp": 38,
+              "fn": 90,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9788235294117648,
+              "R": 0.9753810082063306,
+              "F1": 0.9770992366412214,
+              "meanIoU": 0.9525634676585182,
+              "tp": 832,
+              "fp": 18,
+              "fn": 21,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.9523809523809523,
+              "R": 0.8888888888888888,
+              "F1": 0.9195402298850575,
+              "meanIoU": 0.9239780416369656,
+              "tp": 40,
+              "fp": 2,
+              "fn": 5,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.9510043393306183
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9758459580568124,
+            "ap5095": 0.7478194448917735
+          },
+          "text-area": {
+            "ap50": 0.7426951537436343,
+            "ap5095": 0.6975242254093362
+          },
+          "footnote": {
+            "ap50": 0.928859078950662,
+            "ap5095": 0.7947747385798266
+          },
+          "page-footer": {
+            "ap50": 0.9639700170646612,
+            "ap5095": 0.6865678451094952
+          }
+        },
+        "mean_ap50": 0.9562250180240452,
+        "mean_ap5095": 0.7430540095270318,
+        "n_gt": 2663,
+        "n_dt": 16501,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9758459580568124,
+            "ap5095": 0.7478194448917735
+          },
+          "text-area": {
+            "ap50": 0.7426951537436343,
+            "ap5095": 0.6975242254093362
+          },
+          "footnote": {
+            "ap50": 0.928859078950662,
+            "ap5095": 0.7947747385798266
+          },
+          "page-footer": {
+            "ap50": 0.9639700170646612,
+            "ap5095": 0.6865678451094952
+          }
+        },
+        "mean_ap50": 0.9028425519539425,
+        "mean_ap5095": 0.7316715634976079,
+        "n_gt": 2663,
+        "n_dt": 16501,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.75,
+        "per_class": {
+          "page-header": {
+            "P": 0.9788557213930348,
+            "R": 0.9302600472813238,
+            "F1": 0.9539393939393939,
+            "meanIoU": 0.885359928729269,
+            "tp": 787,
+            "fp": 17,
+            "fn": 59,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.9254587155963303,
+            "R": 0.7173333333333334,
+            "F1": 0.8082123184777166,
+            "meanIoU": 0.9663805750096567,
+            "tp": 807,
+            "fp": 65,
+            "fn": 318,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.9523809523809523,
+            "R": 0.8888888888888888,
+            "F1": 0.9195402298850575,
+            "meanIoU": 0.9239780416369656,
+            "tp": 40,
+            "fp": 2,
+            "fn": 5,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.9726688102893891,
+            "R": 0.9350850077279753,
+            "F1": 0.9535066981875492,
+            "meanIoU": 0.874155105224158,
+            "tp": 605,
+            "fp": 17,
+            "fn": 42,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.9087996601224292
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.9102032592244623,
+        "best_mean_conf": 0.72,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.9618593563766389,
+            "conf": 0.51
+          },
+          "text-area": {
+            "F1": 0.8107838242636045,
+            "conf": 0.32
+          },
+          "footnote": {
+            "F1": 0.9195402298850575,
+            "conf": 0.71
+          },
+          "page-footer": {
+            "F1": 0.9577464788732395,
+            "conf": 0.72
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.9765432098765432,
+              "R": 0.9349881796690307,
+              "F1": 0.9553140096618358,
+              "meanIoU": 0.8849516278050106,
+              "tp": 791,
+              "fp": 19,
+              "fn": 55,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.9254587155963303,
+              "R": 0.7173333333333334,
+              "F1": 0.8082123184777166,
+              "meanIoU": 0.9663805750096567,
+              "tp": 807,
+              "fp": 65,
+              "fn": 318,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.9523809523809523,
+              "R": 0.8888888888888888,
+              "F1": 0.9195402298850575,
+              "meanIoU": 0.9239780416369656,
+              "tp": 40,
+              "fp": 2,
+              "fn": 5,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.9698890649762282,
+              "R": 0.9459041731066461,
+              "F1": 0.9577464788732395,
+              "meanIoU": 0.8725951409941485,
+              "tp": 612,
+              "fp": 19,
+              "fn": 35,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.9102032592244623
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1392,
+          "absorbed": 3,
+          "clean": 98,
+          "recoverable": 1,
+          "hidden": 3,
+          "in_ta": 4,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9323509711989283,
+          "contamination_rate": 0.0020093770931011385,
+          "clean_miss_rate": 0.06563965170797052,
+          "recoverable_contamination_rate": 0.0006697923643670462,
+          "hidden_contamination_rate": 0.0020093770931011385,
+          "total_in_ta_rate": 0.0026791694574681848,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 40,
+          "absorbed": 3,
+          "clean": 2,
+          "recoverable": 0,
+          "hidden": 3,
+          "in_ta": 3,
+          "as_ta": 1,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.8888888888888888,
+          "contamination_rate": 0.06666666666666667,
+          "clean_miss_rate": 0.044444444444444446,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.06666666666666667,
+          "total_in_ta_rate": 0.06666666666666667,
+          "as_textarea_rate": 0.022222222222222223,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.022222222222222223
+        },
+        "header": {
+          "gt": 846,
+          "det": 787,
+          "absorbed": 3,
+          "clean": 56,
+          "recoverable": 0,
+          "hidden": 3,
+          "in_ta": 3,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9302600472813238,
+          "contamination_rate": 0.0035460992907801418,
+          "clean_miss_rate": 0.06619385342789598,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.0035460992907801418,
+          "total_in_ta_rate": 0.0035460992907801418,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "footer": {
+          "gt": 647,
+          "det": 605,
+          "absorbed": 0,
+          "clean": 42,
+          "recoverable": 1,
+          "hidden": 0,
+          "in_ta": 1,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9350850077279753,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.06491499227202473,
+          "recoverable_contamination_rate": 0.0015455950540958269,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.0015455950540958269,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 804,
+          "missing": 48,
+          "merge": 4,
+          "split": 3,
+          "hallucination": 7,
+          "matched": 798
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 622,
+          "missing": 31,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 6,
+          "matched": 616
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 42,
+          "missing": 5,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 2,
+          "matched": 40
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1426,
+          "missing": 79,
+          "merge": 4,
+          "split": 3,
+          "hallucination": 13,
+          "matched": 1414
+        }
+      },
+      "cote": {
+        "cote": 0.9847105497114388,
+        "coverage": 0.9853494653464959,
+        "overlap": 1.0122550448642935e-05,
+        "trespass": 0.0006287930846083838,
+        "excess": 0.019310340071666317,
+        "n_pages": 854
+      },
+      "wall_s": 22.83
+    },
+    {
+      "id": "docling_heron_ft",
+      "name": "Docling layout-heron tam2col",
+      "group": "finetuned",
+      "role": "ours",
+      "notes": "Fine-tuned, not a separate HF release.",
+      "paper_conf": 0.05,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/ft_preds/docling_heron/docling_heron_ft_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.9346851392279436,
+            "ap5095": 0.6380083820841705
+          },
+          "text-area": {
+            "ap50": 0.9573246705891041,
+            "ap5095": 0.7335488788660206
+          },
+          "footnote": {
+            "ap50": 0.9839064705708589,
+            "ap5095": 0.853498509442713
+          }
+        },
+        "mean_ap50": 0.9586387601293023,
+        "mean_ap5095": 0.7416852567976348,
+        "n_gt": 2391,
+        "n_dt": 11243,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.05,
+        "per_class": {
+          "header-footer": {
+            "P": 0.9259259259259259,
+            "R": 0.9544541192230409,
+            "F1": 0.9399736147757255,
+            "meanIoU": 0.8621093240535712,
+            "tp": 1425,
+            "fp": 114,
+            "fn": 68,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9775725593667546,
+            "R": 0.8686987104337632,
+            "F1": 0.9199255121042831,
+            "meanIoU": 0.887718703914107,
+            "tp": 741,
+            "fp": 17,
+            "fn": 112,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.9130434782608695,
+            "R": 0.9333333333333333,
+            "F1": 0.9230769230769231,
+            "meanIoU": 0.9239910178164433,
+            "tp": 42,
+            "fp": 4,
+            "fn": 3,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.9276586833189772
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.941403942779636,
+        "best_mean_conf": 0.04,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.9432576769025367,
+            "conf": 0.07
+          },
+          "text-area": {
+            "F1": 0.9736379613356766,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.9361702127659575,
+            "conf": 0.04
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.9156010230179028,
+              "R": 0.9591426657736102,
+              "F1": 0.9368662087013412,
+              "meanIoU": 0.8617144675385586,
+              "tp": 1432,
+              "fp": 132,
+              "fn": 61,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9789081885856079,
+              "R": 0.9249706916764361,
+              "F1": 0.9511754068716094,
+              "meanIoU": 0.888942415286371,
+              "tp": 789,
+              "fp": 17,
+              "fn": 64,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.8979591836734694,
+              "R": 0.9777777777777777,
+              "F1": 0.9361702127659575,
+              "meanIoU": 0.9211628596043046,
+              "tp": 44,
+              "fp": 5,
+              "fn": 1,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.941403942779636
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9509730468184254,
+            "ap5095": 0.6469728564591803
+          },
+          "text-area": {
+            "ap50": 0.6669159456107103,
+            "ap5095": 0.6176913026104836
+          },
+          "footnote": {
+            "ap50": 0.9839064705708589,
+            "ap5095": 0.853498509442713
+          },
+          "page-footer": {
+            "ap50": 0.960602549355721,
+            "ap5095": 0.6626567376925044
+          }
+        },
+        "mean_ap50": 0.9651606889150018,
+        "mean_ap5095": 0.7210427011981326,
+        "n_gt": 2663,
+        "n_dt": 12904,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.9509730468184254,
+            "ap5095": 0.6469728564591803
+          },
+          "text-area": {
+            "ap50": 0.6669159456107103,
+            "ap5095": 0.6176913026104836
+          },
+          "footnote": {
+            "ap50": 0.9839064705708589,
+            "ap5095": 0.853498509442713
+          },
+          "page-footer": {
+            "ap50": 0.960602549355721,
+            "ap5095": 0.6626567376925044
+          }
+        },
+        "mean_ap50": 0.890599503088929,
+        "mean_ap5095": 0.6952048515512204,
+        "n_gt": 2663,
+        "n_dt": 12904,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.05,
+        "per_class": {
+          "page-header": {
+            "P": 0.9635479951397327,
+            "R": 0.9373522458628841,
+            "F1": 0.9502696225284601,
+            "meanIoU": 0.864281608817123,
+            "tp": 793,
+            "fp": 30,
+            "fn": 53,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.911504424778761,
+            "R": 0.6408888888888888,
+            "F1": 0.7526096033402923,
+            "meanIoU": 0.9606101508799194,
+            "tp": 721,
+            "fp": 70,
+            "fn": 404,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.9130434782608695,
+            "R": 0.9333333333333333,
+            "F1": 0.9230769230769231,
+            "meanIoU": 0.9239910178164433,
+            "tp": 42,
+            "fp": 4,
+            "fn": 3,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.8812849162011173,
+            "R": 0.9752704791344667,
+            "F1": 0.9258987527512839,
+            "meanIoU": 0.8595747290906034,
+            "tp": 631,
+            "fp": 85,
+            "fn": 16,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.8879637254242398
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.8962831546992748,
+        "best_mean_conf": 0.04,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.9506024096385541,
+            "conf": 0.06
+          },
+          "text-area": {
+            "F1": 0.7881481481481482,
+            "conf": 0.03
+          },
+          "footnote": {
+            "F1": 0.9361702127659575,
+            "conf": 0.04
+          },
+          "page-footer": {
+            "F1": 0.9595645412130638,
+            "conf": 0.67
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.954599761051374,
+              "R": 0.9444444444444444,
+              "F1": 0.9494949494949495,
+              "meanIoU": 0.86396165926591,
+              "tp": 799,
+              "fp": 38,
+              "fn": 47,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.9061032863849765,
+              "R": 0.6862222222222222,
+              "F1": 0.7809812847749114,
+              "meanIoU": 0.9611288410426225,
+              "tp": 772,
+              "fp": 80,
+              "fn": 353,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.8979591836734694,
+              "R": 0.9777777777777777,
+              "F1": 0.9361702127659575,
+              "meanIoU": 0.9211628596043046,
+              "tp": 44,
+              "fp": 5,
+              "fn": 1,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.8679504814305364,
+              "R": 0.9752704791344667,
+              "F1": 0.918486171761281,
+              "meanIoU": 0.8595747290906034,
+              "tp": 631,
+              "fp": 96,
+              "fn": 16,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.8962831546992748
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1425,
+          "absorbed": 1,
+          "clean": 67,
+          "recoverable": 5,
+          "hidden": 1,
+          "in_ta": 6,
+          "as_ta": 5,
+          "dual_as_ta": 4,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.9544541192230409,
+          "contamination_rate": 0.0006697923643670462,
+          "clean_miss_rate": 0.044876088412592094,
+          "recoverable_contamination_rate": 0.003348961821835231,
+          "hidden_contamination_rate": 0.0006697923643670462,
+          "total_in_ta_rate": 0.004018754186202277,
+          "as_textarea_rate": 0.003348961821835231,
+          "dual_as_textarea_rate": 0.0026791694574681848,
+          "hidden_as_textarea_rate": 0.0006697923643670462
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 42,
+          "absorbed": 1,
+          "clean": 2,
+          "recoverable": 1,
+          "hidden": 1,
+          "in_ta": 2,
+          "as_ta": 2,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.9333333333333333,
+          "contamination_rate": 0.022222222222222223,
+          "clean_miss_rate": 0.044444444444444446,
+          "recoverable_contamination_rate": 0.022222222222222223,
+          "hidden_contamination_rate": 0.022222222222222223,
+          "total_in_ta_rate": 0.044444444444444446,
+          "as_textarea_rate": 0.044444444444444446,
+          "dual_as_textarea_rate": 0.022222222222222223,
+          "hidden_as_textarea_rate": 0.022222222222222223
+        },
+        "header": {
+          "gt": 846,
+          "det": 793,
+          "absorbed": 1,
+          "clean": 52,
+          "recoverable": 0,
+          "hidden": 1,
+          "in_ta": 1,
+          "as_ta": 1,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.9373522458628841,
+          "contamination_rate": 0.001182033096926714,
+          "clean_miss_rate": 0.061465721040189124,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.001182033096926714,
+          "total_in_ta_rate": 0.001182033096926714,
+          "as_textarea_rate": 0.001182033096926714,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.001182033096926714
+        },
+        "footer": {
+          "gt": 647,
+          "det": 631,
+          "absorbed": 0,
+          "clean": 16,
+          "recoverable": 5,
+          "hidden": 0,
+          "in_ta": 5,
+          "as_ta": 4,
+          "dual_as_ta": 4,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9752704791344667,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.02472952086553323,
+          "recoverable_contamination_rate": 0.0077279752704791345,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.0077279752704791345,
+          "as_textarea_rate": 0.0061823802163833074,
+          "dual_as_textarea_rate": 0.0061823802163833074,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 823,
+          "missing": 42,
+          "merge": 6,
+          "split": 3,
+          "hallucination": 17,
+          "matched": 804
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 716,
+          "missing": 4,
+          "merge": 2,
+          "split": 3,
+          "hallucination": 59,
+          "matched": 643
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 46,
+          "missing": 3,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 4,
+          "matched": 42
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1539,
+          "missing": 45,
+          "merge": 8,
+          "split": 6,
+          "hallucination": 75,
+          "matched": 1448
+        }
+      },
+      "cote": {
+        "cote": 0.8645023207795284,
+        "coverage": 0.8663883752895949,
+        "overlap": 0.0015409794650617771,
+        "trespass": 0.0003450750450046064,
+        "excess": 0.010867558660294811,
+        "n_pages": 854
+      },
+      "wall_s": 21.53
+    },
+    {
+      "id": "surya_ots",
+      "name": "Surya fast layout (RF-DETR, DocLayNet-style)",
+      "group": "off_the_shelf",
+      "role": "doclaynet_detector",
+      "notes": "datalab-to/surya_layout2; DocLayNet-style labels remapped.",
+      "paper_conf": 0.3,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/surya_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.88422249166012,
+            "ap5095": 0.2818137634643289
+          },
+          "text-area": {
+            "ap50": 0.9773550890715937,
+            "ap5095": 0.7431552023100368
+          },
+          "footnote": {
+            "ap50": 0.32674949274207504,
+            "ap5095": 0.16351050519119426
+          }
+        },
+        "mean_ap50": 0.7294423578245963,
+        "mean_ap5095": 0.39615982365518665,
+        "n_gt": 2391,
+        "n_dt": 4247,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.3,
+        "per_class": {
+          "header-footer": {
+            "P": 0.8833116036505867,
+            "R": 0.9075686537173476,
+            "F1": 0.8952758506772382,
+            "meanIoU": 0.6737854823282171,
+            "tp": 1355,
+            "fp": 179,
+            "fn": 138,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9800703399765534,
+            "R": 0.9800703399765534,
+            "F1": 0.9800703399765534,
+            "meanIoU": 0.8791119532922053,
+            "tp": 836,
+            "fp": 17,
+            "fn": 17,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.36231884057971014,
+            "R": 0.5555555555555556,
+            "F1": 0.43859649122807015,
+            "meanIoU": 0.7650158265782039,
+            "tp": 25,
+            "fp": 44,
+            "fn": 20,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.7713142272939538
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.7770623980335635,
+        "best_mean_conf": 0.26,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.8965058236272878,
+            "conf": 0.33
+          },
+          "text-area": {
+            "F1": 0.9806678383128296,
+            "conf": 0.26
+          },
+          "footnote": {
+            "F1": 0.45762711864406774,
+            "conf": 0.26
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.8737179487179487,
+              "R": 0.9129269926322839,
+              "F1": 0.892892237143793,
+              "meanIoU": 0.6743917473771195,
+              "tp": 1363,
+              "fp": 197,
+              "fn": 130,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9800936768149883,
+              "R": 0.981242672919109,
+              "F1": 0.9806678383128296,
+              "meanIoU": 0.8791162450523811,
+              "tp": 837,
+              "fp": 17,
+              "fn": 16,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.3698630136986301,
+              "R": 0.6,
+              "F1": 0.45762711864406774,
+              "meanIoU": 0.764764956341808,
+              "tp": 27,
+              "fp": 46,
+              "fn": 18,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.7770623980335635
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.894653485395529,
+            "ap5095": 0.31019354799543386
+          },
+          "text-area": {
+            "ap50": 0.4056337018130063,
+            "ap5095": 0.2197102544484417
+          },
+          "footnote": {
+            "ap50": 0.32674949274207504,
+            "ap5095": 0.16351050519119426
+          },
+          "page-footer": {
+            "ap50": 0.8738310575208459,
+            "ap5095": 0.25387071467654904
+          }
+        },
+        "mean_ap50": 0.6984113452194833,
+        "mean_ap5095": 0.24252492262105907,
+        "n_gt": 2663,
+        "n_dt": 19101,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.894653485395529,
+            "ap5095": 0.31019354799543386
+          },
+          "text-area": {
+            "ap50": 0.4056337018130063,
+            "ap5095": 0.2197102544484417
+          },
+          "footnote": {
+            "ap50": 0.32674949274207504,
+            "ap5095": 0.16351050519119426
+          },
+          "page-footer": {
+            "ap50": 0.8738310575208459,
+            "ap5095": 0.25387071467654904
+          }
+        },
+        "mean_ap50": 0.6252169343678641,
+        "mean_ap5095": 0.23682125557790473,
+        "n_gt": 2663,
+        "n_dt": 19101,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.3,
+        "per_class": {
+          "page-header": {
+            "P": 0.8788571428571429,
+            "R": 0.9089834515366431,
+            "F1": 0.8936664729808252,
+            "meanIoU": 0.6901230036563547,
+            "tp": 769,
+            "fp": 106,
+            "fn": 77,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.24326623192514885,
+            "R": 0.7626666666666667,
+            "F1": 0.3688736027515047,
+            "meanIoU": 0.8209977197470267,
+            "tp": 858,
+            "fp": 2669,
+            "fn": 267,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.36231884057971014,
+            "R": 0.5555555555555556,
+            "F1": 0.43859649122807015,
+            "meanIoU": 0.7650158265782039,
+            "tp": 25,
+            "fp": 44,
+            "fn": 20,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.8861911987860395,
+            "R": 0.9026275115919629,
+            "F1": 0.8943338437978561,
+            "meanIoU": 0.6521995147115061,
+            "tp": 584,
+            "fp": 75,
+            "fn": 63,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.6488676026895641
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.6504889189238483,
+        "best_mean_conf": 0.31,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.8943661971830986,
+            "conf": 0.33
+          },
+          "text-area": {
+            "F1": 0.485512920908379,
+            "conf": 0.87
+          },
+          "footnote": {
+            "F1": 0.45762711864406774,
+            "conf": 0.26
+          },
+          "page-footer": {
+            "F1": 0.9021143304620203,
+            "conf": 0.47
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.8794489092996556,
+              "R": 0.9054373522458629,
+              "F1": 0.8922539312754805,
+              "meanIoU": 0.6903421622674545,
+              "tp": 766,
+              "fp": 105,
+              "fn": 80,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.24640598044853365,
+              "R": 0.7617777777777778,
+              "F1": 0.37236584835976544,
+              "meanIoU": 0.8210263369077981,
+              "tp": 857,
+              "fp": 2621,
+              "fn": 268,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.36764705882352944,
+              "R": 0.5555555555555556,
+              "F1": 0.4424778761061947,
+              "meanIoU": 0.7650158265782039,
+              "tp": 25,
+              "fp": 43,
+              "fn": 20,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.8887195121951219,
+              "R": 0.9010819165378671,
+              "F1": 0.8948580199539525,
+              "meanIoU": 0.6523697438615595,
+              "tp": 583,
+              "fp": 73,
+              "fn": 64,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.6504889189238483
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1355,
+          "absorbed": 18,
+          "clean": 120,
+          "recoverable": 80,
+          "hidden": 18,
+          "in_ta": 98,
+          "as_ta": 80,
+          "dual_as_ta": 72,
+          "hidden_as_ta": 8,
+          "detected_rate": 0.9075686537173476,
+          "contamination_rate": 0.012056262558606833,
+          "clean_miss_rate": 0.08037508372404555,
+          "recoverable_contamination_rate": 0.0535833891493637,
+          "hidden_contamination_rate": 0.012056262558606833,
+          "total_in_ta_rate": 0.06563965170797052,
+          "as_textarea_rate": 0.0535833891493637,
+          "dual_as_textarea_rate": 0.04822505023442733,
+          "hidden_as_textarea_rate": 0.0053583389149363695
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 25,
+          "absorbed": 7,
+          "clean": 13,
+          "recoverable": 3,
+          "hidden": 7,
+          "in_ta": 10,
+          "as_ta": 9,
+          "dual_as_ta": 3,
+          "hidden_as_ta": 6,
+          "detected_rate": 0.5555555555555556,
+          "contamination_rate": 0.15555555555555556,
+          "clean_miss_rate": 0.28888888888888886,
+          "recoverable_contamination_rate": 0.06666666666666667,
+          "hidden_contamination_rate": 0.15555555555555556,
+          "total_in_ta_rate": 0.2222222222222222,
+          "as_textarea_rate": 0.2,
+          "dual_as_textarea_rate": 0.06666666666666667,
+          "hidden_as_textarea_rate": 0.13333333333333333
+        },
+        "header": {
+          "gt": 846,
+          "det": 769,
+          "absorbed": 14,
+          "clean": 63,
+          "recoverable": 72,
+          "hidden": 14,
+          "in_ta": 86,
+          "as_ta": 79,
+          "dual_as_ta": 71,
+          "hidden_as_ta": 8,
+          "detected_rate": 0.9089834515366431,
+          "contamination_rate": 0.016548463356973995,
+          "clean_miss_rate": 0.07446808510638298,
+          "recoverable_contamination_rate": 0.0851063829787234,
+          "hidden_contamination_rate": 0.016548463356973995,
+          "total_in_ta_rate": 0.1016548463356974,
+          "as_textarea_rate": 0.0933806146572104,
+          "dual_as_textarea_rate": 0.08392434988179669,
+          "hidden_as_textarea_rate": 0.009456264775413711
+        },
+        "footer": {
+          "gt": 647,
+          "det": 584,
+          "absorbed": 4,
+          "clean": 59,
+          "recoverable": 8,
+          "hidden": 4,
+          "in_ta": 12,
+          "as_ta": 1,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.9026275115919629,
+          "contamination_rate": 0.0061823802163833074,
+          "clean_miss_rate": 0.09119010819165378,
+          "recoverable_contamination_rate": 0.012364760432766615,
+          "hidden_contamination_rate": 0.0061823802163833074,
+          "total_in_ta_rate": 0.01854714064914992,
+          "as_textarea_rate": 0.0015455950540958269,
+          "dual_as_textarea_rate": 0.0015455950540958269,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 875,
+          "missing": 25,
+          "merge": 13,
+          "split": 6,
+          "hallucination": 29,
+          "matched": 821
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 659,
+          "missing": 15,
+          "merge": 1,
+          "split": 1,
+          "hallucination": 27,
+          "matched": 632
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 69,
+          "missing": 7,
+          "merge": 0,
+          "split": 14,
+          "hallucination": 4,
+          "matched": 38
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1534,
+          "missing": 36,
+          "merge": 14,
+          "split": 8,
+          "hallucination": 50,
+          "matched": 1457
+        }
+      },
+      "cote": {
+        "cote": 0.9172732525906897,
+        "coverage": 0.9263013896349925,
+        "overlap": 0.0039896086518373935,
+        "trespass": 0.005038528392465513,
+        "excess": 0.013648976173390637,
+        "n_pages": 854
+      },
+      "wall_s": 24.97
+    },
+    {
+      "id": "surya_vlm_ots",
+      "name": "Surya 2 layout VLM (surya-ocr-2)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "datalab-to/surya-ocr-2 via surya-ocr 0.22.1, vLLM v0.20.1 (bf16, MTP), A10G. LayoutPredictor VLM; confidence is page-level (mean decode prob), so effectively un-thresholdable \u2014 reported at conf 0.0. See evaluation/Surya_Chandra.md.",
+      "paper_conf": 0.0,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/surya_vlm_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.7741067561956058,
+            "ap5095": 0.2708294475622123
+          },
+          "text-area": {
+            "ap50": 0.9717290901443215,
+            "ap5095": 0.8532922261582656
+          },
+          "footnote": {
+            "ap50": 0.22002200220022,
+            "ap5095": 0.10369383315909592
+          }
+        },
+        "mean_ap50": 0.6552859495133824,
+        "mean_ap5095": 0.4092718356265246,
+        "n_gt": 2391,
+        "n_dt": 2390,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.0,
+        "per_class": {
+          "header-footer": {
+            "P": 0.8827913279132791,
+            "R": 0.8727394507702613,
+            "F1": 0.8777366116537554,
+            "meanIoU": 0.7001407295967124,
+            "tp": 1303,
+            "fp": 173,
+            "fn": 190,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9894242068155111,
+            "R": 0.9871043376318874,
+            "F1": 0.988262910798122,
+            "meanIoU": 0.9286373822152676,
+            "tp": 842,
+            "fp": 9,
+            "fn": 11,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.3968253968253968,
+            "R": 0.5555555555555556,
+            "F1": 0.46296296296296297,
+            "meanIoU": 0.7726196125982426,
+            "tp": 25,
+            "fp": 38,
+            "fn": 20,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.7763208284716133
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.7763208284716133,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.8777366116537554,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.988262910798122,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.46296296296296297,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.8827913279132791,
+              "R": 0.8727394507702613,
+              "F1": 0.8777366116537554,
+              "meanIoU": 0.7001407295967124,
+              "tp": 1303,
+              "fp": 173,
+              "fn": 190,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9894242068155111,
+              "R": 0.9871043376318874,
+              "F1": 0.988262910798122,
+              "meanIoU": 0.9286373822152676,
+              "tp": 842,
+              "fp": 9,
+              "fn": 11,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.3968253968253968,
+              "R": 0.5555555555555556,
+              "F1": 0.46296296296296297,
+              "meanIoU": 0.7726196125982426,
+              "tp": 25,
+              "fp": 38,
+              "fn": 20,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.7763208284716133
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.7457340244819494,
+            "ap5095": 0.251986923370506
+          },
+          "text-area": {
+            "ap50": 0.10872922154600784,
+            "ap5095": 0.05789548771983235
+          },
+          "footnote": {
+            "ap50": 0.22002200220022,
+            "ap5095": 0.10369383315909592
+          },
+          "page-footer": {
+            "ap50": 0.8089351361331639,
+            "ap5095": 0.29690725694022135
+          }
+        },
+        "mean_ap50": 0.5915637209384444,
+        "mean_ap5095": 0.2175293378232744,
+        "n_gt": 2663,
+        "n_dt": 5574,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.7457340244819494,
+            "ap5095": 0.251986923370506
+          },
+          "text-area": {
+            "ap50": 0.10872922154600784,
+            "ap5095": 0.05789548771983235
+          },
+          "footnote": {
+            "ap50": 0.22002200220022,
+            "ap5095": 0.10369383315909592
+          },
+          "page-footer": {
+            "ap50": 0.8089351361331639,
+            "ap5095": 0.29690725694022135
+          }
+        },
+        "mean_ap50": 0.47085509609033527,
+        "mean_ap5095": 0.17762087529741388,
+        "n_gt": 2663,
+        "n_dt": 5574,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.0,
+        "per_class": {
+          "page-header": {
+            "P": 0.8701923076923077,
+            "R": 0.8557919621749409,
+            "F1": 0.862932061978546,
+            "meanIoU": 0.6926952348425308,
+            "tp": 724,
+            "fp": 108,
+            "fn": 122,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.1742255266418835,
+            "R": 0.6248888888888889,
+            "F1": 0.27248062015503877,
+            "meanIoU": 0.8178565269991706,
+            "tp": 703,
+            "fp": 3332,
+            "fn": 422,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.3968253968253968,
+            "R": 0.5555555555555556,
+            "F1": 0.46296296296296297,
+            "meanIoU": 0.7726196125982426,
+            "tp": 25,
+            "fp": 38,
+            "fn": 20,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.8975155279503105,
+            "R": 0.893353941267388,
+            "F1": 0.895429899302866,
+            "meanIoU": 0.709142858201537,
+            "tp": 578,
+            "fp": 66,
+            "fn": 69,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.6234513860998534
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.6234513860998534,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.862932061978546,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.27248062015503877,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.46296296296296297,
+            "conf": 0.0
+          },
+          "page-footer": {
+            "F1": 0.8959627329192548,
+            "conf": 0.78
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.8701923076923077,
+              "R": 0.8557919621749409,
+              "F1": 0.862932061978546,
+              "meanIoU": 0.6926952348425308,
+              "tp": 724,
+              "fp": 108,
+              "fn": 122,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.1742255266418835,
+              "R": 0.6248888888888889,
+              "F1": 0.27248062015503877,
+              "meanIoU": 0.8178565269991706,
+              "tp": 703,
+              "fp": 3332,
+              "fn": 422,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.3968253968253968,
+              "R": 0.5555555555555556,
+              "F1": 0.46296296296296297,
+              "meanIoU": 0.7726196125982426,
+              "tp": 25,
+              "fp": 38,
+              "fn": 20,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.8975155279503105,
+              "R": 0.893353941267388,
+              "F1": 0.895429899302866,
+              "meanIoU": 0.709142858201537,
+              "tp": 578,
+              "fp": 66,
+              "fn": 69,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.6234513860998534
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1303,
+          "absorbed": 15,
+          "clean": 175,
+          "recoverable": 3,
+          "hidden": 15,
+          "in_ta": 18,
+          "as_ta": 10,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 10,
+          "detected_rate": 0.8727394507702613,
+          "contamination_rate": 0.010046885465505693,
+          "clean_miss_rate": 0.11721366376423309,
+          "recoverable_contamination_rate": 0.0020093770931011385,
+          "hidden_contamination_rate": 0.010046885465505693,
+          "total_in_ta_rate": 0.012056262558606833,
+          "as_textarea_rate": 0.006697923643670462,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.006697923643670462
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 25,
+          "absorbed": 6,
+          "clean": 14,
+          "recoverable": 1,
+          "hidden": 6,
+          "in_ta": 7,
+          "as_ta": 5,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 5,
+          "detected_rate": 0.5555555555555556,
+          "contamination_rate": 0.13333333333333333,
+          "clean_miss_rate": 0.3111111111111111,
+          "recoverable_contamination_rate": 0.022222222222222223,
+          "hidden_contamination_rate": 0.13333333333333333,
+          "total_in_ta_rate": 0.15555555555555556,
+          "as_textarea_rate": 0.1111111111111111,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.1111111111111111
+        },
+        "header": {
+          "gt": 846,
+          "det": 724,
+          "absorbed": 10,
+          "clean": 112,
+          "recoverable": 0,
+          "hidden": 10,
+          "in_ta": 10,
+          "as_ta": 9,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 9,
+          "detected_rate": 0.8557919621749409,
+          "contamination_rate": 0.01182033096926714,
+          "clean_miss_rate": 0.13238770685579196,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.01182033096926714,
+          "total_in_ta_rate": 0.01182033096926714,
+          "as_textarea_rate": 0.010638297872340425,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.010638297872340425
+        },
+        "footer": {
+          "gt": 647,
+          "det": 578,
+          "absorbed": 5,
+          "clean": 64,
+          "recoverable": 3,
+          "hidden": 5,
+          "in_ta": 8,
+          "as_ta": 1,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.893353941267388,
+          "contamination_rate": 0.0077279752704791345,
+          "clean_miss_rate": 0.09891808346213292,
+          "recoverable_contamination_rate": 0.00463678516228748,
+          "hidden_contamination_rate": 0.0077279752704791345,
+          "total_in_ta_rate": 0.012364760432766615,
+          "as_textarea_rate": 0.0015455950540958269,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0015455950540958269
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 832,
+          "missing": 52,
+          "merge": 4,
+          "split": 3,
+          "hallucination": 36,
+          "matched": 794
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 644,
+          "missing": 14,
+          "merge": 1,
+          "split": 0,
+          "hallucination": 12,
+          "matched": 633
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 63,
+          "missing": 7,
+          "merge": 0,
+          "split": 13,
+          "hallucination": 3,
+          "matched": 38
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1476,
+          "missing": 63,
+          "merge": 5,
+          "split": 3,
+          "hallucination": 45,
+          "matched": 1430
+        }
+      },
+      "cote": {
+        "cote": 0.9203392553615599,
+        "coverage": 0.9231435030426626,
+        "overlap": 0.0005869669817614022,
+        "trespass": 0.0022172806993412597,
+        "excess": 0.007415260557748535,
+        "n_pages": 854
+      },
+      "wall_s": 21.58
+    },
+    {
+      "id": "chandra_ots",
+      "name": "Chandra 2 (chandra-ocr-2)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "datalab-to/chandra-ocr-2 via chandra-ocr 0.2.0, vLLM v0.17.0 (Qwen3.5, bf16), A10G. ocr_layout prompt; OCR-coupled, no per-block confidence (single operating point). Decode capped at 4000 tokens and retries disabled \u2014 it loops on Tibetan it cannot read. See evaluation/Surya_Chandra.md.",
+      "paper_conf": 0.0,
+      "has_scores": false,
+      "pred_dir": "/home/eroux/azure_di_eval/chandra_vlm_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.5291507696812475,
+            "ap5095": 0.1800816687645145
+          },
+          "text-area": {
+            "ap50": 0.46514321711461604,
+            "ap5095": 0.3528176320155465
+          },
+          "footnote": {
+            "ap50": 0.13531353135313529,
+            "ap5095": 0.07811281128112812
+          }
+        },
+        "mean_ap50": 0.3765358393829996,
+        "mean_ap5095": 0.20367070402039636,
+        "n_gt": 2391,
+        "n_dt": 1674,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.0,
+        "per_class": {
+          "header-footer": {
+            "P": 0.8986415882967607,
+            "R": 0.5760214333556597,
+            "F1": 0.7020408163265305,
+            "meanIoU": 0.6911788570002312,
+            "tp": 860,
+            "fp": 97,
+            "fn": 633,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.7404255319148936,
+            "R": 0.611957796014068,
+            "F1": 0.6700898587933248,
+            "meanIoU": 0.8941515454147364,
+            "tp": 522,
+            "fp": 183,
+            "fn": 331,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.6666666666666666,
+            "R": 0.17777777777777778,
+            "F1": 0.2807017543859649,
+            "meanIoU": 0.7876032729330382,
+            "tp": 8,
+            "fp": 4,
+            "fn": 37,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.5509441431686067
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.5509441431686067,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.7020408163265305,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.6700898587933248,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.2807017543859649,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.8986415882967607,
+              "R": 0.5760214333556597,
+              "F1": 0.7020408163265305,
+              "meanIoU": 0.6911788570002312,
+              "tp": 860,
+              "fp": 97,
+              "fn": 633,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.7404255319148936,
+              "R": 0.611957796014068,
+              "F1": 0.6700898587933248,
+              "meanIoU": 0.8941515454147364,
+              "tp": 522,
+              "fp": 183,
+              "fn": 331,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.6666666666666666,
+              "R": 0.17777777777777778,
+              "F1": 0.2807017543859649,
+              "meanIoU": 0.7876032729330382,
+              "tp": 8,
+              "fp": 4,
+              "fn": 37,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.5509441431686067
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.7514315514572649,
+            "ap5095": 0.251205582606177
+          },
+          "text-area": {
+            "ap50": 0.1684014872536393,
+            "ap5095": 0.10209072643720679
+          },
+          "footnote": {
+            "ap50": 0.13531353135313529,
+            "ap5095": 0.07811281128112812
+          },
+          "page-footer": {
+            "ap50": 0.23872388908871023,
+            "ap5095": 0.08977090068417415
+          }
+        },
+        "mean_ap50": 0.37515632396637016,
+        "mean_ap5095": 0.1396964315238264,
+        "n_gt": 2663,
+        "n_dt": 2669,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.7514315514572649,
+            "ap5095": 0.251205582606177
+          },
+          "text-area": {
+            "ap50": 0.1684014872536393,
+            "ap5095": 0.10209072643720679
+          },
+          "footnote": {
+            "ap50": 0.13531353135313529,
+            "ap5095": 0.07811281128112812
+          },
+          "page-footer": {
+            "ap50": 0.23872388908871023,
+            "ap5095": 0.08977090068417415
+          }
+        },
+        "mean_ap50": 0.3234676147881874,
+        "mean_ap5095": 0.13029500525217153,
+        "n_gt": 2663,
+        "n_dt": 2669,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.0,
+        "per_class": {
+          "page-header": {
+            "P": 0.8905852417302799,
+            "R": 0.8274231678486997,
+            "F1": 0.857843137254902,
+            "meanIoU": 0.6892882919084092,
+            "tp": 700,
+            "fp": 86,
+            "fn": 146,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.3176470588235294,
+            "R": 0.48,
+            "F1": 0.3823008849557522,
+            "meanIoU": 0.8404342055092737,
+            "tp": 540,
+            "fp": 1160,
+            "fn": 585,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.6666666666666666,
+            "R": 0.17777777777777778,
+            "F1": 0.2807017543859649,
+            "meanIoU": 0.7876032729330382,
+            "tp": 8,
+            "fp": 4,
+            "fn": 37,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.935672514619883,
+            "R": 0.2472952086553323,
+            "F1": 0.3911980440097799,
+            "meanIoU": 0.6994500792769544,
+            "tp": 160,
+            "fp": 11,
+            "fn": 487,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.47801095515159975
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.47801095515159975,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.857843137254902,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.3823008849557522,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.2807017543859649,
+            "conf": 0.0
+          },
+          "page-footer": {
+            "F1": 0.3911980440097799,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.8905852417302799,
+              "R": 0.8274231678486997,
+              "F1": 0.857843137254902,
+              "meanIoU": 0.6892882919084092,
+              "tp": 700,
+              "fp": 86,
+              "fn": 146,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.3176470588235294,
+              "R": 0.48,
+              "F1": 0.3823008849557522,
+              "meanIoU": 0.8404342055092737,
+              "tp": 540,
+              "fp": 1160,
+              "fn": 585,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.6666666666666666,
+              "R": 0.17777777777777778,
+              "F1": 0.2807017543859649,
+              "meanIoU": 0.7876032729330382,
+              "tp": 8,
+              "fp": 4,
+              "fn": 37,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.935672514619883,
+              "R": 0.2472952086553323,
+              "F1": 0.3911980440097799,
+              "meanIoU": 0.6994500792769544,
+              "tp": 160,
+              "fp": 11,
+              "fn": 487,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.47801095515159975
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 860,
+          "absorbed": 13,
+          "clean": 620,
+          "recoverable": 0,
+          "hidden": 13,
+          "in_ta": 13,
+          "as_ta": 13,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 13,
+          "detected_rate": 0.5760214333556597,
+          "contamination_rate": 0.008707300736771601,
+          "clean_miss_rate": 0.41527126590756863,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.008707300736771601,
+          "total_in_ta_rate": 0.008707300736771601,
+          "as_textarea_rate": 0.008707300736771601,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.008707300736771601
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 8,
+          "absorbed": 0,
+          "clean": 37,
+          "recoverable": 0,
+          "hidden": 0,
+          "in_ta": 0,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.17777777777777778,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.8222222222222222,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.0,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        },
+        "header": {
+          "gt": 846,
+          "det": 700,
+          "absorbed": 13,
+          "clean": 133,
+          "recoverable": 0,
+          "hidden": 13,
+          "in_ta": 13,
+          "as_ta": 13,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 13,
+          "detected_rate": 0.8274231678486997,
+          "contamination_rate": 0.015366430260047281,
+          "clean_miss_rate": 0.15721040189125296,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.015366430260047281,
+          "total_in_ta_rate": 0.015366430260047281,
+          "as_textarea_rate": 0.015366430260047281,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.015366430260047281
+        },
+        "footer": {
+          "gt": 647,
+          "det": 160,
+          "absorbed": 0,
+          "clean": 487,
+          "recoverable": 0,
+          "hidden": 0,
+          "in_ta": 0,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.2472952086553323,
+          "contamination_rate": 0.0,
+          "clean_miss_rate": 0.7527047913446677,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.0,
+          "total_in_ta_rate": 0.0,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 786,
+          "missing": 75,
+          "merge": 4,
+          "split": 2,
+          "hallucination": 17,
+          "matched": 771
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 171,
+          "missing": 479,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 3,
+          "matched": 168
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 12,
+          "missing": 36,
+          "merge": 0,
+          "split": 1,
+          "hallucination": 0,
+          "matched": 9
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 957,
+          "missing": 553,
+          "merge": 4,
+          "split": 2,
+          "hallucination": 19,
+          "matched": 940
+        }
+      },
+      "cote": {
+        "cote": 0.5984873419897658,
+        "coverage": 0.5989420682551513,
+        "overlap": 1.2145987690764323e-05,
+        "trespass": 0.00044258027769469106,
+        "excess": 0.0036739626176794824,
+        "n_pages": 854
+      },
+      "wall_s": 15.71
+    },
+    {
+      "id": "docling_heron_ots",
+      "name": "Docling layout-heron (DocLayNet RT-DETRv2)",
+      "group": "off_the_shelf",
+      "role": "doclaynet_detector",
+      "notes": "Public DocLayNet-trained detector for domain transfer. docling-project/docling-layout-heron, mAP 0.699 on DocLayNet.",
+      "paper_conf": 0.5,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/docling_heron_ots_pred/docling_heron_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.29003117601855927,
+            "ap5095": 0.06655640038978432
+          },
+          "text-area": {
+            "ap50": 0.9791074009358126,
+            "ap5095": 0.7757972053471933
+          },
+          "footnote": {
+            "ap50": 0.25162048340079696,
+            "ap5095": 0.12081643782897096
+          }
+        },
+        "mean_ap50": 0.5069196867850563,
+        "mean_ap5095": 0.32105668118864955,
+        "n_gt": 2391,
+        "n_dt": 4174,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.5,
+        "per_class": {
+          "header-footer": {
+            "P": 0.44244806288601907,
+            "R": 0.5277963831212324,
+            "F1": 0.48136835675015277,
+            "meanIoU": 0.6366634400805494,
+            "tp": 788,
+            "fp": 993,
+            "fn": 705,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9882629107981221,
+            "R": 0.9871043376318874,
+            "F1": 0.9876832844574781,
+            "meanIoU": 0.8908557762191511,
+            "tp": 842,
+            "fp": 10,
+            "fn": 11,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.3023255813953488,
+            "R": 0.5777777777777777,
+            "F1": 0.3969465648854962,
+            "meanIoU": 0.7615869447586572,
+            "tp": 26,
+            "fp": 60,
+            "fn": 19,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.6219994020310423
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.6342630118457744,
+        "best_mean_conf": 0.57,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.49352331606217614,
+            "conf": 0.6
+          },
+          "text-area": {
+            "F1": 0.9876832844574781,
+            "conf": 0.47
+          },
+          "footnote": {
+            "F1": 0.43243243243243246,
+            "conf": 0.74
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.4673979280926264,
+              "R": 0.5137307434695244,
+              "F1": 0.4894703254626675,
+              "meanIoU": 0.6352770146575648,
+              "tp": 767,
+              "fp": 874,
+              "fn": 726,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9882491186839013,
+              "R": 0.9859320046893317,
+              "F1": 0.9870892018779343,
+              "meanIoU": 0.8909042908026572,
+              "tp": 841,
+              "fp": 10,
+              "fn": 12,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.33766233766233766,
+              "R": 0.5777777777777777,
+              "F1": 0.4262295081967213,
+              "meanIoU": 0.7615869447586572,
+              "tp": 26,
+              "fp": 51,
+              "fn": 19,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.6342630118457744
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.48361626996613577,
+            "ap5095": 0.11954288058465246
+          },
+          "text-area": {
+            "ap50": 0.49589688982799857,
+            "ap5095": 0.29174023346354816
+          },
+          "footnote": {
+            "ap50": 0.25162048340079696,
+            "ap5095": 0.12081643782897096
+          },
+          "page-footer": {
+            "ap50": 0.12082944728152531,
+            "ap5095": 0.02237182571333798
+          }
+        },
+        "mean_ap50": 0.2853554002161527,
+        "mean_ap5095": 0.08757704804232047,
+        "n_gt": 2663,
+        "n_dt": 15306,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.48361626996613577,
+            "ap5095": 0.11954288058465246
+          },
+          "text-area": {
+            "ap50": 0.49589688982799857,
+            "ap5095": 0.29174023346354816
+          },
+          "footnote": {
+            "ap50": 0.25162048340079696,
+            "ap5095": 0.12081643782897096
+          },
+          "page-footer": {
+            "ap50": 0.12082944728152531,
+            "ap5095": 0.02237182571333798
+          }
+        },
+        "mean_ap50": 0.33799077261911414,
+        "mean_ap5095": 0.1386178443976274,
+        "n_gt": 2663,
+        "n_dt": 15306,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.5,
+        "per_class": {
+          "page-header": {
+            "P": 0.5681130171543896,
+            "R": 0.66548463356974,
+            "F1": 0.61295590636908,
+            "meanIoU": 0.6432798027392103,
+            "tp": 563,
+            "fp": 428,
+            "fn": 283,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.24287311347121296,
+            "R": 0.7724444444444445,
+            "F1": 0.36955135020199875,
+            "meanIoU": 0.8164383528272166,
+            "tp": 869,
+            "fp": 2709,
+            "fn": 256,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.3023255813953488,
+            "R": 0.5777777777777777,
+            "F1": 0.3969465648854962,
+            "meanIoU": 0.7615869447586572,
+            "tp": 26,
+            "fp": 60,
+            "fn": 19,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.28354430379746837,
+            "R": 0.3462132921174652,
+            "F1": 0.3117606123869172,
+            "meanIoU": 0.6194320926565242,
+            "tp": 224,
+            "fp": 566,
+            "fn": 423,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.42280360846087306
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.4578888577261834,
+        "best_mean_conf": 0.7,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.6253585771658061,
+            "conf": 0.6
+          },
+          "text-area": {
+            "F1": 0.5164433617539586,
+            "conf": 0.92
+          },
+          "footnote": {
+            "F1": 0.43243243243243246,
+            "conf": 0.74
+          },
+          "page-footer": {
+            "F1": 0.323216995447648,
+            "conf": 0.65
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.6282527881040892,
+              "R": 0.599290780141844,
+              "F1": 0.6134301270417423,
+              "meanIoU": 0.6412380178769157,
+              "tp": 507,
+              "fp": 300,
+              "fn": 339,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.3585746102449889,
+              "R": 0.7155555555555555,
+              "F1": 0.4777448071216617,
+              "meanIoU": 0.8189106414423444,
+              "tp": 805,
+              "fp": 1440,
+              "fn": 320,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.3472222222222222,
+              "R": 0.5555555555555556,
+              "F1": 0.42735042735042733,
+              "meanIoU": 0.7607795234411863,
+              "tp": 25,
+              "fp": 47,
+              "fn": 20,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.3123076923076923,
+              "R": 0.31375579598145287,
+              "F1": 0.3130300693909021,
+              "meanIoU": 0.6146894761579753,
+              "tp": 203,
+              "fp": 447,
+              "fn": 444,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.4578888577261834
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 788,
+          "absorbed": 51,
+          "clean": 654,
+          "recoverable": 196,
+          "hidden": 51,
+          "in_ta": 247,
+          "as_ta": 197,
+          "dual_as_ta": 185,
+          "hidden_as_ta": 12,
+          "detected_rate": 0.5277963831212324,
+          "contamination_rate": 0.03415941058271936,
+          "clean_miss_rate": 0.43804420629604823,
+          "recoverable_contamination_rate": 0.13127930341594105,
+          "hidden_contamination_rate": 0.03415941058271936,
+          "total_in_ta_rate": 0.16543871399866042,
+          "as_textarea_rate": 0.1319490957803081,
+          "dual_as_textarea_rate": 0.12391158740790355,
+          "hidden_as_textarea_rate": 0.008037508372404554
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 26,
+          "absorbed": 4,
+          "clean": 15,
+          "recoverable": 6,
+          "hidden": 4,
+          "in_ta": 10,
+          "as_ta": 8,
+          "dual_as_ta": 6,
+          "hidden_as_ta": 2,
+          "detected_rate": 0.5777777777777777,
+          "contamination_rate": 0.08888888888888889,
+          "clean_miss_rate": 0.3333333333333333,
+          "recoverable_contamination_rate": 0.13333333333333333,
+          "hidden_contamination_rate": 0.08888888888888889,
+          "total_in_ta_rate": 0.2222222222222222,
+          "as_textarea_rate": 0.17777777777777778,
+          "dual_as_textarea_rate": 0.13333333333333333,
+          "hidden_as_textarea_rate": 0.044444444444444446
+        },
+        "header": {
+          "gt": 846,
+          "det": 563,
+          "absorbed": 40,
+          "clean": 243,
+          "recoverable": 189,
+          "hidden": 40,
+          "in_ta": 229,
+          "as_ta": 196,
+          "dual_as_ta": 185,
+          "hidden_as_ta": 11,
+          "detected_rate": 0.66548463356974,
+          "contamination_rate": 0.04728132387706856,
+          "clean_miss_rate": 0.2872340425531915,
+          "recoverable_contamination_rate": 0.22340425531914893,
+          "hidden_contamination_rate": 0.04728132387706856,
+          "total_in_ta_rate": 0.2706855791962175,
+          "as_textarea_rate": 0.23167848699763594,
+          "dual_as_textarea_rate": 0.2186761229314421,
+          "hidden_as_textarea_rate": 0.013002364066193853
+        },
+        "footer": {
+          "gt": 647,
+          "det": 224,
+          "absorbed": 11,
+          "clean": 412,
+          "recoverable": 7,
+          "hidden": 11,
+          "in_ta": 18,
+          "as_ta": 1,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 1,
+          "detected_rate": 0.3462132921174652,
+          "contamination_rate": 0.017001545595054096,
+          "clean_miss_rate": 0.6367851622874807,
+          "recoverable_contamination_rate": 0.010819165378670788,
+          "hidden_contamination_rate": 0.017001545595054096,
+          "total_in_ta_rate": 0.027820710973724884,
+          "as_textarea_rate": 0.0015455950540958269,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0015455950540958269
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 991,
+          "missing": 63,
+          "merge": 3,
+          "split": 39,
+          "hallucination": 74,
+          "matched": 783
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 790,
+          "missing": 31,
+          "merge": 1,
+          "split": 60,
+          "hallucination": 28,
+          "matched": 616
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 86,
+          "missing": 4,
+          "merge": 0,
+          "split": 17,
+          "hallucination": 10,
+          "matched": 41
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1781,
+          "missing": 90,
+          "merge": 4,
+          "split": 99,
+          "hallucination": 98,
+          "matched": 1403
+        }
+      },
+      "cote": {
+        "cote": 0.9011743418940175,
+        "coverage": 0.9182848850183087,
+        "overlap": 0.010030996336863753,
+        "trespass": 0.007079546787427336,
+        "excess": 0.020811270178601845,
+        "n_pages": 854
+      },
+      "wall_s": 24.27
+    },
+    {
+      "id": "pp_doclayout_ots",
+      "name": "PP-DocLayout-L (off-the-shelf)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "PaddlePaddle/PP-DocLayout-L.",
+      "paper_conf": 0.3,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/pp_doclayout_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.3102317159339007,
+            "ap5095": 0.0689320377429533
+          },
+          "text-area": {
+            "ap50": 0.9261343474620151,
+            "ap5095": 0.6592506941909013
+          },
+          "footnote": {
+            "ap50": 0.557650784322701,
+            "ap5095": 0.35202803260717264
+          }
+        },
+        "mean_ap50": 0.5980056159062056,
+        "mean_ap5095": 0.3600702548470091,
+        "n_gt": 2391,
+        "n_dt": 3139,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.3,
+        "per_class": {
+          "header-footer": {
+            "P": 0.5344129554655871,
+            "R": 0.4420629604822505,
+            "F1": 0.4838709677419355,
+            "meanIoU": 0.6270522603385873,
+            "tp": 660,
+            "fp": 575,
+            "fn": 833,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9642365887207703,
+            "R": 0.8218053927315357,
+            "F1": 0.8873417721518987,
+            "meanIoU": 0.868253455509572,
+            "tp": 701,
+            "fp": 26,
+            "fn": 152,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.8888888888888888,
+            "R": 0.5333333333333333,
+            "F1": 0.6666666666666667,
+            "meanIoU": 0.8219217411887434,
+            "tp": 24,
+            "fp": 3,
+            "fn": 21,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.679293135520167
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.680073137176851,
+        "best_mean_conf": 0.27,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.4933762978875761,
+            "conf": 0.24
+          },
+          "text-area": {
+            "F1": 0.948051948051948,
+            "conf": 0.06
+          },
+          "footnote": {
+            "F1": 0.676470588235294,
+            "conf": 0.41
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.5303867403314917,
+              "R": 0.45010046885465504,
+              "F1": 0.4869565217391304,
+              "meanIoU": 0.6261874992225506,
+              "tp": 672,
+              "fp": 595,
+              "fn": 821,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9648173207036536,
+              "R": 0.835873388042204,
+              "F1": 0.8957286432160804,
+              "meanIoU": 0.8673279604705295,
+              "tp": 713,
+              "fp": 26,
+              "fn": 140,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.8571428571428571,
+              "R": 0.5333333333333333,
+              "F1": 0.6575342465753424,
+              "meanIoU": 0.8219217411887434,
+              "tp": 24,
+              "fp": 4,
+              "fn": 21,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.680073137176851
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.5068743271859946,
+            "ap5095": 0.12409915259637869
+          },
+          "text-area": {
+            "ap50": 0.6390485282877114,
+            "ap5095": 0.4704185477645283
+          },
+          "footnote": {
+            "ap50": 0.557650784322701,
+            "ap5095": 0.35202803260717264
+          },
+          "page-footer": {
+            "ap50": 0.13145871088894015,
+            "ap5095": 0.02286799557219494
+          }
+        },
+        "mean_ap50": 0.39866127413254526,
+        "mean_ap5095": 0.16633172692524875,
+        "n_gt": 2663,
+        "n_dt": 18469,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.5068743271859946,
+            "ap5095": 0.12409915259637869
+          },
+          "text-area": {
+            "ap50": 0.6390485282877114,
+            "ap5095": 0.4704185477645283
+          },
+          "footnote": {
+            "ap50": 0.557650784322701,
+            "ap5095": 0.35202803260717264
+          },
+          "page-footer": {
+            "ap50": 0.13145871088894015,
+            "ap5095": 0.02286799557219494
+          }
+        },
+        "mean_ap50": 0.4587580876713368,
+        "mean_ap5095": 0.24235343213506866,
+        "n_gt": 2663,
+        "n_dt": 18469,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.3,
+        "per_class": {
+          "page-header": {
+            "P": 0.8549019607843137,
+            "R": 0.5153664302600472,
+            "F1": 0.6430678466076696,
+            "meanIoU": 0.6402724963361699,
+            "tp": 436,
+            "fp": 74,
+            "fn": 410,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.5522898154477102,
+            "R": 0.7182222222222222,
+            "F1": 0.624420401854714,
+            "meanIoU": 0.8687187555425336,
+            "tp": 808,
+            "fp": 655,
+            "fn": 317,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.8888888888888888,
+            "R": 0.5333333333333333,
+            "F1": 0.6666666666666667,
+            "meanIoU": 0.8219217411887434,
+            "tp": 24,
+            "fp": 3,
+            "fn": 21,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.2882758620689655,
+            "R": 0.3230293663060278,
+            "F1": 0.30466472303206993,
+            "meanIoU": 0.6043964071148737,
+            "tp": 209,
+            "fp": 516,
+            "fn": 438,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.5597049095402801
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.5656785772189414,
+        "best_mean_conf": 0.41,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.653208363374189,
+            "conf": 0.24
+          },
+          "text-area": {
+            "F1": 0.6826789838337182,
+            "conf": 0.46
+          },
+          "footnote": {
+            "F1": 0.676470588235294,
+            "conf": 0.41
+          },
+          "page-footer": {
+            "F1": 0.3087818696883853,
+            "conf": 0.23
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.8683651804670913,
+              "R": 0.483451536643026,
+              "F1": 0.6211085801063021,
+              "meanIoU": 0.6386330873150005,
+              "tp": 409,
+              "fp": 62,
+              "fn": 437,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.6687224669603524,
+              "R": 0.6746666666666666,
+              "F1": 0.6716814159292036,
+              "meanIoU": 0.8712812744992251,
+              "tp": 759,
+              "fp": 376,
+              "fn": 366,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 1.0,
+              "R": 0.5111111111111111,
+              "F1": 0.676470588235294,
+              "meanIoU": 0.8195459632277567,
+              "tp": 23,
+              "fp": 0,
+              "fn": 22,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.2859237536656892,
+              "R": 0.30139103554868624,
+              "F1": 0.29345372460496616,
+              "meanIoU": 0.600575727305216,
+              "tp": 195,
+              "fp": 487,
+              "fn": 452,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.5656785772189414
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 660,
+          "absorbed": 178,
+          "clean": 655,
+          "recoverable": 74,
+          "hidden": 178,
+          "in_ta": 252,
+          "as_ta": 58,
+          "dual_as_ta": 2,
+          "hidden_as_ta": 56,
+          "detected_rate": 0.4420629604822505,
+          "contamination_rate": 0.11922304085733422,
+          "clean_miss_rate": 0.43871399866041527,
+          "recoverable_contamination_rate": 0.04956463496316142,
+          "hidden_contamination_rate": 0.11922304085733422,
+          "total_in_ta_rate": 0.16878767582049564,
+          "as_textarea_rate": 0.03884795713328868,
+          "dual_as_textarea_rate": 0.0013395847287340924,
+          "hidden_as_textarea_rate": 0.03750837240455459
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 24,
+          "absorbed": 19,
+          "clean": 2,
+          "recoverable": 3,
+          "hidden": 19,
+          "in_ta": 22,
+          "as_ta": 16,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 15,
+          "detected_rate": 0.5333333333333333,
+          "contamination_rate": 0.4222222222222222,
+          "clean_miss_rate": 0.044444444444444446,
+          "recoverable_contamination_rate": 0.06666666666666667,
+          "hidden_contamination_rate": 0.4222222222222222,
+          "total_in_ta_rate": 0.4888888888888889,
+          "as_textarea_rate": 0.35555555555555557,
+          "dual_as_textarea_rate": 0.022222222222222223,
+          "hidden_as_textarea_rate": 0.3333333333333333
+        },
+        "header": {
+          "gt": 846,
+          "det": 436,
+          "absorbed": 129,
+          "clean": 281,
+          "recoverable": 50,
+          "hidden": 129,
+          "in_ta": 179,
+          "as_ta": 44,
+          "dual_as_ta": 2,
+          "hidden_as_ta": 42,
+          "detected_rate": 0.5153664302600472,
+          "contamination_rate": 0.1524822695035461,
+          "clean_miss_rate": 0.3321513002364066,
+          "recoverable_contamination_rate": 0.0591016548463357,
+          "hidden_contamination_rate": 0.1524822695035461,
+          "total_in_ta_rate": 0.2115839243498818,
+          "as_textarea_rate": 0.05200945626477541,
+          "dual_as_textarea_rate": 0.002364066193853428,
+          "hidden_as_textarea_rate": 0.04964539007092199
+        },
+        "footer": {
+          "gt": 647,
+          "det": 209,
+          "absorbed": 51,
+          "clean": 387,
+          "recoverable": 22,
+          "hidden": 51,
+          "in_ta": 73,
+          "as_ta": 14,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 14,
+          "detected_rate": 0.3230293663060278,
+          "contamination_rate": 0.07882534775888717,
+          "clean_miss_rate": 0.598145285935085,
+          "recoverable_contamination_rate": 0.03400309119010819,
+          "hidden_contamination_rate": 0.07882534775888717,
+          "total_in_ta_rate": 0.11282843894899536,
+          "as_textarea_rate": 0.021638330757341576,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.021638330757341576
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 510,
+          "missing": 343,
+          "merge": 8,
+          "split": 1,
+          "hallucination": 6,
+          "matched": 503
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 725,
+          "missing": 106,
+          "merge": 0,
+          "split": 1,
+          "hallucination": 181,
+          "matched": 541
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 27,
+          "missing": 21,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 2,
+          "matched": 24
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1235,
+          "missing": 316,
+          "merge": 8,
+          "split": 3,
+          "hallucination": 54,
+          "matched": 1177
+        }
+      },
+      "cote": {
+        "cote": 0.7362035648089919,
+        "coverage": 0.7447016903406727,
+        "overlap": 0.0017593925115119383,
+        "trespass": 0.0067387330201688495,
+        "excess": 0.02655704107362049,
+        "n_pages": 854
+      },
+      "wall_s": 19.75
+    },
+    {
+      "id": "doclayout_yolo_ots",
+      "name": "DocLayout-YOLO DocStructBench (off-the-shelf)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "DocStructBench has no page-footnote; abandon mapped to header, so schema (b) page-footer is empty.",
+      "paper_conf": 0.2,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/doclayout_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.5289273365187277,
+            "ap5095": 0.15224344329072317
+          },
+          "text-area": {
+            "ap50": 0.8668356552958105,
+            "ap5095": 0.7261239687059822
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          }
+        },
+        "mean_ap50": 0.46525433060484606,
+        "mean_ap5095": 0.2927891373322351,
+        "n_gt": 2391,
+        "n_dt": 2932,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.2,
+        "per_class": {
+          "header-footer": {
+            "P": 0.6431774503523382,
+            "R": 0.6724715338245144,
+            "F1": 0.6574983628028814,
+            "meanIoU": 0.6795559322421436,
+            "tp": 1004,
+            "fp": 557,
+            "fn": 489,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9677852348993289,
+            "R": 0.8452520515826495,
+            "F1": 0.902377972465582,
+            "meanIoU": 0.9103267526324883,
+            "tp": 721,
+            "fp": 24,
+            "fn": 132,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.5199587784228211
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.5209502338287417,
+        "best_mean_conf": 0.22,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.6662125340599454,
+            "conf": 0.27
+          },
+          "text-area": {
+            "F1": 0.9046728971962616,
+            "conf": 0.17
+          },
+          "footnote": {
+            "F1": 0.0,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.6563934426229509,
+              "R": 0.6704621567314133,
+              "F1": 0.6633532140490391,
+              "meanIoU": 0.6795266744721562,
+              "tp": 1001,
+              "fp": 524,
+              "fn": 492,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9688768606224628,
+              "R": 0.839390386869871,
+              "F1": 0.8994974874371859,
+              "meanIoU": 0.9105650585437481,
+              "tp": 716,
+              "fp": 23,
+              "fn": 137,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 45,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.5209502338287417
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.2789147291301146,
+            "ap5095": 0.0896594711524753
+          },
+          "text-area": {
+            "ap50": 0.28493908317798466,
+            "ap5095": 0.16114968134777782
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          },
+          "page-footer": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          }
+        },
+        "mean_ap50": 0.09297157637670488,
+        "mean_ap5095": 0.029886490384158432,
+        "n_gt": 2663,
+        "n_dt": 5433,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.2789147291301146,
+            "ap5095": 0.0896594711524753
+          },
+          "text-area": {
+            "ap50": 0.28493908317798466,
+            "ap5095": 0.16114968134777782
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          },
+          "page-footer": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          }
+        },
+        "mean_ap50": 0.14096345307702482,
+        "mean_ap5095": 0.06270228812506329,
+        "n_gt": 2663,
+        "n_dt": 5433,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.2,
+        "per_class": {
+          "page-header": {
+            "P": 0.35874439461883406,
+            "R": 0.6619385342789598,
+            "F1": 0.4653095139177399,
+            "meanIoU": 0.6886643765763123,
+            "tp": 560,
+            "fp": 1001,
+            "fn": 286,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.33510167992926615,
+            "R": 0.6737777777777778,
+            "F1": 0.44759374077354597,
+            "meanIoU": 0.8259659742407162,
+            "tp": 758,
+            "fp": 1504,
+            "fn": 367,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 647,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.22822581367282146
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.2306936586135433,
+        "best_mean_conf": 0.39,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.4698439477013919,
+            "conf": 0.22
+          },
+          "text-area": {
+            "F1": 0.4657903606336367,
+            "conf": 0.39
+          },
+          "footnote": {
+            "F1": 0.0,
+            "conf": 0.0
+          },
+          "page-footer": {
+            "F1": 0.0,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.37537993920972645,
+              "R": 0.5839243498817966,
+              "F1": 0.4569842738205365,
+              "meanIoU": 0.6890098218859366,
+              "tp": 494,
+              "fp": 822,
+              "fn": 352,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.3751357220412595,
+              "R": 0.6142222222222222,
+              "F1": 0.4657903606336367,
+              "meanIoU": 0.8252233485649035,
+              "tp": 691,
+              "fp": 1151,
+              "fn": 434,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 45,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 647,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.2306936586135433
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 1004,
+          "absorbed": 93,
+          "clean": 396,
+          "recoverable": 101,
+          "hidden": 93,
+          "in_ta": 194,
+          "as_ta": 97,
+          "dual_as_ta": 48,
+          "hidden_as_ta": 49,
+          "detected_rate": 0.6724715338245144,
+          "contamination_rate": 0.0622906898861353,
+          "clean_miss_rate": 0.2652377762893503,
+          "recoverable_contamination_rate": 0.06764902880107167,
+          "hidden_contamination_rate": 0.0622906898861353,
+          "total_in_ta_rate": 0.12993971868720697,
+          "as_textarea_rate": 0.06496985934360348,
+          "dual_as_textarea_rate": 0.032150033489618215,
+          "hidden_as_textarea_rate": 0.03281982585398526
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 0,
+          "absorbed": 9,
+          "clean": 36,
+          "recoverable": 0,
+          "hidden": 9,
+          "in_ta": 9,
+          "as_ta": 7,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 7,
+          "detected_rate": 0.0,
+          "contamination_rate": 0.2,
+          "clean_miss_rate": 0.8,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.2,
+          "total_in_ta_rate": 0.2,
+          "as_textarea_rate": 0.15555555555555556,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.15555555555555556
+        },
+        "header": {
+          "gt": 846,
+          "det": 560,
+          "absorbed": 90,
+          "clean": 196,
+          "recoverable": 75,
+          "hidden": 90,
+          "in_ta": 165,
+          "as_ta": 97,
+          "dual_as_ta": 48,
+          "hidden_as_ta": 49,
+          "detected_rate": 0.6619385342789598,
+          "contamination_rate": 0.10638297872340426,
+          "clean_miss_rate": 0.23167848699763594,
+          "recoverable_contamination_rate": 0.08865248226950355,
+          "hidden_contamination_rate": 0.10638297872340426,
+          "total_in_ta_rate": 0.1950354609929078,
+          "as_textarea_rate": 0.11465721040189125,
+          "dual_as_textarea_rate": 0.05673758865248227,
+          "hidden_as_textarea_rate": 0.057919621749408984
+        },
+        "footer": {
+          "gt": 647,
+          "det": 0,
+          "absorbed": 29,
+          "clean": 618,
+          "recoverable": 0,
+          "hidden": 29,
+          "in_ta": 29,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.0,
+          "contamination_rate": 0.04482225656877898,
+          "clean_miss_rate": 0.955177743431221,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.04482225656877898,
+          "total_in_ta_rate": 0.04482225656877898,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 1561,
+          "missing": 150,
+          "merge": 29,
+          "split": 15,
+          "hallucination": 825,
+          "matched": 696
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 0,
+          "missing": 647,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 0,
+          "matched": 0
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 0,
+          "missing": 45,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 0,
+          "matched": 0
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1561,
+          "missing": 170,
+          "merge": 31,
+          "split": 21,
+          "hallucination": 183,
+          "matched": 1323
+        }
+      },
+      "cote": {
+        "cote": 0.770440377411737,
+        "coverage": 0.7793907920389122,
+        "overlap": 0.003258091630206187,
+        "trespass": 0.005692322996969053,
+        "excess": 0.027453826272232244,
+        "n_pages": 854
+      },
+      "wall_s": 19.82
+    },
+    {
+      "id": "azure_di",
+      "name": "Azure AI Document Intelligence prebuilt-layout",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "No confidences; single operating point.",
+      "paper_conf": 0.0,
+      "has_scores": false,
+      "pred_dir": "/home/eroux/azure_di_eval/azure_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.4036618742446529,
+            "ap5095": 0.11205365370059661
+          },
+          "text-area": {
+            "ap50": 0.973831851665338,
+            "ap5095": 0.826357919066016
+          },
+          "footnote": {
+            "ap50": 0.18494100636135438,
+            "ap5095": 0.09637899164066066
+          }
+        },
+        "mean_ap50": 0.5208115774237817,
+        "mean_ap5095": 0.34493018813575776,
+        "n_gt": 2391,
+        "n_dt": 2177,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.0,
+        "per_class": {
+          "header-footer": {
+            "P": 0.6803149606299213,
+            "R": 0.578700602813128,
+            "F1": 0.6254071661237784,
+            "meanIoU": 0.670433055858184,
+            "tp": 864,
+            "fp": 406,
+            "fn": 629,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9894490035169988,
+            "R": 0.9894490035169988,
+            "F1": 0.9894490035169988,
+            "meanIoU": 0.9153149199939303,
+            "tp": 844,
+            "fp": 9,
+            "fn": 9,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.37037037037037035,
+            "R": 0.4444444444444444,
+            "F1": 0.404040404040404,
+            "meanIoU": 0.7875152283855231,
+            "tp": 20,
+            "fp": 34,
+            "fn": 25,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.6729655245603938
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.6729655245603938,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.6254071661237784,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.9894490035169988,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.404040404040404,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.6803149606299213,
+              "R": 0.578700602813128,
+              "F1": 0.6254071661237784,
+              "meanIoU": 0.670433055858184,
+              "tp": 864,
+              "fp": 406,
+              "fn": 629,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9894490035169988,
+              "R": 0.9894490035169988,
+              "F1": 0.9894490035169988,
+              "meanIoU": 0.9153149199939303,
+              "tp": 844,
+              "fp": 9,
+              "fn": 9,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.37037037037037035,
+              "R": 0.4444444444444444,
+              "F1": 0.404040404040404,
+              "meanIoU": 0.7875152283855231,
+              "tp": 20,
+              "fp": 34,
+              "fn": 25,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.6729655245603938
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.44604377777518706,
+            "ap5095": 0.16907518181646006
+          },
+          "text-area": {
+            "ap50": 0.17394032384726454,
+            "ap5095": 0.09005978933250273
+          },
+          "footnote": {
+            "ap50": 0.18494100636135438,
+            "ap5095": 0.09637899164066066
+          },
+          "page-footer": {
+            "ap50": 0.33593865551328145,
+            "ap5095": 0.07550134006502243
+          }
+        },
+        "mean_ap50": 0.3223078132166076,
+        "mean_ap5095": 0.11365183784071438,
+        "n_gt": 2663,
+        "n_dt": 4557,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.44604377777518706,
+            "ap5095": 0.16907518181646006
+          },
+          "text-area": {
+            "ap50": 0.17394032384726454,
+            "ap5095": 0.09005978933250273
+          },
+          "footnote": {
+            "ap50": 0.18494100636135438,
+            "ap5095": 0.09637899164066066
+          },
+          "page-footer": {
+            "ap50": 0.33593865551328145,
+            "ap5095": 0.07550134006502243
+          }
+        },
+        "mean_ap50": 0.2852159408742719,
+        "mean_ap5095": 0.10775382571366146,
+        "n_gt": 2663,
+        "n_dt": 4557,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.0,
+        "per_class": {
+          "page-header": {
+            "P": 0.9225512528473804,
+            "R": 0.4787234042553192,
+            "F1": 0.6303501945525293,
+            "meanIoU": 0.7084743203135306,
+            "tp": 405,
+            "fp": 34,
+            "fn": 441,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.2455923291060934,
+            "R": 0.7057777777777777,
+            "F1": 0.36438733363928405,
+            "meanIoU": 0.8106148148771822,
+            "tp": 794,
+            "fp": 2439,
+            "fn": 331,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.37037037037037035,
+            "R": 0.4444444444444444,
+            "F1": 0.404040404040404,
+            "meanIoU": 0.7875152283855231,
+            "tp": 20,
+            "fp": 34,
+            "fn": 25,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.4897713598074609,
+            "R": 0.6290571870170015,
+            "F1": 0.5507442489851151,
+            "meanIoU": 0.6432883733273331,
+            "tp": 407,
+            "fp": 424,
+            "fn": 240,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.4873805453043331
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.4873805453043331,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.6303501945525293,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.36438733363928405,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.404040404040404,
+            "conf": 0.0
+          },
+          "page-footer": {
+            "F1": 0.5507442489851151,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.9225512528473804,
+              "R": 0.4787234042553192,
+              "F1": 0.6303501945525293,
+              "meanIoU": 0.7084743203135306,
+              "tp": 405,
+              "fp": 34,
+              "fn": 441,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.2455923291060934,
+              "R": 0.7057777777777777,
+              "F1": 0.36438733363928405,
+              "meanIoU": 0.8106148148771822,
+              "tp": 794,
+              "fp": 2439,
+              "fn": 331,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.37037037037037035,
+              "R": 0.4444444444444444,
+              "F1": 0.404040404040404,
+              "meanIoU": 0.7875152283855231,
+              "tp": 20,
+              "fp": 34,
+              "fn": 25,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.4897713598074609,
+              "R": 0.6290571870170015,
+              "F1": 0.5507442489851151,
+              "meanIoU": 0.6432883733273331,
+              "tp": 407,
+              "fp": 424,
+              "fn": 240,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.4873805453043331
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 864,
+          "absorbed": 184,
+          "clean": 445,
+          "recoverable": 3,
+          "hidden": 184,
+          "in_ta": 187,
+          "as_ta": 152,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 152,
+          "detected_rate": 0.578700602813128,
+          "contamination_rate": 0.12324179504353651,
+          "clean_miss_rate": 0.29805760214333554,
+          "recoverable_contamination_rate": 0.0020093770931011385,
+          "hidden_contamination_rate": 0.12324179504353651,
+          "total_in_ta_rate": 0.12525117213663764,
+          "as_textarea_rate": 0.10180843938379103,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.10180843938379103
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 20,
+          "absorbed": 10,
+          "clean": 15,
+          "recoverable": 0,
+          "hidden": 10,
+          "in_ta": 10,
+          "as_ta": 6,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 6,
+          "detected_rate": 0.4444444444444444,
+          "contamination_rate": 0.2222222222222222,
+          "clean_miss_rate": 0.3333333333333333,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.2222222222222222,
+          "total_in_ta_rate": 0.2222222222222222,
+          "as_textarea_rate": 0.13333333333333333,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.13333333333333333
+        },
+        "header": {
+          "gt": 846,
+          "det": 405,
+          "absorbed": 175,
+          "clean": 266,
+          "recoverable": 1,
+          "hidden": 175,
+          "in_ta": 176,
+          "as_ta": 152,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 152,
+          "detected_rate": 0.4787234042553192,
+          "contamination_rate": 0.20685579196217493,
+          "clean_miss_rate": 0.3144208037825059,
+          "recoverable_contamination_rate": 0.001182033096926714,
+          "hidden_contamination_rate": 0.20685579196217493,
+          "total_in_ta_rate": 0.20803782505910165,
+          "as_textarea_rate": 0.17966903073286053,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.17966903073286053
+        },
+        "footer": {
+          "gt": 647,
+          "det": 407,
+          "absorbed": 9,
+          "clean": 231,
+          "recoverable": 2,
+          "hidden": 9,
+          "in_ta": 11,
+          "as_ta": 0,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 0,
+          "detected_rate": 0.6290571870170015,
+          "contamination_rate": 0.013910355486862442,
+          "clean_miss_rate": 0.357032457496136,
+          "recoverable_contamination_rate": 0.0030911901081916537,
+          "hidden_contamination_rate": 0.013910355486862442,
+          "total_in_ta_rate": 0.017001545595054096,
+          "as_textarea_rate": 0.0,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 439,
+          "missing": 407,
+          "merge": 5,
+          "split": 0,
+          "hallucination": 4,
+          "matched": 439
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 831,
+          "missing": 31,
+          "merge": 0,
+          "split": 1,
+          "hallucination": 215,
+          "matched": 616
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 54,
+          "missing": 11,
+          "merge": 0,
+          "split": 12,
+          "hallucination": 2,
+          "matched": 34
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 1270,
+          "missing": 265,
+          "merge": 5,
+          "split": 2,
+          "hallucination": 46,
+          "matched": 1228
+        }
+      },
+      "cote": {
+        "cote": 0.9137537939388528,
+        "coverage": 0.9209753792746969,
+        "overlap": 0.0004874813336169143,
+        "trespass": 0.0067341040022270305,
+        "excess": 0.01853223793165263,
+        "n_pages": 854
+      },
+      "wall_s": 20.52
+    },
+    {
+      "id": "aws_textract",
+      "name": "AWS Textract Layout",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "No footnote class.",
+      "paper_conf": 0.0,
+      "has_scores": true,
+      "pred_dir": "/home/eroux/azure_di_eval/aws_pred/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.04159693369632646,
+            "ap5095": 0.007448593888949786
+          },
+          "text-area": {
+            "ap50": 0.8075380235656308,
+            "ap5095": 0.4775289077620558
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          }
+        },
+        "mean_ap50": 0.28304498575398573,
+        "mean_ap5095": 0.16165916721700188,
+        "n_gt": 2391,
+        "n_dt": 1713,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.0,
+        "per_class": {
+          "header-footer": {
+            "P": 0.2528868360277136,
+            "R": 0.14668452779638314,
+            "F1": 0.18567189487070795,
+            "meanIoU": 0.5989578449980681,
+            "tp": 219,
+            "fp": 647,
+            "fn": 1274,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.8961038961038961,
+            "R": 0.8898007033997656,
+            "F1": 0.8929411764705881,
+            "meanIoU": 0.8198222517661252,
+            "tp": 759,
+            "fp": 88,
+            "fn": 94,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.35953769044709866
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.35953769044709866,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.18567189487070795,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.8929411764705881,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.0,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.2528868360277136,
+              "R": 0.14668452779638314,
+              "F1": 0.18567189487070795,
+              "meanIoU": 0.5989578449980681,
+              "tp": 219,
+              "fp": 647,
+              "fn": 1274,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.8961038961038961,
+              "R": 0.8898007033997656,
+              "F1": 0.8929411764705881,
+              "meanIoU": 0.8198222517661252,
+              "tp": 759,
+              "fp": 88,
+              "fn": 94,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 45,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.35953769044709866
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.00165016501650165,
+            "ap5095": 0.0006600660066006601
+          },
+          "text-area": {
+            "ap50": 0.296366227212505,
+            "ap5095": 0.15154207612393578
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          },
+          "page-footer": {
+            "ap50": 0.05017276516614777,
+            "ap5095": 0.008209089276247
+          }
+        },
+        "mean_ap50": 0.01727431006088314,
+        "mean_ap5095": 0.0029563850942825533,
+        "n_gt": 2663,
+        "n_dt": 2832,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.00165016501650165,
+            "ap5095": 0.0006600660066006601
+          },
+          "text-area": {
+            "ap50": 0.296366227212505,
+            "ap5095": 0.15154207612393578
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          },
+          "page-footer": {
+            "ap50": 0.05017276516614777,
+            "ap5095": 0.008209089276247
+          }
+        },
+        "mean_ap50": 0.08704728934878861,
+        "mean_ap5095": 0.04010280785169586,
+        "n_gt": 2663,
+        "n_dt": 2832,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.0,
+        "per_class": {
+          "page-header": {
+            "P": 0.0759493670886076,
+            "R": 0.0070921985815602835,
+            "F1": 0.012972972972972972,
+            "meanIoU": 0.5850292959120961,
+            "tp": 6,
+            "fp": 73,
+            "fn": 840,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.3240081383519837,
+            "R": 0.5662222222222222,
+            "F1": 0.4121643481074086,
+            "meanIoU": 0.7832710581148649,
+            "tp": 637,
+            "fp": 1329,
+            "fn": 488,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.18043202033036848,
+            "R": 0.21947449768160743,
+            "F1": 0.198047419804742,
+            "meanIoU": 0.5926247738973045,
+            "tp": 142,
+            "fp": 645,
+            "fn": 505,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.1557961852212809
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.1557961852212809,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.013363028953229399,
+            "conf": 0.42
+          },
+          "text-area": {
+            "F1": 0.42049180327868857,
+            "conf": 0.62
+          },
+          "footnote": {
+            "F1": 0.0,
+            "conf": 0.0
+          },
+          "page-footer": {
+            "F1": 0.1986013986013986,
+            "conf": 0.26
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.0759493670886076,
+              "R": 0.0070921985815602835,
+              "F1": 0.012972972972972972,
+              "meanIoU": 0.5850292959120961,
+              "tp": 6,
+              "fp": 73,
+              "fn": 840,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.3240081383519837,
+              "R": 0.5662222222222222,
+              "F1": 0.4121643481074086,
+              "meanIoU": 0.7832710581148649,
+              "tp": 637,
+              "fp": 1329,
+              "fn": 488,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 45,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.18043202033036848,
+              "R": 0.21947449768160743,
+              "F1": 0.198047419804742,
+              "meanIoU": 0.5926247738973045,
+              "tp": 142,
+              "fp": 645,
+              "fn": 505,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.1557961852212809
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 219,
+          "absorbed": 250,
+          "clean": 1024,
+          "recoverable": 9,
+          "hidden": 250,
+          "in_ta": 259,
+          "as_ta": 87,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 87,
+          "detected_rate": 0.14668452779638314,
+          "contamination_rate": 0.16744809109176156,
+          "clean_miss_rate": 0.6858673811118553,
+          "recoverable_contamination_rate": 0.006028131279303416,
+          "hidden_contamination_rate": 0.16744809109176156,
+          "total_in_ta_rate": 0.17347622237106497,
+          "as_textarea_rate": 0.05827193569993302,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.05827193569993302
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 0,
+          "absorbed": 25,
+          "clean": 20,
+          "recoverable": 0,
+          "hidden": 25,
+          "in_ta": 25,
+          "as_ta": 15,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 15,
+          "detected_rate": 0.0,
+          "contamination_rate": 0.5555555555555556,
+          "clean_miss_rate": 0.4444444444444444,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.5555555555555556,
+          "total_in_ta_rate": 0.5555555555555556,
+          "as_textarea_rate": 0.3333333333333333,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.3333333333333333
+        },
+        "header": {
+          "gt": 846,
+          "det": 6,
+          "absorbed": 141,
+          "clean": 699,
+          "recoverable": 0,
+          "hidden": 141,
+          "in_ta": 141,
+          "as_ta": 36,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 36,
+          "detected_rate": 0.0070921985815602835,
+          "contamination_rate": 0.16666666666666666,
+          "clean_miss_rate": 0.8262411347517731,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.16666666666666666,
+          "total_in_ta_rate": 0.16666666666666666,
+          "as_textarea_rate": 0.0425531914893617,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.0425531914893617
+        },
+        "footer": {
+          "gt": 647,
+          "det": 142,
+          "absorbed": 118,
+          "clean": 387,
+          "recoverable": 0,
+          "hidden": 118,
+          "in_ta": 118,
+          "as_ta": 51,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 51,
+          "detected_rate": 0.21947449768160743,
+          "contamination_rate": 0.18238021638330756,
+          "clean_miss_rate": 0.598145285935085,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.18238021638330756,
+          "total_in_ta_rate": 0.18238021638330756,
+          "as_textarea_rate": 0.07882534775888717,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.07882534775888717
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 79,
+          "missing": 838,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 71,
+          "matched": 8
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 787,
+          "missing": 180,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 320,
+          "matched": 467
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 0,
+          "missing": 45,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 0,
+          "matched": 0
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 866,
+          "missing": 727,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 100,
+          "matched": 766
+        }
+      },
+      "cote": {
+        "cote": 0.760755534281685,
+        "coverage": 0.7681804304368508,
+        "overlap": 0.00022865978509123544,
+        "trespass": 0.007196236370074562,
+        "excess": 0.030456790651717275,
+        "n_pages": 854
+      },
+      "wall_s": 17.99
+    },
+    {
+      "id": "google_docai",
+      "name": "Google Document AI Layout Parser",
+      "group": "off_the_shelf",
+      "role": "other",
+      "notes": "Layout Parser pretrained v1.0-2024-06-03 (stable). No per-block confidence; single operating point. No footnote type (mapped to text-area). v1.5/v1.6 release-candidate versions return empty bounding boxes (known Google bug), so v1.0 is pinned.",
+      "paper_conf": 0.0,
+      "has_scores": false,
+      "pred_dir": "/home/eroux/gdocai_eval/labels",
+      "coco_canonical": {
+        "per_class": {
+          "header-footer": {
+            "ap50": 0.08001487829784154,
+            "ap5095": 0.01188463357499277
+          },
+          "text-area": {
+            "ap50": 0.9506490569541316,
+            "ap5095": 0.7275256249364269
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          }
+        },
+        "mean_ap50": 0.34355464508399103,
+        "mean_ap5095": 0.24647008617047325,
+        "n_gt": 2391,
+        "n_dt": 1454,
+        "n_images": 860
+      },
+      "op_canonical": {
+        "conf": 0.0,
+        "per_class": {
+          "header-footer": {
+            "P": 0.4290484140233723,
+            "R": 0.17213663764233086,
+            "F1": 0.24569789674952197,
+            "meanIoU": 0.5818551323158064,
+            "tp": 257,
+            "fp": 342,
+            "fn": 1236,
+            "npos": 1493
+          },
+          "text-area": {
+            "P": 0.9730994152046784,
+            "R": 0.9753810082063306,
+            "F1": 0.9742388758782201,
+            "meanIoU": 0.879982996241233,
+            "tp": 832,
+            "fp": 23,
+            "fn": 21,
+            "npos": 853
+          },
+          "footnote": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "npos": 45
+          }
+        },
+        "mean_F1": 0.40664559087591406
+      },
+      "sweep_canonical": {
+        "best_mean_F1": 0.40664559087591406,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "header-footer": {
+            "F1": 0.24569789674952197,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.9742388758782201,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.0,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "header-footer": {
+              "P": 0.4290484140233723,
+              "R": 0.17213663764233086,
+              "F1": 0.24569789674952197,
+              "meanIoU": 0.5818551323158064,
+              "tp": 257,
+              "fp": 342,
+              "fn": 1236,
+              "npos": 1493
+            },
+            "text-area": {
+              "P": 0.9730994152046784,
+              "R": 0.9753810082063306,
+              "F1": 0.9742388758782201,
+              "meanIoU": 0.879982996241233,
+              "tp": 832,
+              "fp": 23,
+              "fn": 21,
+              "npos": 853
+            },
+            "footnote": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 45,
+              "npos": 45
+            }
+          },
+          "mean_F1": 0.40664559087591406
+        }
+      },
+      "coco_doclaynet_shared": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.0784833317494765,
+            "ap5095": 0.00986415193857075
+          },
+          "text-area": {
+            "ap50": 0.05189848464615249,
+            "ap5095": 0.020793146078309347
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          },
+          "page-footer": {
+            "ap50": 0.10005477008739834,
+            "ap5095": 0.02106626344719496
+          }
+        },
+        "mean_ap50": 0.059512700612291615,
+        "mean_ap5095": 0.010310138461921903,
+        "n_gt": 2663,
+        "n_dt": 7520,
+        "n_images": 860
+      },
+      "coco_doclaynet": {
+        "per_class": {
+          "page-header": {
+            "ap50": 0.0784833317494765,
+            "ap5095": 0.00986415193857075
+          },
+          "text-area": {
+            "ap50": 0.05189848464615249,
+            "ap5095": 0.020793146078309347
+          },
+          "footnote": {
+            "ap50": 0.0,
+            "ap5095": 0.0
+          },
+          "page-footer": {
+            "ap50": 0.10005477008739834,
+            "ap5095": 0.02106626344719496
+          }
+        },
+        "mean_ap50": 0.057609146620756835,
+        "mean_ap5095": 0.012930890366018764,
+        "n_gt": 2663,
+        "n_dt": 7520,
+        "n_images": 860
+      },
+      "op_doclaynet": {
+        "conf": 0.0,
+        "per_class": {
+          "page-header": {
+            "P": 0.36538461538461536,
+            "R": 0.20212765957446807,
+            "F1": 0.2602739726027397,
+            "meanIoU": 0.5623162196995076,
+            "tp": 171,
+            "fp": 297,
+            "fn": 675,
+            "npos": 846
+          },
+          "text-area": {
+            "P": 0.09160525935558446,
+            "R": 0.5635555555555556,
+            "F1": 0.15759383544618444,
+            "meanIoU": 0.7605591879533053,
+            "tp": 634,
+            "fp": 6287,
+            "fn": 491,
+            "npos": 1125
+          },
+          "footnote": {
+            "P": 0.0,
+            "R": 0.0,
+            "F1": 0.0,
+            "meanIoU": 0.0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "npos": 45
+          },
+          "page-footer": {
+            "P": 0.6564885496183206,
+            "R": 0.13292117465224113,
+            "F1": 0.2210796915167095,
+            "meanIoU": 0.6207057608900751,
+            "tp": 86,
+            "fp": 45,
+            "fn": 561,
+            "npos": 647
+          }
+        },
+        "mean_F1": 0.15973687489140842
+      },
+      "sweep_doclaynet": {
+        "best_mean_F1": 0.15973687489140842,
+        "best_mean_conf": 0.0,
+        "best_per_class": {
+          "page-header": {
+            "F1": 0.2602739726027397,
+            "conf": 0.0
+          },
+          "text-area": {
+            "F1": 0.15759383544618444,
+            "conf": 0.0
+          },
+          "footnote": {
+            "F1": 0.0,
+            "conf": 0.0
+          },
+          "page-footer": {
+            "F1": 0.2210796915167095,
+            "conf": 0.0
+          }
+        },
+        "at_best_mean": {
+          "per_class": {
+            "page-header": {
+              "P": 0.36538461538461536,
+              "R": 0.20212765957446807,
+              "F1": 0.2602739726027397,
+              "meanIoU": 0.5623162196995076,
+              "tp": 171,
+              "fp": 297,
+              "fn": 675,
+              "npos": 846
+            },
+            "text-area": {
+              "P": 0.09160525935558446,
+              "R": 0.5635555555555556,
+              "F1": 0.15759383544618444,
+              "meanIoU": 0.7605591879533053,
+              "tp": 634,
+              "fp": 6287,
+              "fn": 491,
+              "npos": 1125
+            },
+            "footnote": {
+              "P": 0.0,
+              "R": 0.0,
+              "F1": 0.0,
+              "meanIoU": 0.0,
+              "tp": 0,
+              "fp": 0,
+              "fn": 45,
+              "npos": 45
+            },
+            "page-footer": {
+              "P": 0.6564885496183206,
+              "R": 0.13292117465224113,
+              "F1": 0.2210796915167095,
+              "meanIoU": 0.6207057608900751,
+              "tp": 86,
+              "fp": 45,
+              "fn": 561,
+              "npos": 647
+            }
+          },
+          "mean_F1": 0.15973687489140842
+        }
+      },
+      "contamination": {
+        "header-footer": {
+          "gt": 1493,
+          "det": 257,
+          "absorbed": 855,
+          "clean": 381,
+          "recoverable": 20,
+          "hidden": 855,
+          "in_ta": 875,
+          "as_ta": 279,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 278,
+          "detected_rate": 0.17213663764233086,
+          "contamination_rate": 0.5726724715338245,
+          "clean_miss_rate": 0.2551908908238446,
+          "recoverable_contamination_rate": 0.013395847287340924,
+          "hidden_contamination_rate": 0.5726724715338245,
+          "total_in_ta_rate": 0.5860683188211654,
+          "as_textarea_rate": 0.1868720696584059,
+          "dual_as_textarea_rate": 0.0006697923643670462,
+          "hidden_as_textarea_rate": 0.18620227729403885
+        },
+        "footnote": {
+          "gt": 45,
+          "det": 0,
+          "absorbed": 44,
+          "clean": 1,
+          "recoverable": 0,
+          "hidden": 44,
+          "in_ta": 44,
+          "as_ta": 24,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 24,
+          "detected_rate": 0.0,
+          "contamination_rate": 0.9777777777777777,
+          "clean_miss_rate": 0.022222222222222223,
+          "recoverable_contamination_rate": 0.0,
+          "hidden_contamination_rate": 0.9777777777777777,
+          "total_in_ta_rate": 0.9777777777777777,
+          "as_textarea_rate": 0.5333333333333333,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.5333333333333333
+        },
+        "header": {
+          "gt": 846,
+          "det": 171,
+          "absorbed": 348,
+          "clean": 327,
+          "recoverable": 12,
+          "hidden": 348,
+          "in_ta": 360,
+          "as_ta": 176,
+          "dual_as_ta": 1,
+          "hidden_as_ta": 175,
+          "detected_rate": 0.20212765957446807,
+          "contamination_rate": 0.41134751773049644,
+          "clean_miss_rate": 0.38652482269503546,
+          "recoverable_contamination_rate": 0.014184397163120567,
+          "hidden_contamination_rate": 0.41134751773049644,
+          "total_in_ta_rate": 0.425531914893617,
+          "as_textarea_rate": 0.20803782505910165,
+          "dual_as_textarea_rate": 0.001182033096926714,
+          "hidden_as_textarea_rate": 0.20685579196217493
+        },
+        "footer": {
+          "gt": 647,
+          "det": 86,
+          "absorbed": 507,
+          "clean": 54,
+          "recoverable": 8,
+          "hidden": 507,
+          "in_ta": 515,
+          "as_ta": 103,
+          "dual_as_ta": 0,
+          "hidden_as_ta": 103,
+          "detected_rate": 0.13292117465224113,
+          "contamination_rate": 0.7836166924265843,
+          "clean_miss_rate": 0.08346213292117466,
+          "recoverable_contamination_rate": 0.012364760432766615,
+          "hidden_contamination_rate": 0.7836166924265843,
+          "total_in_ta_rate": 0.7959814528593508,
+          "as_textarea_rate": 0.15919629057187018,
+          "dual_as_textarea_rate": 0.0,
+          "hidden_as_textarea_rate": 0.15919629057187018
+        }
+      },
+      "led": {
+        "header": {
+          "gt": 846,
+          "pred": 468,
+          "missing": 366,
+          "merge": 15,
+          "split": 1,
+          "hallucination": 2,
+          "matched": 480
+        },
+        "footer": {
+          "gt": 647,
+          "pred": 131,
+          "missing": 518,
+          "merge": 1,
+          "split": 0,
+          "hallucination": 3,
+          "matched": 129
+        },
+        "footnote": {
+          "gt": 45,
+          "pred": 0,
+          "missing": 45,
+          "merge": 0,
+          "split": 0,
+          "hallucination": 0,
+          "matched": 0
+        },
+        "header-footer": {
+          "gt": 1493,
+          "pred": 599,
+          "missing": 883,
+          "merge": 16,
+          "split": 1,
+          "hallucination": 4,
+          "matched": 610
+        }
+      },
+      "cote": {
+        "cote": 0.9116823232990313,
+        "coverage": 0.9251901511238352,
+        "overlap": 0.00031921420742531635,
+        "trespass": 0.013188613617378499,
+        "excess": 0.09121807996962847,
+        "n_pages": 854
+      },
+      "wall_s": 17.2
+    }
+  ],
+  "doclaynet_ours_transfer": {
+    "n_pages": 4999,
+    "n_missing_pred": 0,
+    "conf": 0.5,
+    "coco_shared": {
+      "per_class": {
+        "page-header": {
+          "ap50": 0.010068553677756421,
+          "ap5095": 0.0015300768613994314
+        },
+        "text-area": {
+          "ap50": 0.010187063202130671,
+          "ap5095": 0.0040134666615393964
+        },
+        "footnote": {
+          "ap50": 0.021657432549007767,
+          "ap5095": 0.00638916903679414
+        },
+        "page-footer": {
+          "ap50": 0.05619447914901653,
+          "ap5095": 0.009246743252237536
+        }
+      },
+      "mean_ap50": 0.029306821791926906,
+      "mean_ap5095": 0.005721996383477036,
+      "n_gt": 37687,
+      "n_dt": 59009,
+      "n_images": 4999
+    },
+    "coco_all_four_including_textarea": {
+      "per_class": {
+        "page-header": {
+          "ap50": 0.010068553677756421,
+          "ap5095": 0.0015300768613994314
+        },
+        "text-area": {
+          "ap50": 0.010187063202130671,
+          "ap5095": 0.0040134666615393964
+        },
+        "footnote": {
+          "ap50": 0.021657432549007767,
+          "ap5095": 0.00638916903679414
+        },
+        "page-footer": {
+          "ap50": 0.05619447914901653,
+          "ap5095": 0.009246743252237536
+        }
+      },
+      "mean_ap50": 0.024526882144477846,
+      "mean_ap5095": 0.005294863952992626,
+      "n_gt": 37687,
+      "n_dt": 59009,
+      "n_images": 4999
+    },
+    "textarea_granularity_mismatch": true,
+    "textarea_note": "Our text-area is a page/column envelope; DocLayNet Text is paragraph-level. Do not average text-area AP into the shared mean.",
+    "op_doclaynet": {
+      "conf": 0.5,
+      "per_class": {
+        "page-header": {
+          "P": 0.07980652962515115,
+          "R": 0.0196078431372549,
+          "F1": 0.031481039828285234,
+          "meanIoU": 0.566807594776834,
+          "tp": 66,
+          "fp": 761,
+          "fn": 3300,
+          "npos": 3366
+        },
+        "text-area": {
+          "P": 0.024972456849063532,
+          "R": 0.004542418169672679,
+          "F1": 0.007686655739558019,
+          "meanIoU": 0.6151912472542919,
+          "tp": 136,
+          "fp": 5310,
+          "fn": 29804,
+          "npos": 29940
+        },
+        "footnote": {
+          "P": 0.14285714285714285,
+          "R": 0.11886304909560723,
+          "F1": 0.12976022566995765,
+          "meanIoU": 0.6652417744086446,
+          "tp": 46,
+          "fp": 276,
+          "fn": 341,
+          "npos": 387
+        },
+        "page-footer": {
+          "P": 0.1873589164785553,
+          "R": 0.1454682023034552,
+          "F1": 0.1637773079633545,
+          "meanIoU": 0.5795955430368066,
+          "tp": 581,
+          "fp": 2520,
+          "fn": 3413,
+          "npos": 3994
+        }
+      },
+      "mean_F1": 0.08317630730028885
+    },
+    "contamination": {
+      "header-footer": {
+        "gt": 7360,
+        "det": 670,
+        "absorbed": 2939,
+        "clean": 3751,
+        "detected_rate": 0.09103260869565218,
+        "contamination_rate": 0.39932065217391305,
+        "clean_miss_rate": 0.5096467391304348
+      },
+      "footnote": {
+        "gt": 387,
+        "det": 46,
+        "absorbed": 105,
+        "clean": 236,
+        "detected_rate": 0.11886304909560723,
+        "contamination_rate": 0.2713178294573643,
+        "clean_miss_rate": 0.6098191214470284
+      },
+      "header": {
+        "gt": 3366,
+        "det": 66,
+        "absorbed": 2058,
+        "clean": 1242,
+        "detected_rate": 0.0196078431372549,
+        "contamination_rate": 0.6114081996434938,
+        "clean_miss_rate": 0.3689839572192513
+      },
+      "footer": {
+        "gt": 3994,
+        "det": 581,
+        "absorbed": 882,
+        "clean": 2531,
+        "detected_rate": 0.1454682023034552,
+        "contamination_rate": 0.22083124687030545,
+        "clean_miss_rate": 0.6337005508262393
+      }
+    },
+    "led": {
+      "header": {
+        "gt": 3366,
+        "pred": 827,
+        "missing": 2886,
+        "merge": 0,
+        "split": 1,
+        "hallucination": 345,
+        "matched": 480
+      },
+      "footer": {
+        "gt": 3994,
+        "pred": 3101,
+        "missing": 1672,
+        "merge": 4,
+        "split": 17,
+        "hallucination": 760,
+        "matched": 2322
+      },
+      "footnote": {
+        "gt": 387,
+        "pred": 322,
+        "missing": 189,
+        "merge": 46,
+        "split": 0,
+        "hallucination": 194,
+        "matched": 198
+      },
+      "header-footer": {
+        "gt": 7360,
+        "pred": 3928,
+        "missing": 4125,
+        "merge": 5,
+        "split": 52,
+        "hallucination": 627,
+        "matched": 3235
+      }
+    },
+    "cote": {
+      "cote": 0.9083357913254796,
+      "coverage": 0.9463055087991273,
+      "overlap": 0.018183757039337355,
+      "trespass": 0.01978596043431037,
+      "excess": 0.3968096725448394,
+      "n_pages": 4922
+    }
+  }
+}

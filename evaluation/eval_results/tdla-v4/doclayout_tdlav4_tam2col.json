@@ -1,0 +1,30 @@
+{
+  "id": "doclayout_tdlav4_tam2col",
+  "name": "DocLayout-YOLO tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "framework": "doclayout_yolo (YOLOv10) fork",
+  "checkpoint": "s3://bec.bdrc.io/models/hff-detection/tdlav4/weights/doclayout_tdlav4_tam2col_best.pt",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/doclayout_tdlav4_tam2col/preds/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "training": {
+    "early_stopped": true,
+    "best_epoch": 26,
+    "val_map50": 0.980,
+    "val_map5095": 0.781,
+    "note": "Final ultralytics re-validation of best.pt raised the DocLayout-YOLO g2l_crm fuse bug ('Conv' has no attribute 'bn') AFTER weights were saved; training itself and best.pt are unaffected. Eval uses a no-fuse predictor."
+  },
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.897,
+    "best_mean_conf": 0.30,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.931 },
+      "text-area": { "F1": 0.980 },
+      "footnote": { "F1": 0.779 }
+    }
+  }
+}

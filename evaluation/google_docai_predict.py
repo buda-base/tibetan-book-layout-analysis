@@ -15,8 +15,15 @@ Document AI's Layout Parser gives no per-block confidence, so no score column
 is written (all detections are treated as equally confident at scoring time,
 like Azure DI -- a single, un-thresholdable operating point).
 
+Note on the bounding-box bug: Layout Parser rejects image/* uploads
+("Unsupported mime type"), so each page image is wrapped in a single-page PDF.
+As of 2026-08 the v1.5/v1.6 *release-candidate* processor versions return blocks
+with correct type tags (header/paragraph/footer) but EMPTY bounding boxes -- the
+known return_bounding_boxes bug. The stable v1.0-2024-06-03 (and the "pretrained"
+default alias) return real normalized boxes, so this script pins v1.0 by default.
+
 Setup:
-    pip install google-cloud-documentai
+    pip install google-cloud-documentai pillow
     export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
 
 The script will reuse an existing LAYOUT_PARSER_PROCESSOR in the given
@@ -30,14 +37,23 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import io
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from google.api_core.exceptions import GoogleAPICallError, ResourceExhausted
+from google.api_core.exceptions import (
+    GoogleAPICallError, InternalServerError, ResourceExhausted, ServiceUnavailable,
+)
 from google.cloud import documentai_v1 as documentai
+from PIL import Image
 
-IMG_EXTS = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png"}
+IMG_EXTS = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp"}
+
+# Layout Parser only accepts PDF/DOCX/PPTX (it rejects image/* with
+# "Unsupported mime type for content layout parser"), so page images are wrapped
+# in a single-page PDF before upload. Boxes come back as normalized_vertices.
+PDF_MIME = "application/pdf"
 
 TYPE_TO_CLASS = {
     "header": 0,
@@ -98,10 +114,18 @@ def bbox_to_norm(bbox, W, H) -> tuple[float, float, float, float] | None:
     return (min(max(cx, 0.0), 1.0), min(max(cy, 0.0), 1.0), w, h)
 
 
-def process_one(client, name: str, ip: Path, mime: str) -> list[str]:
+def image_to_pdf_bytes(ip: Path) -> bytes:
+    im = Image.open(ip).convert("RGB")
+    buf = io.BytesIO()
+    im.save(buf, format="PDF")
+    return buf.getvalue()
+
+
+def process_one(client, name: str, ip: Path) -> list[str]:
     request = documentai.ProcessRequest(
         name=name,
-        raw_document=documentai.RawDocument(content=ip.read_bytes(), mime_type=mime),
+        raw_document=documentai.RawDocument(
+            content=image_to_pdf_bytes(ip), mime_type=PDF_MIME),
         process_options=documentai.ProcessOptions(
             layout_config=documentai.ProcessOptions.LayoutConfig(
                 return_bounding_boxes=True)),
@@ -110,7 +134,7 @@ def process_one(client, name: str, ip: Path, mime: str) -> list[str]:
         try:
             result = client.process_document(request=request)
             break
-        except ResourceExhausted:
+        except (ResourceExhausted, InternalServerError, ServiceUnavailable):
             if attempt == 5:
                 raise
             time.sleep(2 ** attempt)
@@ -144,9 +168,13 @@ def main() -> int:
                     help="reuse this processor id instead of listing/creating one")
     ap.add_argument("--display-name", default="tibetan-layout-eval",
                     help="display name to find/create the LAYOUT_PARSER_PROCESSOR")
-    ap.add_argument("--processor-version", default="",
-                    help="processor version id (e.g. pretrained-layout-parser-v1.6-2026-01-13); "
-                         "default processor_version is PDF/DOCX-only and rejects images")
+    ap.add_argument("--processor-version",
+                    default="pretrained-layout-parser-v1.0-2024-06-03",
+                    help="processor version id. IMPORTANT: as of 2026-08 the v1.5/v1.6 "
+                         "release-candidate layout parsers return EMPTY bounding boxes "
+                         "(return_bounding_boxes is broken on Google's side); only the "
+                         "stable v1.0 (default here) and the 'pretrained' alias return "
+                         "real boxes. Pass empty string to use the processor default.")
     ap.add_argument("--limit", type=int, default=0, help="cap #images (0 = all)")
     ap.add_argument("--workers", type=int, default=4, help="parallel requests")
     args = ap.parse_args()
@@ -166,7 +194,8 @@ def main() -> int:
     lbl_dir = out / "labels"
     lbl_dir.mkdir(parents=True, exist_ok=True)
 
-    imgs = sorted(p for p in Path(args.source).iterdir() if p.suffix.lower() in IMG_EXTS)
+    imgs = sorted(p for p in Path(args.source).iterdir()
+                  if p.suffix.lower() in IMG_EXTS)
     if args.limit:
         imgs = imgs[: args.limit]
     todo = [ip for ip in imgs if not (lbl_dir / f"{ip.stem}.txt").exists()]
@@ -176,7 +205,7 @@ def main() -> int:
     def process(ip: Path) -> str:
         dst = lbl_dir / f"{ip.stem}.txt"
         try:
-            lines = process_one(client, name, ip, IMG_EXTS[ip.suffix.lower()])
+            lines = process_one(client, name, ip)
         except (GoogleAPICallError, Exception) as e:  # keep going on single-page failures
             return f"!! {ip.name}: {e}"
         dst.write_text("\n".join(lines) + ("\n" if lines else ""))

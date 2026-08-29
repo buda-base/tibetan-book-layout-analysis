@@ -1,0 +1,187 @@
+{
+  "n_pages": 4999,
+  "n_missing_pred": 0,
+  "conf": 0.5,
+  "coco_shared": {
+    "per_class": {
+      "page-header": {
+        "ap50": 0.9391590766254293,
+        "ap5095": 0.7111785174781445
+      },
+      "text-area": {
+        "ap50": 0.7092292396109594,
+        "ap5095": 0.6446332563171109
+      },
+      "footnote": {
+        "ap50": 0.8795913801960805,
+        "ap5095": 0.7280231162567076
+      },
+      "page-footer": {
+        "ap50": 0.8825550251226574,
+        "ap5095": 0.5265245116823926
+      }
+    },
+    "mean_ap50": 0.9004351606480557,
+    "mean_ap5095": 0.6552420484724149,
+    "n_gt": 37687,
+    "n_dt": 457992,
+    "n_images": 4999
+  },
+  "coco_all_four_including_textarea": {
+    "per_class": {
+      "page-header": {
+        "ap50": 0.9391590766254293,
+        "ap5095": 0.7111785174781445
+      },
+      "text-area": {
+        "ap50": 0.7092292396109594,
+        "ap5095": 0.6446332563171109
+      },
+      "footnote": {
+        "ap50": 0.8795913801960805,
+        "ap5095": 0.7280231162567076
+      },
+      "page-footer": {
+        "ap50": 0.8825550251226574,
+        "ap5095": 0.5265245116823926
+      }
+    },
+    "mean_ap50": 0.8526336803887816,
+    "mean_ap5095": 0.652589850433589,
+    "n_gt": 37687,
+    "n_dt": 457992,
+    "n_images": 4999
+  },
+  "textarea_granularity_mismatch": true,
+  "textarea_note": "Our text-area is a page/column envelope; DocLayNet Text is paragraph-level. Do not average text-area AP into the shared mean.",
+  "op_doclaynet": {
+    "conf": 0.5,
+    "per_class": {
+      "page-header": {
+        "P": 0.7822168087697929,
+        "R": 0.9539512774806892,
+        "F1": 0.8595904162762682,
+        "meanIoU": 0.8649963603920634,
+        "tp": 3211,
+        "fp": 894,
+        "fn": 155,
+        "npos": 3366
+      },
+      "text-area": {
+        "P": 0.43764913694257646,
+        "R": 0.9433867735470942,
+        "F1": 0.5979169753805119,
+        "meanIoU": 0.9313181129725533,
+        "tp": 28245,
+        "fp": 36293,
+        "fn": 1695,
+        "npos": 29940
+      },
+      "footnote": {
+        "P": 0.6915113871635611,
+        "R": 0.8630490956072352,
+        "F1": 0.7678160919540231,
+        "meanIoU": 0.9020765765570576,
+        "tp": 334,
+        "fp": 149,
+        "fn": 53,
+        "npos": 387
+      },
+      "page-footer": {
+        "P": 0.7381242387332522,
+        "R": 0.9103655483224837,
+        "F1": 0.8152466367713005,
+        "meanIoU": 0.7988669727714713,
+        "tp": 3636,
+        "fp": 1290,
+        "fn": 358,
+        "npos": 3994
+      }
+    },
+    "mean_F1": 0.760142530095526
+  },
+  "contamination": {
+    "header-footer": {
+      "gt": 7360,
+      "det": 6854,
+      "absorbed": 151,
+      "clean": 355,
+      "detected_rate": 0.93125,
+      "contamination_rate": 0.020516304347826086,
+      "clean_miss_rate": 0.04823369565217391
+    },
+    "footnote": {
+      "gt": 387,
+      "det": 334,
+      "absorbed": 49,
+      "clean": 4,
+      "detected_rate": 0.8630490956072352,
+      "contamination_rate": 0.12661498708010335,
+      "clean_miss_rate": 0.0103359173126615
+    },
+    "header": {
+      "gt": 3366,
+      "det": 3211,
+      "absorbed": 115,
+      "clean": 40,
+      "detected_rate": 0.9539512774806892,
+      "contamination_rate": 0.034165181224004755,
+      "clean_miss_rate": 0.011883541295306001
+    },
+    "footer": {
+      "gt": 3994,
+      "det": 3636,
+      "absorbed": 36,
+      "clean": 322,
+      "detected_rate": 0.9103655483224837,
+      "contamination_rate": 0.009013520280420632,
+      "clean_miss_rate": 0.08062093139709564
+    }
+  },
+  "led": {
+    "header": {
+      "gt": 3366,
+      "pred": 4105,
+      "missing": 134,
+      "merge": 66,
+      "split": 36,
+      "hallucination": 517,
+      "matched": 3232
+    },
+    "footer": {
+      "gt": 3994,
+      "pred": 4926,
+      "missing": 36,
+      "merge": 20,
+      "split": 165,
+      "hallucination": 560,
+      "matched": 3958
+    },
+    "footnote": {
+      "gt": 387,
+      "pred": 483,
+      "missing": 49,
+      "merge": 2,
+      "split": 2,
+      "hallucination": 137,
+      "matched": 338
+    },
+    "header-footer": {
+      "gt": 7360,
+      "pred": 9031,
+      "missing": 163,
+      "merge": 86,
+      "split": 201,
+      "hallucination": 1056,
+      "matched": 7197
+    }
+  },
+  "cote": {
+    "cote": 0.9389925987739841,
+    "coverage": 0.9653356559882694,
+    "overlap": 0.021226185687012355,
+    "trespass": 0.00511687152727307,
+    "excess": 0.19784075849774682,
+    "n_pages": 4922
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "azure_di",
+  "name": "Azure AI Document Intelligence prebuilt-layout",
+  "group": "commercial",
+  "role": "commercial",
+  "dataset_tag": "v4",
+  "api": "prebuilt-layout, api-version 2024-11-30",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/azure_di/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": false,
+  "notes": "No per-region confidence; single un-thresholdable operating point. Has a footnote role (only commercial provider that does).",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.618,
+    "best_mean_conf": 0.0,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.611 },
+      "text-area": { "F1": 0.990 },
+      "footnote": { "F1": 0.252 }
+    }
+  }
+}

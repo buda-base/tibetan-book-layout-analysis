@@ -1,0 +1,33 @@
+{
+  "id": "docling_heron_tdlav4_tam2col",
+  "name": "Docling layout-heron tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "framework": "hf-transformers RTDetrV2",
+  "checkpoint": "s3://bec.bdrc.io/models/hff-detection/tdlav4/weights/docling_heron_tdlav4_tam2col/",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/docling_heron_tdlav4_tam2col/preds/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.917,
+    "best_mean_conf": 0.0,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.944 },
+      "text-area": { "F1": 0.998 },
+      "footnote": { "F1": 0.809 }
+    },
+    "grid": [
+      { "conf": 0.00, "hf_F1": 0.944, "ta_F1": 0.998, "fn_F1": 0.809, "mean_F1": 0.917 },
+      { "conf": 0.05, "hf_F1": 0.944, "ta_F1": 0.998, "fn_F1": 0.809, "mean_F1": 0.917 },
+      { "conf": 0.10, "hf_F1": 0.945, "ta_F1": 0.998, "fn_F1": 0.725, "mean_F1": 0.889 },
+      { "conf": 0.15, "hf_F1": 0.946, "ta_F1": 0.998, "fn_F1": 0.227, "mean_F1": 0.724 },
+      { "conf": 0.20, "hf_F1": 0.946, "ta_F1": 0.998, "fn_F1": 0.098, "mean_F1": 0.681 },
+      { "conf": 0.25, "hf_F1": 0.947, "ta_F1": 0.998, "fn_F1": 0.050, "mean_F1": 0.665 },
+      { "conf": 0.30, "hf_F1": 0.948, "ta_F1": 0.997, "fn_F1": 0.000, "mean_F1": 0.648 }
+    ],
+    "note": "footnote confidence is systematically low; best mean-F1 operating point keeps all boxes (conf 0.00). Header-footer/text-area are stable across the sweep."
+  }
+}

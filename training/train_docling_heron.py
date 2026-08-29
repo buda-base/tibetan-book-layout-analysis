@@ -122,7 +122,8 @@ def main() -> int:
         save_total_limit=3,
         dataloader_num_workers=4,
         remove_unused_columns=False,
-        fp16=torch.cuda.is_available(),
+        bf16=torch.cuda.is_available(),
+        max_grad_norm=0.1,
     )
     trainer = Trainer(
         model=model,

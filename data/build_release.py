@@ -9,12 +9,15 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 from collections import Counter
 from pathlib import Path
 
 SPLITS = ["train", "val", "test"]
 NAMES = {0: "header", 1: "text-area", 2: "footnote", 3: "footer"}
+# Pages rendered from born-digital PDFs, then scan-like augmented (b11 batch).
+PDF_AUG_RE = re.compile(r"__p\d{4}")
 
 
 def clamp_box(cx, cy, w, h):
@@ -62,7 +65,7 @@ def main() -> int:
     src, out = Path(args.src), Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 
-    imgcount, aug_per = {}, {}
+    imgcount, aug_per, pdf_per = {}, {}, {}
     boxes = {s: Counter() for s in SPLITS}
     listing = {s: [] for s in SPLITS}
     for s in SPLITS:
@@ -70,6 +73,7 @@ def main() -> int:
         names = sorted(p.name for p in simg.iterdir())
         imgcount[s] = len(names)
         aug_per[s] = sum("__aug" in n for n in names)
+        pdf_per[s] = sum(bool(PDF_AUG_RE.search(n)) for n in names)
         for n in names:
             link_or_copy(simg / n, out / "images" / s / n)
             lp = src / "labels" / s / f"{Path(n).stem}.txt"
@@ -102,6 +106,8 @@ def main() -> int:
         tot.update(boxes[s])
     total_ann = sum(tot.values())
     total_img = sum(imgcount.values())
+    total_pdf = sum(pdf_per.values())
+    total_scan = total_img - total_pdf
 
     def pct(c):
         return f"{100*c/total_ann:.1f}%"
@@ -170,10 +176,22 @@ consistent annotation convention** and split to be **leakage-free**.
 | **Label format** | YOLO (.txt) |
 | **Splits** | train / val / test |
 | **Split unit** | volume-level (leakage-free) |
+| **Archive scans** | {total_scan} |
+| **PDF-extracted, then augmented** | {total_pdf} (train only) |
 
 ## Image Source
 
 All images are sourced from the [Buddhist Digital Resource Center (BDRC)](https://bdrc.io) digital library.
+
+Non-augmented images (`b3__`, `b4__`, `v10__`) come from the BDRC image archive.
+Some of those archive volumes were themselves produced from born-digital PDFs
+rather than camera/scanner captures; see the published dataset card for the
+scan vs PDF-archive split. A further subset of **training** images are pages
+rendered from PDFs and then geometrically/photometrically augmented
+(filename prefix `b11__`, `__p####` page marker, `__aug` in the stem).
+
+- **PDF-extracted, then augmented** — {total_pdf} images, **training only**.
+- **BDRC archive (scans + unaugmented PDF-derived volumes)** — {total_scan} images.
 
 ## Classes
 
@@ -209,11 +227,12 @@ volumes across splits (all clean).
 - **Footnote stratification** — the footnote class is rare, so
   footnote-bearing volumes were distributed across all three splits to keep the
   class represented everywhere.
-- **Augmented data** — a subset of the training images are augmented
-  (geometric/photometric) copies. These are confined to the **training set
-  only**; **validation and test contain exclusively original, non-augmented
-  scans**, making them a clean benchmark. Augmented images can be recognised by
-  an `__aug` marker in their filename.
+- **Augmented data** — the {total_pdf} PDF-extracted training images above are
+  augmented (geometric/photometric) copies of rendered PDF pages, made to
+  resemble scans. These are confined to the **training set only**;
+  **validation and test contain no `__aug` images**. They may still include
+  unaugmented BDRC-archive pages from PDF-derived volumes. Augmented images
+  can be recognised by an `__aug` marker in their filename.
 - Approximate ratio: ~{100*imgcount['train']//total_img}% train /
   ~{round(100*imgcount['val']/total_img)}% val /
   ~{round(100*imgcount['test']/total_img)}% test by image count.
@@ -305,6 +324,7 @@ consolidated the layout annotations.
     )
     print(f"release -> {out}")
     print(f"images: {total_img} (train {imgcount['train']}, val {imgcount['val']}, test {imgcount['test']})")
+    print(f"  scans: {total_scan}  pdf-extracted-then-aug: {total_pdf}")
     print(f"annotations: {total_ann}  per-class {dict(tot)}")
     return 0
 

@@ -1,0 +1,23 @@
+{
+  "id": "google_docai",
+  "name": "Google Document AI Layout Parser",
+  "group": "commercial",
+  "role": "commercial",
+  "dataset_tag": "v4",
+  "api": "Layout Parser pretrained v1.0-2024-06-03 (stable), project bdrcetextscorpus, location us, processor b3c84f91b290e421",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/gdocai/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": false,
+  "notes": "No per-block confidence; single operating point. No footnote type (footnote F1 = 0). v1.5/v1.6 RC versions return empty boxes (known Google bug), so v1.0 is pinned.",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.373,
+    "best_mean_conf": 0.0,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.151 },
+      "text-area": { "F1": 0.967 },
+      "footnote": { "F1": 0.000 }
+    }
+  }
+}

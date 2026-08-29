@@ -3,6 +3,7 @@ __pycache__/
 *.pt
 *.pth
 .venv/
+.venv_eval/
 venv/
 runs/
 dataset*/

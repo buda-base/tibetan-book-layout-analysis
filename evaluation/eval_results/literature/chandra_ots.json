@@ -1,0 +1,416 @@
+{
+  "id": "chandra_ots",
+  "name": "Chandra 2 (chandra-ocr-2)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "notes": "datalab-to/chandra-ocr-2 via chandra-ocr 0.2.0, vLLM v0.17.0 (Qwen3.5, bf16), A10G. ocr_layout prompt; OCR-coupled, no per-block confidence (single operating point). Decode capped at 4000 tokens and retries disabled \u2014 it loops on Tibetan it cannot read. See evaluation/Surya_Chandra.md.",
+  "paper_conf": 0.0,
+  "has_scores": false,
+  "pred_dir": "/home/eroux/azure_di_eval/chandra_vlm_pred/labels",
+  "coco_canonical": {
+    "per_class": {
+      "header-footer": {
+        "ap50": 0.5291507696812475,
+        "ap5095": 0.1800816687645145
+      },
+      "text-area": {
+        "ap50": 0.46514321711461604,
+        "ap5095": 0.3528176320155465
+      },
+      "footnote": {
+        "ap50": 0.13531353135313529,
+        "ap5095": 0.07811281128112812
+      }
+    },
+    "mean_ap50": 0.3765358393829996,
+    "mean_ap5095": 0.20367070402039636,
+    "n_gt": 2391,
+    "n_dt": 1674,
+    "n_images": 860
+  },
+  "op_canonical": {
+    "conf": 0.0,
+    "per_class": {
+      "header-footer": {
+        "P": 0.8986415882967607,
+        "R": 0.5760214333556597,
+        "F1": 0.7020408163265305,
+        "meanIoU": 0.6911788570002312,
+        "tp": 860,
+        "fp": 97,
+        "fn": 633,
+        "npos": 1493
+      },
+      "text-area": {
+        "P": 0.7404255319148936,
+        "R": 0.611957796014068,
+        "F1": 0.6700898587933248,
+        "meanIoU": 0.8941515454147364,
+        "tp": 522,
+        "fp": 183,
+        "fn": 331,
+        "npos": 853
+      },
+      "footnote": {
+        "P": 0.6666666666666666,
+        "R": 0.17777777777777778,
+        "F1": 0.2807017543859649,
+        "meanIoU": 0.7876032729330382,
+        "tp": 8,
+        "fp": 4,
+        "fn": 37,
+        "npos": 45
+      }
+    },
+    "mean_F1": 0.5509441431686067
+  },
+  "sweep_canonical": {
+    "best_mean_F1": 0.5509441431686067,
+    "best_mean_conf": 0.0,
+    "best_per_class": {
+      "header-footer": {
+        "F1": 0.7020408163265305,
+        "conf": 0.0
+      },
+      "text-area": {
+        "F1": 0.6700898587933248,
+        "conf": 0.0
+      },
+      "footnote": {
+        "F1": 0.2807017543859649,
+        "conf": 0.0
+      }
+    },
+    "at_best_mean": {
+      "per_class": {
+        "header-footer": {
+          "P": 0.8986415882967607,
+          "R": 0.5760214333556597,
+          "F1": 0.7020408163265305,
+          "meanIoU": 0.6911788570002312,
+          "tp": 860,
+          "fp": 97,
+          "fn": 633,
+          "npos": 1493
+        },
+        "text-area": {
+          "P": 0.7404255319148936,
+          "R": 0.611957796014068,
+          "F1": 0.6700898587933248,
+          "meanIoU": 0.8941515454147364,
+          "tp": 522,
+          "fp": 183,
+          "fn": 331,
+          "npos": 853
+        },
+        "footnote": {
+          "P": 0.6666666666666666,
+          "R": 0.17777777777777778,
+          "F1": 0.2807017543859649,
+          "meanIoU": 0.7876032729330382,
+          "tp": 8,
+          "fp": 4,
+          "fn": 37,
+          "npos": 45
+        }
+      },
+      "mean_F1": 0.5509441431686067
+    }
+  },
+  "coco_doclaynet_shared": {
+    "per_class": {
+      "page-header": {
+        "ap50": 0.7514315514572649,
+        "ap5095": 0.251205582606177
+      },
+      "text-area": {
+        "ap50": 0.1684014872536393,
+        "ap5095": 0.10209072643720679
+      },
+      "footnote": {
+        "ap50": 0.13531353135313529,
+        "ap5095": 0.07811281128112812
+      },
+      "page-footer": {
+        "ap50": 0.23872388908871023,
+        "ap5095": 0.08977090068417415
+      }
+    },
+    "mean_ap50": 0.37515632396637016,
+    "mean_ap5095": 0.1396964315238264,
+    "n_gt": 2663,
+    "n_dt": 2669,
+    "n_images": 860
+  },
+  "coco_doclaynet": {
+    "per_class": {
+      "page-header": {
+        "ap50": 0.7514315514572649,
+        "ap5095": 0.251205582606177
+      },
+      "text-area": {
+        "ap50": 0.1684014872536393,
+        "ap5095": 0.10209072643720679
+      },
+      "footnote": {
+        "ap50": 0.13531353135313529,
+        "ap5095": 0.07811281128112812
+      },
+      "page-footer": {
+        "ap50": 0.23872388908871023,
+        "ap5095": 0.08977090068417415
+      }
+    },
+    "mean_ap50": 0.3234676147881874,
+    "mean_ap5095": 0.13029500525217153,
+    "n_gt": 2663,
+    "n_dt": 2669,
+    "n_images": 860
+  },
+  "op_doclaynet": {
+    "conf": 0.0,
+    "per_class": {
+      "page-header": {
+        "P": 0.8905852417302799,
+        "R": 0.8274231678486997,
+        "F1": 0.857843137254902,
+        "meanIoU": 0.6892882919084092,
+        "tp": 700,
+        "fp": 86,
+        "fn": 146,
+        "npos": 846
+      },
+      "text-area": {
+        "P": 0.3176470588235294,
+        "R": 0.48,
+        "F1": 0.3823008849557522,
+        "meanIoU": 0.8404342055092737,
+        "tp": 540,
+        "fp": 1160,
+        "fn": 585,
+        "npos": 1125
+      },
+      "footnote": {
+        "P": 0.6666666666666666,
+        "R": 0.17777777777777778,
+        "F1": 0.2807017543859649,
+        "meanIoU": 0.7876032729330382,
+        "tp": 8,
+        "fp": 4,
+        "fn": 37,
+        "npos": 45
+      },
+      "page-footer": {
+        "P": 0.935672514619883,
+        "R": 0.2472952086553323,
+        "F1": 0.3911980440097799,
+        "meanIoU": 0.6994500792769544,
+        "tp": 160,
+        "fp": 11,
+        "fn": 487,
+        "npos": 647
+      }
+    },
+    "mean_F1": 0.47801095515159975
+  },
+  "sweep_doclaynet": {
+    "best_mean_F1": 0.47801095515159975,
+    "best_mean_conf": 0.0,
+    "best_per_class": {
+      "page-header": {
+        "F1": 0.857843137254902,
+        "conf": 0.0
+      },
+      "text-area": {
+        "F1": 0.3823008849557522,
+        "conf": 0.0
+      },
+      "footnote": {
+        "F1": 0.2807017543859649,
+        "conf": 0.0
+      },
+      "page-footer": {
+        "F1": 0.3911980440097799,
+        "conf": 0.0
+      }
+    },
+    "at_best_mean": {
+      "per_class": {
+        "page-header": {
+          "P": 0.8905852417302799,
+          "R": 0.8274231678486997,
+          "F1": 0.857843137254902,
+          "meanIoU": 0.6892882919084092,
+          "tp": 700,
+          "fp": 86,
+          "fn": 146,
+          "npos": 846
+        },
+        "text-area": {
+          "P": 0.3176470588235294,
+          "R": 0.48,
+          "F1": 0.3823008849557522,
+          "meanIoU": 0.8404342055092737,
+          "tp": 540,
+          "fp": 1160,
+          "fn": 585,
+          "npos": 1125
+        },
+        "footnote": {
+          "P": 0.6666666666666666,
+          "R": 0.17777777777777778,
+          "F1": 0.2807017543859649,
+          "meanIoU": 0.7876032729330382,
+          "tp": 8,
+          "fp": 4,
+          "fn": 37,
+          "npos": 45
+        },
+        "page-footer": {
+          "P": 0.935672514619883,
+          "R": 0.2472952086553323,
+          "F1": 0.3911980440097799,
+          "meanIoU": 0.6994500792769544,
+          "tp": 160,
+          "fp": 11,
+          "fn": 487,
+          "npos": 647
+        }
+      },
+      "mean_F1": 0.47801095515159975
+    }
+  },
+  "contamination": {
+    "header-footer": {
+      "gt": 1493,
+      "det": 860,
+      "absorbed": 13,
+      "clean": 620,
+      "recoverable": 0,
+      "hidden": 13,
+      "in_ta": 13,
+      "as_ta": 13,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 13,
+      "detected_rate": 0.5760214333556597,
+      "contamination_rate": 0.008707300736771601,
+      "clean_miss_rate": 0.41527126590756863,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.008707300736771601,
+      "total_in_ta_rate": 0.008707300736771601,
+      "as_textarea_rate": 0.008707300736771601,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.008707300736771601
+    },
+    "footnote": {
+      "gt": 45,
+      "det": 8,
+      "absorbed": 0,
+      "clean": 37,
+      "recoverable": 0,
+      "hidden": 0,
+      "in_ta": 0,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.17777777777777778,
+      "contamination_rate": 0.0,
+      "clean_miss_rate": 0.8222222222222222,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.0,
+      "total_in_ta_rate": 0.0,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    },
+    "header": {
+      "gt": 846,
+      "det": 700,
+      "absorbed": 13,
+      "clean": 133,
+      "recoverable": 0,
+      "hidden": 13,
+      "in_ta": 13,
+      "as_ta": 13,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 13,
+      "detected_rate": 0.8274231678486997,
+      "contamination_rate": 0.015366430260047281,
+      "clean_miss_rate": 0.15721040189125296,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.015366430260047281,
+      "total_in_ta_rate": 0.015366430260047281,
+      "as_textarea_rate": 0.015366430260047281,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.015366430260047281
+    },
+    "footer": {
+      "gt": 647,
+      "det": 160,
+      "absorbed": 0,
+      "clean": 487,
+      "recoverable": 0,
+      "hidden": 0,
+      "in_ta": 0,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.2472952086553323,
+      "contamination_rate": 0.0,
+      "clean_miss_rate": 0.7527047913446677,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.0,
+      "total_in_ta_rate": 0.0,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    }
+  },
+  "led": {
+    "header": {
+      "gt": 846,
+      "pred": 786,
+      "missing": 75,
+      "merge": 4,
+      "split": 2,
+      "hallucination": 17,
+      "matched": 771
+    },
+    "footer": {
+      "gt": 647,
+      "pred": 171,
+      "missing": 479,
+      "merge": 0,
+      "split": 0,
+      "hallucination": 3,
+      "matched": 168
+    },
+    "footnote": {
+      "gt": 45,
+      "pred": 12,
+      "missing": 36,
+      "merge": 0,
+      "split": 1,
+      "hallucination": 0,
+      "matched": 9
+    },
+    "header-footer": {
+      "gt": 1493,
+      "pred": 957,
+      "missing": 553,
+      "merge": 4,
+      "split": 2,
+      "hallucination": 19,
+      "matched": 940
+    }
+  },
+  "cote": {
+    "cote": 0.5984873419897658,
+    "coverage": 0.5989420682551513,
+    "overlap": 1.2145987690764323e-05,
+    "trespass": 0.00044258027769469106,
+    "excess": 0.0036739626176794824,
+    "n_pages": 854
+  },
+  "wall_s": 15.71
+}

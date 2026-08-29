@@ -1,0 +1,111 @@
+{
+  "method": "test-set bootstrap (paired), canonical mean-F1 at paper conf",
+  "B": 5000,
+  "seed": 0,
+  "n_pages": 860,
+  "classes": [
+    "header-footer",
+    "text-area",
+    "footnote"
+  ],
+  "per_system": {
+    "rtdetr_tam2col": {
+      "name": "RT-DETR-l tam2col",
+      "conf": 0.5,
+      "full_mean_F1": 0.9569095756291635,
+      "boot_mean": 0.9566993935907745,
+      "boot_std": 0.009537404435828596,
+      "ci95": [
+        0.936145785115986,
+        0.9733772518651008
+      ]
+    },
+    "rfdetr_tam2col": {
+      "name": "RF-DETR-L tam2col",
+      "conf": 0.3,
+      "full_mean_F1": 0.9530664659186581,
+      "boot_mean": 0.9528074863169979,
+      "boot_std": 0.010571191522893354,
+      "ci95": [
+        0.929918255709035,
+        0.9709894274056433
+      ]
+    },
+    "doclayout_yolo_ft": {
+      "name": "DocLayout-YOLO tam2col",
+      "conf": 0.3,
+      "full_mean_F1": 0.9473188825383222,
+      "boot_mean": 0.9472608451384679,
+      "boot_std": 0.01174689651815345,
+      "ci95": [
+        0.9218544253875283,
+        0.9684520728289306
+      ]
+    },
+    "pp_doclayout_ft": {
+      "name": "PP-DocLayout-L tam2col",
+      "conf": 0.75,
+      "full_mean_F1": 0.9501302504042718,
+      "boot_mean": 0.9499185158198026,
+      "boot_std": 0.010955324069909986,
+      "ci95": [
+        0.925964974197453,
+        0.9689968414741597
+      ]
+    },
+    "docling_heron_ft": {
+      "name": "Docling layout-heron tam2col",
+      "conf": 0.05,
+      "full_mean_F1": 0.9276586833189772,
+      "boot_mean": 0.9273135645457898,
+      "boot_std": 0.011016692379130857,
+      "ci95": [
+        0.9039990808613715,
+        0.9468177862395901
+      ]
+    }
+  },
+  "paired_vs_rtdetr_tam2col": {
+    "rtdetr_tam2col_minus_rfdetr_tam2col": {
+      "full_diff": 0.003843109710505388,
+      "boot_mean_diff": 0.0038919072737767565,
+      "ci95": [
+        -0.020827837267789612,
+        0.028545954213819502
+      ],
+      "p_ref_better": 0.6242,
+      "crosses_zero": true
+    },
+    "rtdetr_tam2col_minus_doclayout_yolo_ft": {
+      "full_diff": 0.009590693090841262,
+      "boot_mean_diff": 0.009438548452306721,
+      "ci95": [
+        -0.009706727599832604,
+        0.030629208464303854
+      ],
+      "p_ref_better": 0.822,
+      "crosses_zero": true
+    },
+    "rtdetr_tam2col_minus_pp_doclayout_ft": {
+      "full_diff": 0.0067793252248916636,
+      "boot_mean_diff": 0.006780877770971752,
+      "ci95": [
+        -0.01107545057353071,
+        0.02594286924103637
+      ],
+      "p_ref_better": 0.7708,
+      "crosses_zero": true
+    },
+    "rtdetr_tam2col_minus_docling_heron_ft": {
+      "full_diff": 0.029250892310186294,
+      "boot_mean_diff": 0.029385829044984747,
+      "ci95": [
+        0.00656663746050793,
+        0.05247254882299496
+      ],
+      "p_ref_better": 0.9924,
+      "crosses_zero": false
+    }
+  },
+  "caveat": "Test-set/evaluation noise only. Training-seed variance is NOT captured; each checkpoint is one run. A multi-seed study would add training noise on top of this floor."
+}

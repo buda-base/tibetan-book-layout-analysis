@@ -1,0 +1,23 @@
+{
+  "id": "aws_textract",
+  "name": "AWS Textract Layout",
+  "group": "commercial",
+  "role": "commercial",
+  "dataset_tag": "v4",
+  "api": "AnalyzeDocument FeatureTypes=[LAYOUT], region us-east-1",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/aws_textract/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "notes": "Per-block Confidence available (sweepable). No footnote class in Textract Layout (footnote F1 = 0 by construction).",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.356,
+    "best_mean_conf": 0.0,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.232 },
+      "text-area": { "F1": 0.835 },
+      "footnote": { "F1": 0.000 }
+    }
+  }
+}

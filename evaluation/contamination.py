@@ -7,15 +7,18 @@ area" — that silently contaminates the OCR text with running heads, folio
 numbers, or footnotes.
 
 For each model we ask, per canonical region type (header-footer, footnote):
-  * detected      : a predicted box of that type matches the GT box (IoU>=0.5)
-  * absorbed      : NOT detected, but >=50% of the GT box area lies inside the
-                    predicted text-area envelope (the merged text block) -> the
-                    region is inside what we would OCR as body text. BAD.
-  * clean-miss    : NOT detected and NOT inside the text envelope -> the region
-                    is simply dropped; the body text stays clean. Tolerable.
+    * detected      : a predicted box of that type matches the GT box (IoU>=0.5)
+    * recoverable   : detected AND >=50% of the GT area is inside the predicted
+                    text-area envelope. Dual label; punch-out can fix it.
+    * hidden        : NOT detected, but >=50% of the GT area is inside the
+                    predicted text-area envelope (the OCR crop). No same-class
+                    box to subtract. This is the paper's contamination_rate.
+    * clean-miss    : NOT detected and NOT inside the text envelope -> dropped;
+                    the body text stays clean. Tolerable.
 
 The predicted text-area envelope is the min/max box over all predicted text-area
-boxes on the page (same merge the canonical evaluator uses).
+boxes on the page (same merge the canonical evaluator uses). A separate
+as-textarea count uses IoU>=0.5 against native TA boxes (not the envelope).
 
 Usage:
   python contamination.py <pred_dir> <gt_dir> [remap] [conf] [cover]
@@ -72,8 +75,9 @@ def read(path, remap, conf_floor):
 
 
 def analyse(pred_dir, gt_dir, remap, conf, cover):
-    stats = {HF: dict(gt=0, det=0, absorbed=0, clean=0),
-             FN: dict(gt=0, det=0, absorbed=0, clean=0)}
+    blank = dict(gt=0, det=0, absorbed=0, clean=0,
+                 recoverable=0, as_ta=0, dual_as_ta=0, hidden_as_ta=0)
+    stats = {HF: dict(blank), FN: dict(blank)}
     for gp in sorted(gt_dir.glob("*.txt")):
         g = read(gp, remap, 0.0)
         p = read(pred_dir / f"{gp.stem}.txt", remap, conf)
@@ -92,13 +96,25 @@ def analyse(pred_dir, gt_dir, remap, conf, cover):
                     v = iou(gb, pb)
                     if v > best:
                         best, bj = v, j
-                if best >= 0.5 and bj >= 0:
+                same = best >= 0.5 and bj >= 0
+                if same:
                     used[bj] = True
                     stats[cls]["det"] += 1
-                elif covered_frac(gb, env) >= cover:
-                    stats[cls]["absorbed"] += 1
-                else:
+                covered = covered_frac(gb, env) >= cover
+                as_ta = any(iou(gb, tb) >= 0.5 for tb in p[TA])
+                if covered:
+                    if same:
+                        stats[cls]["recoverable"] += 1
+                    else:
+                        stats[cls]["absorbed"] += 1
+                elif not same:
                     stats[cls]["clean"] += 1
+                if as_ta:
+                    stats[cls]["as_ta"] += 1
+                    if same:
+                        stats[cls]["dual_as_ta"] += 1
+                    else:
+                        stats[cls]["hidden_as_ta"] += 1
     return stats
 
 
@@ -113,20 +129,23 @@ def main() -> int:
     st = analyse(pred_dir, gt_dir, remap, conf, cover)
     name = {HF: "header-footer", FN: "footnote"}
     print(f"failure analysis: {pred_dir}  (conf>={conf}, absorb if >={cover:.0%} "
-          f"of missed region inside predicted text-area envelope)")
-    print("=" * 78)
-    print(f"{'region':14} {'GT':>5} {'detected':>9} {'MISSED':>7} "
-          f"{'absorbed→TA':>12} {'clean-miss':>11}")
+          f"of region inside predicted text-area envelope)")
+    print("=" * 98)
+    print(f"{'region':14} {'GT':>5} {'detected':>9} {'recov.':>8} "
+          f"{'hidden':>8} {'clean':>7} {'as-TA IoU':>10} {'hidden-IoU':>11}")
     for cls in (HF, FN):
         s = st[cls]
-        miss = s["absorbed"] + s["clean"]
-        det_p = s["det"] / s["gt"] * 100 if s["gt"] else 0
-        ab_p = s["absorbed"] / miss * 100 if miss else 0
-        print(f"{name[cls]:14} {s['gt']:5d} {s['det']:6d}({det_p:3.0f}%) "
-              f"{miss:7d} {s['absorbed']:7d}({ab_p:3.0f}%) {s['clean']:11d}")
-    print("-" * 78)
-    print("absorbed→TA = missed region folded INTO the OCR text block (bad); "
-          "clean-miss = dropped, text stays clean")
+        n = s["gt"] or 1
+        print(f"{name[cls]:14} {s['gt']:5d} {s['det']:6d}({100*s['det']/n:3.0f}%) "
+              f"{s['recoverable']:4d}({100*s['recoverable']/n:3.0f}%) "
+              f"{s['absorbed']:4d}({100*s['absorbed']/n:3.0f}%) "
+              f"{s['clean']:7d} "
+              f"{s['as_ta']:6d}({100*s['as_ta']/n:3.0f}%) "
+              f"{s['hidden_as_ta']:6d}({100*s['hidden_as_ta']/n:3.0f}%)")
+    print("-" * 98)
+    print("recov. = detected AND inside TA envelope (punch-out can fix); "
+          "hidden = missed AND inside TA envelope (paper contamination); "
+          "as-TA IoU = IoU>=0.5 with a native text-area box")
     return 0
 
 
