@@ -1,0 +1,69 @@
+{
+  "id": "google_docai",
+  "name": "Google DocAI Layout Parser",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.029445347795081362,
+  "shared_ap5095": 0.005802708172312709,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.05026120847414467,
+      "ap5095": 0.008379744305247459
+    },
+    "page-footer": {
+      "ap50": 0.03807483491109942,
+      "ap5095": 0.009028380211690671
+    },
+    "footnote": {
+      "ap50": 0.0,
+      "ap5095": 0.0
+    }
+  },
+  "textarea_ap5095": 0.0360445788715251,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.4840182648401826,
+        "mean_matched_iou": 0.46016578535957053,
+        "tp": 424,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.1324200913242009,
+        "mean_matched_iou": 0.5905261226393819,
+        "tp": 116,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.11394302848575712,
+        "mean_matched_iou": 0.5160628967803118,
+        "tp": 76,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.05847076461769116,
+        "mean_matched_iou": 0.6335283494000696,
+        "tp": 39,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.0,
+        "mean_matched_iou": 0.0,
+        "tp": 0,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.0,
+        "mean_matched_iou": 0.0,
+        "tp": 0,
+        "npos": 38
+      }
+    }
+  }
+}

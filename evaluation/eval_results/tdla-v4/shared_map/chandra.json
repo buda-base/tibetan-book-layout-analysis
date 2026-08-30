@@ -1,0 +1,69 @@
+{
+  "id": "chandra",
+  "name": "Chandra 2 (chandra-ocr-2)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.39697228927008554,
+  "shared_ap5095": 0.15194108700334255,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.760202298754139,
+      "ap5095": 0.2493803028469325
+    },
+    "page-footer": {
+      "ap50": 0.2207364283849076,
+      "ap5095": 0.06978298447341853
+    },
+    "footnote": {
+      "ap50": 0.20997814067120998,
+      "ap5095": 0.13665997368967667
+    }
+  },
+  "textarea_ap5095": 0.11562294541650293,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.8938356164383562,
+        "mean_matched_iou": 0.6635039724666243,
+        "tp": 783,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.8253424657534246,
+        "mean_matched_iou": 0.6841287538371397,
+        "tp": 723,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.27886056971514245,
+        "mean_matched_iou": 0.637453675715098,
+        "tp": 186,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.239880059970015,
+        "mean_matched_iou": 0.6731735544432482,
+        "tp": 160,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.2894736842105263,
+        "mean_matched_iou": 0.7917457978230842,
+        "tp": 11,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.2631578947368421,
+        "mean_matched_iou": 0.839028174458613,
+        "tp": 10,
+        "npos": 38
+      }
+    }
+  }
+}

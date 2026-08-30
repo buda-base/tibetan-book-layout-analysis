@@ -1,0 +1,69 @@
+{
+  "id": "rtdetr_tdlav4",
+  "name": "RT-DETR-l tam2col (ours, v4; seed0)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.9587323581161722,
+  "shared_ap5095": 0.6500325553625964,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.9574866070951745,
+      "ap5095": 0.6170988619081573
+    },
+    "page-footer": {
+      "ap50": 0.9320676225177408,
+      "ap5095": 0.5009886871181863
+    },
+    "footnote": {
+      "ap50": 0.9866428447356014,
+      "ap5095": 0.8320101170614459
+    }
+  },
+  "textarea_ap5095": 0.42175060824468164,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.9885844748858448,
+        "mean_matched_iou": 0.8202249526072788,
+        "tp": 866,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.9726027397260274,
+        "mean_matched_iou": 0.8289367923831288,
+        "tp": 852,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.992503748125937,
+        "mean_matched_iou": 0.7733384980784992,
+        "tp": 662,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.9580209895052474,
+        "mean_matched_iou": 0.7866109522345734,
+        "tp": 639,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 1.0,
+        "mean_matched_iou": 0.905468931278329,
+        "tp": 38,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 1.0,
+        "mean_matched_iou": 0.905468931278329,
+        "tp": 38,
+        "npos": 38
+      }
+    }
+  }
+}

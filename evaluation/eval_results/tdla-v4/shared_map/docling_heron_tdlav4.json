@@ -1,0 +1,69 @@
+{
+  "id": "docling_heron_tdlav4",
+  "name": "Docling layout-heron tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.8903567999994624,
+  "shared_ap5095": 0.5928335812283034,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.9542322468461859,
+      "ap5095": 0.6231079266518997
+    },
+    "page-footer": {
+      "ap50": 0.8982745986489424,
+      "ap5095": 0.4889815871911046
+    },
+    "footnote": {
+      "ap50": 0.8185635545032589,
+      "ap5095": 0.666411229841906
+    }
+  },
+  "textarea_ap5095": 0.4145071721329197,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.9863013698630136,
+        "mean_matched_iou": 0.8262809516132373,
+        "tp": 864,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.9726027397260274,
+        "mean_matched_iou": 0.8324441965457829,
+        "tp": 852,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.9820089955022488,
+        "mean_matched_iou": 0.774673699848369,
+        "tp": 655,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.9310344827586207,
+        "mean_matched_iou": 0.7938007677423802,
+        "tp": 621,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.9473684210526315,
+        "mean_matched_iou": 0.9014829119259219,
+        "tp": 36,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.9473684210526315,
+        "mean_matched_iou": 0.9014829119259219,
+        "tp": 36,
+        "npos": 38
+      }
+    }
+  }
+}

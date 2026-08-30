@@ -1,0 +1,69 @@
+{
+  "id": "aws_textract",
+  "name": "AWS Textract Layout",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.018001483784301116,
+  "shared_ap5095": 0.003851152913360347,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.0007244626901714562,
+      "ap5095": 0.0003863801014247766
+    },
+    "page-footer": {
+      "ap50": 0.05327998866273189,
+      "ap5095": 0.011167078638656264
+    },
+    "footnote": {
+      "ap50": 0.0,
+      "ap5095": 0.0
+    }
+  },
+  "textarea_ap5095": 0.122921510415734,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.010273972602739725,
+        "mean_matched_iou": 0.5422764810371553,
+        "tp": 9,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.0045662100456621,
+        "mean_matched_iou": 0.7014305927094019,
+        "tp": 4,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.6731634182908546,
+        "mean_matched_iou": 0.4434368497333845,
+        "tp": 449,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.2158920539730135,
+        "mean_matched_iou": 0.6312673291422302,
+        "tp": 144,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.0,
+        "mean_matched_iou": 0.0,
+        "tp": 0,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.0,
+        "mean_matched_iou": 0.0,
+        "tp": 0,
+        "npos": 38
+      }
+    }
+  }
+}

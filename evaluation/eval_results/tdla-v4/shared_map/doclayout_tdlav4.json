@@ -1,0 +1,69 @@
+{
+  "id": "doclayout_tdlav4",
+  "name": "DocLayout-YOLO tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.9009436743225329,
+  "shared_ap5095": 0.5857510465603148,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.9557588972450517,
+      "ap5095": 0.6118101876400677
+    },
+    "page-footer": {
+      "ap50": 0.9182859442500301,
+      "ap5095": 0.4935414722390528
+    },
+    "footnote": {
+      "ap50": 0.828786181472517,
+      "ap5095": 0.6519014798018242
+    }
+  },
+  "textarea_ap5095": 0.3601801004834808,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.9863013698630136,
+        "mean_matched_iou": 0.8202965760807209,
+        "tp": 864,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.9726027397260274,
+        "mean_matched_iou": 0.8307899974569936,
+        "tp": 852,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.992503748125937,
+        "mean_matched_iou": 0.7756569431012745,
+        "tp": 662,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.9475262368815592,
+        "mean_matched_iou": 0.7930161985851242,
+        "tp": 632,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.8947368421052632,
+        "mean_matched_iou": 0.8815441200888259,
+        "tp": 34,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.8947368421052632,
+        "mean_matched_iou": 0.8815441200888259,
+        "tp": 34,
+        "npos": 38
+      }
+    }
+  }
+}

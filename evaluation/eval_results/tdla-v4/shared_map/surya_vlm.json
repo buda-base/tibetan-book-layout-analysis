@@ -1,0 +1,69 @@
+{
+  "id": "surya_vlm",
+  "name": "Surya 2 layout VLM (surya-ocr-2)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.577985501042939,
+  "shared_ap5095": 0.20034328419816716,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.8044989368038813,
+      "ap5095": 0.26467276306913906
+    },
+    "page-footer": {
+      "ap50": 0.6922773107691137,
+      "ap5095": 0.2132216356937624
+    },
+    "footnote": {
+      "ap50": 0.23718025555582192,
+      "ap5095": 0.12313545383159999
+    }
+  },
+  "textarea_ap5095": 0.0634722945066894,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.952054794520548,
+        "mean_matched_iou": 0.6705604331825629,
+        "tp": 834,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.8858447488584474,
+        "mean_matched_iou": 0.6899790565267294,
+        "tp": 776,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.9760119940029985,
+        "mean_matched_iou": 0.6412893144107731,
+        "tp": 651,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.8245877061469266,
+        "mean_matched_iou": 0.682966503149892,
+        "tp": 550,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.868421052631579,
+        "mean_matched_iou": 0.6409083508845389,
+        "tp": 33,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.6052631578947368,
+        "mean_matched_iou": 0.7972782243473718,
+        "tp": 23,
+        "npos": 38
+      }
+    }
+  }
+}

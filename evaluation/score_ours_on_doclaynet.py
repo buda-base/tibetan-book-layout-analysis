@@ -24,8 +24,8 @@ from pathlib import Path
 # Make sibling import work when run as a script.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from literature_metrics import (  # noqa: E402
-    coco_map, contamination, cote_dataset, led_errors, operating_points,
-    read_yolo,
+    coco_map, contamination, cote_dataset, iou_recall_diagnostic, led_errors,
+    operating_points, read_yolo,
 )
 
 # Map a DocLayNet-native YOLO file into our 4-class space for the shared
@@ -56,6 +56,8 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--conf", type=float, default=0.50,
                     help="operating point (tam2col paper conf)")
+    ap.add_argument("--skip-cote", action="store_true",
+                    help="skip COTe (avoids the cotescore dependency)")
     args = ap.parse_args()
 
     index = [json.loads(ln) for ln in args.index.read_text().splitlines() if ln.strip()]
@@ -77,12 +79,14 @@ def main() -> int:
     coco_all = coco_map(pages, "doclaynet")
     coco_shared = coco_map(pages, "doclaynet", mean_over=shared)
     op = operating_points(pages, "doclaynet", args.conf)
+    diag = iou_recall_diagnostic(pages, "doclaynet", shared, (0.1, 0.5))
     blob = {
         "n_pages": len(pages),
         "n_missing_pred": n_miss_pred,
         "conf": args.conf,
         "coco_shared": coco_shared,
         "coco_all_four_including_textarea": coco_all,
+        "iou_diagnostic": diag,
         "textarea_granularity_mismatch": True,
         "textarea_note": (
             "Our text-area is a page/column envelope; DocLayNet Text is "
@@ -91,8 +95,9 @@ def main() -> int:
         "op_doclaynet": op,
         "contamination": contamination(pages, args.conf),
         "led": led_errors(pages, args.conf),
-        "cote": cote_dataset(pages, args.conf, max_dim=1024),
     }
+    if not args.skip_cote:
+        blob["cote"] = cote_dataset(pages, args.conf, max_dim=1024)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(blob, indent=2))
     s = coco_shared

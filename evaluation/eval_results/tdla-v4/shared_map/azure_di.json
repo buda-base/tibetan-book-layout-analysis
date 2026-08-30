@@ -1,0 +1,69 @@
+{
+  "id": "azure_di",
+  "name": "Azure DI prebuilt-layout",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.294847263736011,
+  "shared_ap5095": 0.10254160565368624,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.5065077469595548,
+      "ap5095": 0.18030028000054577
+    },
+    "page-footer": {
+      "ap50": 0.3004478373519265,
+      "ap5095": 0.09220541663829632
+    },
+    "footnote": {
+      "ap50": 0.07758620689655173,
+      "ap5095": 0.03511912032221667
+    }
+  },
+  "textarea_ap5095": 0.14790498168008476,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.5901826484018264,
+        "mean_matched_iou": 0.6810061617712289,
+        "tp": 517,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.5468036529680366,
+        "mean_matched_iou": 0.7018744139650505,
+        "tp": 479,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.9475262368815592,
+        "mean_matched_iou": 0.5388497184666257,
+        "tp": 632,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.49325337331334335,
+        "mean_matched_iou": 0.6820584560325227,
+        "tp": 329,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.7105263157894737,
+        "mean_matched_iou": 0.4985171552663143,
+        "tp": 27,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.34210526315789475,
+        "mean_matched_iou": 0.7592086074892477,
+        "tp": 13,
+        "npos": 38
+      }
+    }
+  }
+}

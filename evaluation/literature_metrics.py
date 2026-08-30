@@ -327,6 +327,40 @@ def operating_points(pages, schema: str, conf: float):
             "mean_F1": float(np.mean(f1s)) if f1s else 0.0}
 
 
+def iou_recall_diagnostic(pages, schema: str, classes, ious=(0.1, 0.5),
+                          conf: float = 0.0):
+    """Box-convention diagnostic for domain transfer.
+
+    For each class name in `classes` (must exist in `schema`), report at each
+    IoU threshold the recall / coverage (fraction of GT with a same-class pred
+    matched greedily at IoU>=thr) and the mean IoU over matched pairs. Comparing
+    IoU>=0.1 vs 0.5 separates loose localisation (found but boxes off) from
+    genuine misses; comparing in-domain vs off-domain mean IoU quantifies the
+    box-convention gap. Predictions below `conf` are dropped (pages are usually
+    already conf-floored upstream, so the default keeps everything).
+    """
+    gt = {n: {} for n in classes}
+    pred = {n: {} for n in classes}
+    for stem, W, H, gboxes, pboxes in pages:
+        g = apply_schema(gboxes, schema, W, H)
+        p = apply_schema(pboxes, schema, W, H)
+        for n in classes:
+            if g.get(n):
+                gt[n][stem] = [xy for xy, _ in g[n]]
+            if p.get(n):
+                pred[n][stem] = p[n]
+    out = {}
+    for n in classes:
+        out[n] = {}
+        for thr in ious:
+            r = _pr_class(gt[n], pred[n], conf=conf, thr=thr)
+            out[n][f"iou{thr}"] = {
+                "recall": r["R"], "mean_matched_iou": r["meanIoU"],
+                "tp": r["tp"], "npos": r["npos"],
+            }
+    return out
+
+
 def best_f1_sweep(pages, schema: str, grid=None):
     grid = grid if grid is not None else SWEEP
     names = class_names(schema)

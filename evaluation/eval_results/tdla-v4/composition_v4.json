@@ -1,0 +1,54 @@
+{
+  "dataset_tag": "v4",
+  "classes": [
+    "header",
+    "text-area",
+    "footnote",
+    "footer"
+  ],
+  "per_split": {
+    "train": {
+      "n_images": 6743,
+      "n_missing_label": 0,
+      "boxes": {
+        "header": 6431,
+        "text-area": 8185,
+        "footnote": 295,
+        "footer": 4991,
+        "total": 19902
+      }
+    },
+    "val": {
+      "n_images": 749,
+      "n_missing_label": 0,
+      "boxes": {
+        "header": 848,
+        "text-area": 1096,
+        "footnote": 34,
+        "footer": 575,
+        "total": 2553
+      }
+    },
+    "test": {
+      "n_images": 833,
+      "n_missing_label": 0,
+      "boxes": {
+        "header": 876,
+        "text-area": 1424,
+        "footnote": 38,
+        "footer": 667,
+        "total": 3005
+      }
+    }
+  },
+  "corpus": {
+    "n_images": 8325,
+    "boxes": {
+      "header": 8155,
+      "text-area": 10705,
+      "footnote": 367,
+      "footer": 6233,
+      "total": 25460
+    }
+  }
+}

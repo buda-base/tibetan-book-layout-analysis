@@ -45,13 +45,18 @@ individually. Same protocol as the v2 paper tables. Per-model JSON alongside.
 
 ### Ours (fine-tuned on v4)
 
-| model | mean F1 | header-footer | text-area | footnote | conf |
-|---|---|---|---|---|---|
-| PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | **0.957** | 0.950 | 0.997 | **0.925** | 0.70 |
-| RT-DETR-l (`rtdetr` 5-seed mean ± sd) | 0.944 ± 0.010 | 0.951 | 0.990 | 0.891 | 0.50 |
-| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | 0.926 | 0.948 | 0.996 | 0.835 | 0.25 |
-| Docling layout-heron (`docling_heron_tdlav4_tam2col`) | 0.917 | 0.944 | 0.998 | 0.809 | 0.00 |
-| DocLayout-YOLO (`doclayout_tdlav4_tam2col`) | 0.897 | 0.931 | 0.980 | 0.779 | 0.30 |
+Last column is the DocLayNet-aligned **shared mAP@50:95** (page-header /
+page-footer / footnote, text-area excluded; see
+[`DOCLAYNET_SHARED.md`](DOCLAYNET_SHARED.md)) — a stricter, cross-corpus-comparable
+number on the same predictions.
+
+| model | mean F1 | header-footer | text-area | footnote | conf | shared mAP@50:95 |
+|---|---|---|---|---|---|---:|
+| PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | **0.957** | 0.950 | 0.997 | **0.925** | 0.70 | 0.641 |
+| RT-DETR-l (`rtdetr` 5-seed mean ± sd) | 0.944 ± 0.010 | 0.951 | 0.990 | 0.891 | 0.50 | **0.650** |
+| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | 0.926 | 0.948 | 0.996 | 0.835 | 0.25 | 0.604 |
+| Docling layout-heron (`docling_heron_tdlav4_tam2col`) | 0.917 | 0.944 | 0.998 | 0.809 | 0.00 | 0.593 |
+| DocLayout-YOLO (`doclayout_tdlav4_tam2col`) | 0.897 | 0.931 | 0.980 | 0.779 | 0.30 | 0.586 |
 
 PP-DocLayout-L tops the table at **0.957** (above the RT-DETR seed mean by ~1.3
 sd), driven by the best footnote class of any system (0.925) and near-perfect
@@ -147,6 +152,30 @@ capping it at 0.502. Fine-tuning on v4 lifts every one of these into the
 0.90–0.94 band (see the "Ours" table): +0.23 for DocLayout-YOLO, +0.33 for heron,
 and the footnote class in particular goes from ≤0.68 to 0.78–0.89. So the bulk of
 our numbers is Tibetan adaptation, not the pretrained backbone.
+
+## DocLayNet-aligned shared-class mAP + domain transfer
+
+Full write-up + tables: [`DOCLAYNET_SHARED.md`](DOCLAYNET_SHARED.md). All 13
+systems re-scored in the DocLayNet-aligned shared space (page-header /
+page-footer / footnote separate, text-area excluded), same COCO protocol. Our
+fine-tunes cluster at **0.59–0.65** shared mAP@50:95 (RT-DETR-l 0.650 on top),
+≥3× above every off-the-shelf / commercial / VLM system (≤0.20). Per-system JSON
+under `shared_map/`.
+
+**Domain transfer.** The DocLayNet-trained Docling layout-heron, off-the-shelf on
+our books, drops from **0.655** shared mAP (on DocLayNet's own test) to **0.075**
+on Tibetan pecha — but the IoU-sweep diagnostic shows it *finds* our
+header/footer/footnote at IoU≥0.1 (recall 0.99–1.00) and only misaligns the boxes
+(page-footer recall 0.99→0.39 at IoU≥0.5; box-convention mismatch, not misses).
+Symmetrically, our production RT-DETR-l on the DocLayNet v1.2 test (4,999 pages)
+scores shared mAP@50:95 **0.0045** — but here the failure is *genuine misses*
+(it overlaps only 53% of DocLayNet page-headers / 35% of footnotes even at
+IoU≥0.1), the complementary transfer failure. Metrics under
+`doclaynet_transfer/` (and `s3://.../tdlav4/eval/doclaynet_transfer/`).
+
+Raw per-split composition (Table 1) is in
+[`DOCLAYNET_SHARED.md`](DOCLAYNET_SHARED.md) §G4 / `composition_v4.json` (corpus
+25,460 boxes; footnote the rarest at 367).
 
 ## Hidden Trespass + COTe (area-based failure analysis)
 

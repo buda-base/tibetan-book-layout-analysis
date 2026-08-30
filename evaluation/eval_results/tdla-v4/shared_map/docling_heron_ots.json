@@ -1,0 +1,69 @@
+{
+  "id": "docling_heron_ots",
+  "name": "Docling layout-heron (off-the-shelf)",
+  "group": "off_the_shelf",
+  "role": "doclaynet_detector",
+  "dataset_tag": "v4",
+  "n_pages": 833,
+  "shared_ap50": 0.27064347751658463,
+  "shared_ap5095": 0.07471124610535813,
+  "shared_per_class": {
+    "page-header": {
+      "ap50": 0.5024598650505244,
+      "ap5095": 0.11822725119649212
+    },
+    "page-footer": {
+      "ap50": 0.11576333229052553,
+      "ap5095": 0.027161197848384583
+    },
+    "footnote": {
+      "ap50": 0.19370723520870387,
+      "ap5095": 0.07874528927119771
+    }
+  },
+  "textarea_ap5095": 0.3262794229356687,
+  "diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 1.0,
+        "mean_matched_iou": 0.5761453912278026,
+        "tp": 876,
+        "npos": 876
+      },
+      "iou0.5": {
+        "recall": 0.7465753424657534,
+        "mean_matched_iou": 0.647958385919229,
+        "tp": 654,
+        "npos": 876
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.9910044977511244,
+        "mean_matched_iou": 0.46554144898053246,
+        "tp": 661,
+        "npos": 667
+      },
+      "iou0.5": {
+        "recall": 0.3868065967016492,
+        "mean_matched_iou": 0.6636128916714117,
+        "tp": 258,
+        "npos": 667
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 1.0,
+        "mean_matched_iou": 0.5122550922634012,
+        "tp": 38,
+        "npos": 38
+      },
+      "iou0.5": {
+        "recall": 0.8421052631578947,
+        "mean_matched_iou": 0.7330703545716544,
+        "tp": 32,
+        "npos": 38
+      }
+    }
+  }
+}

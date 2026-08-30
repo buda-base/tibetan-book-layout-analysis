@@ -1,0 +1,904 @@
+{
+  "schema": "doclaynet-shared (page-header,page-footer,footnote)",
+  "gt_dir": "/home/eroux/tmp/tdla-promote-v2/canonical-git/labels/test",
+  "n_systems": 13,
+  "systems": [
+    {
+      "id": "rtdetr_tdlav4",
+      "name": "RT-DETR-l tam2col (ours, v4; seed0)",
+      "group": "ours",
+      "role": "ours",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.9587323581161722,
+      "shared_ap5095": 0.6500325553625964,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.9574866070951745,
+          "ap5095": 0.6170988619081573
+        },
+        "page-footer": {
+          "ap50": 0.9320676225177408,
+          "ap5095": 0.5009886871181863
+        },
+        "footnote": {
+          "ap50": 0.9866428447356014,
+          "ap5095": 0.8320101170614459
+        }
+      },
+      "textarea_ap5095": 0.42175060824468164,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.9885844748858448,
+            "mean_matched_iou": 0.8202249526072788,
+            "tp": 866,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.9726027397260274,
+            "mean_matched_iou": 0.8289367923831288,
+            "tp": 852,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.992503748125937,
+            "mean_matched_iou": 0.7733384980784992,
+            "tp": 662,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.9580209895052474,
+            "mean_matched_iou": 0.7866109522345734,
+            "tp": 639,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 1.0,
+            "mean_matched_iou": 0.905468931278329,
+            "tp": 38,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 1.0,
+            "mean_matched_iou": 0.905468931278329,
+            "tp": 38,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "rfdetr_tdlav4",
+      "name": "RF-DETR-Large tam2col (ours, v4)",
+      "group": "ours",
+      "role": "ours",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.9248871522050818,
+      "shared_ap5095": 0.603748064158285,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.9600738822324733,
+          "ap5095": 0.6055686568509715
+        },
+        "page-footer": {
+          "ap50": 0.9453432774128411,
+          "ap5095": 0.5012299240242619
+        },
+        "footnote": {
+          "ap50": 0.8692442969699308,
+          "ap5095": 0.7044456115996217
+        }
+      },
+      "textarea_ap5095": 0.4206141191924914,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.9931506849315068,
+            "mean_matched_iou": 0.8118627092723179,
+            "tp": 870,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.9817351598173516,
+            "mean_matched_iou": 0.8228972733344938,
+            "tp": 860,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.9985007496251874,
+            "mean_matched_iou": 0.7730354325668705,
+            "tp": 666,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.9655172413793104,
+            "mean_matched_iou": 0.7854176570911263,
+            "tp": 644,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 1.0,
+            "mean_matched_iou": 0.8666913359335586,
+            "tp": 38,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.9736842105263158,
+            "mean_matched_iou": 0.8809467983389725,
+            "tp": 37,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "docling_heron_tdlav4",
+      "name": "Docling layout-heron tam2col (ours, v4)",
+      "group": "ours",
+      "role": "ours",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.8903567999994624,
+      "shared_ap5095": 0.5928335812283034,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.9542322468461859,
+          "ap5095": 0.6231079266518997
+        },
+        "page-footer": {
+          "ap50": 0.8982745986489424,
+          "ap5095": 0.4889815871911046
+        },
+        "footnote": {
+          "ap50": 0.8185635545032589,
+          "ap5095": 0.666411229841906
+        }
+      },
+      "textarea_ap5095": 0.4145071721329197,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.9863013698630136,
+            "mean_matched_iou": 0.8262809516132373,
+            "tp": 864,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.9726027397260274,
+            "mean_matched_iou": 0.8324441965457829,
+            "tp": 852,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.9820089955022488,
+            "mean_matched_iou": 0.774673699848369,
+            "tp": 655,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.9310344827586207,
+            "mean_matched_iou": 0.7938007677423802,
+            "tp": 621,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.9473684210526315,
+            "mean_matched_iou": 0.9014829119259219,
+            "tp": 36,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.9473684210526315,
+            "mean_matched_iou": 0.9014829119259219,
+            "tp": 36,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "doclayout_tdlav4",
+      "name": "DocLayout-YOLO tam2col (ours, v4)",
+      "group": "ours",
+      "role": "ours",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.9009436743225329,
+      "shared_ap5095": 0.5857510465603148,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.9557588972450517,
+          "ap5095": 0.6118101876400677
+        },
+        "page-footer": {
+          "ap50": 0.9182859442500301,
+          "ap5095": 0.4935414722390528
+        },
+        "footnote": {
+          "ap50": 0.828786181472517,
+          "ap5095": 0.6519014798018242
+        }
+      },
+      "textarea_ap5095": 0.3601801004834808,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.9863013698630136,
+            "mean_matched_iou": 0.8202965760807209,
+            "tp": 864,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.9726027397260274,
+            "mean_matched_iou": 0.8307899974569936,
+            "tp": 852,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.992503748125937,
+            "mean_matched_iou": 0.7756569431012745,
+            "tp": 662,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.9475262368815592,
+            "mean_matched_iou": 0.7930161985851242,
+            "tp": 632,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.8947368421052632,
+            "mean_matched_iou": 0.8815441200888259,
+            "tp": 34,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.8947368421052632,
+            "mean_matched_iou": 0.8815441200888259,
+            "tp": 34,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "pp_doclayout_tdlav4",
+      "name": "PP-DocLayout-L tam2col (ours, v4)",
+      "group": "ours",
+      "role": "ours",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.9469333592638933,
+      "shared_ap5095": 0.641227352846316,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.9645723749643901,
+          "ap5095": 0.6215509508660889
+        },
+        "page-footer": {
+          "ap50": 0.929459860019843,
+          "ap5095": 0.5028107147720934
+        },
+        "footnote": {
+          "ap50": 0.9467678428074469,
+          "ap5095": 0.7993203929007657
+        }
+      },
+      "textarea_ap5095": 0.4235668396798611,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.9965753424657534,
+            "mean_matched_iou": 0.8226582931683842,
+            "tp": 873,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.980593607305936,
+            "mean_matched_iou": 0.8305392701645048,
+            "tp": 859,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.9940029985007496,
+            "mean_matched_iou": 0.776996987957036,
+            "tp": 663,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.9505247376311844,
+            "mean_matched_iou": 0.7930029404572329,
+            "tp": 634,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.9736842105263158,
+            "mean_matched_iou": 0.9129470881809049,
+            "tp": 37,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.9736842105263158,
+            "mean_matched_iou": 0.9129470881809049,
+            "tp": 37,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "pp_doclayout_ots",
+      "name": "PP-DocLayout-L (off-the-shelf)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.3756424947822401,
+      "shared_ap5095": 0.1687791745332249,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.40813522372168365,
+          "ap5095": 0.09694452385827579
+        },
+        "page-footer": {
+          "ap50": 0.12437975548071488,
+          "ap5095": 0.02491101216628393
+        },
+        "footnote": {
+          "ap50": 0.5944125051443216,
+          "ap5095": 0.38448198757511504
+        }
+      },
+      "textarea_ap5095": 0.4739864119247974,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.684931506849315,
+            "mean_matched_iou": 0.5770692839345997,
+            "tp": 600,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.5148401826484018,
+            "mean_matched_iou": 0.6417735155780158,
+            "tp": 451,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.8905547226386806,
+            "mean_matched_iou": 0.46026977654596696,
+            "tp": 594,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.34332833583208394,
+            "mean_matched_iou": 0.6225150099751547,
+            "tp": 229,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.8421052631578947,
+            "mean_matched_iou": 0.759763023232262,
+            "tp": 32,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.7631578947368421,
+            "mean_matched_iou": 0.804185619368896,
+            "tp": 29,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "docling_heron_ots",
+      "name": "Docling layout-heron (off-the-shelf)",
+      "group": "off_the_shelf",
+      "role": "doclaynet_detector",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.27064347751658463,
+      "shared_ap5095": 0.07471124610535813,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.5024598650505244,
+          "ap5095": 0.11822725119649212
+        },
+        "page-footer": {
+          "ap50": 0.11576333229052553,
+          "ap5095": 0.027161197848384583
+        },
+        "footnote": {
+          "ap50": 0.19370723520870387,
+          "ap5095": 0.07874528927119771
+        }
+      },
+      "textarea_ap5095": 0.3262794229356687,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 1.0,
+            "mean_matched_iou": 0.5761453912278026,
+            "tp": 876,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.7465753424657534,
+            "mean_matched_iou": 0.647958385919229,
+            "tp": 654,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.9910044977511244,
+            "mean_matched_iou": 0.46554144898053246,
+            "tp": 661,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.3868065967016492,
+            "mean_matched_iou": 0.6636128916714117,
+            "tp": 258,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 1.0,
+            "mean_matched_iou": 0.5122550922634012,
+            "tp": 38,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.8421052631578947,
+            "mean_matched_iou": 0.7330703545716544,
+            "tp": 32,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "doclayout_docstruct_ots",
+      "name": "DocLayout-YOLO DocStructBench (off-the-shelf)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.10119121425098376,
+      "shared_ap5095": 0.03068095267079918,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.3035736427529513,
+          "ap5095": 0.09204285801239755
+        },
+        "page-footer": {
+          "ap50": 0.0,
+          "ap5095": 0.0
+        },
+        "footnote": {
+          "ap50": 0.0,
+          "ap5095": 0.0
+        }
+      },
+      "textarea_ap5095": 0.25094015869963193,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.9041095890410958,
+            "mean_matched_iou": 0.6328942401740555,
+            "tp": 792,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.7705479452054794,
+            "mean_matched_iou": 0.6875346857981002,
+            "tp": 675,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "surya_vlm",
+      "name": "Surya 2 layout VLM (surya-ocr-2)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.577985501042939,
+      "shared_ap5095": 0.20034328419816716,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.8044989368038813,
+          "ap5095": 0.26467276306913906
+        },
+        "page-footer": {
+          "ap50": 0.6922773107691137,
+          "ap5095": 0.2132216356937624
+        },
+        "footnote": {
+          "ap50": 0.23718025555582192,
+          "ap5095": 0.12313545383159999
+        }
+      },
+      "textarea_ap5095": 0.0634722945066894,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.952054794520548,
+            "mean_matched_iou": 0.6705604331825629,
+            "tp": 834,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.8858447488584474,
+            "mean_matched_iou": 0.6899790565267294,
+            "tp": 776,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.9760119940029985,
+            "mean_matched_iou": 0.6412893144107731,
+            "tp": 651,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.8245877061469266,
+            "mean_matched_iou": 0.682966503149892,
+            "tp": 550,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.868421052631579,
+            "mean_matched_iou": 0.6409083508845389,
+            "tp": 33,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.6052631578947368,
+            "mean_matched_iou": 0.7972782243473718,
+            "tp": 23,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "chandra",
+      "name": "Chandra 2 (chandra-ocr-2)",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.39697228927008554,
+      "shared_ap5095": 0.15194108700334255,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.760202298754139,
+          "ap5095": 0.2493803028469325
+        },
+        "page-footer": {
+          "ap50": 0.2207364283849076,
+          "ap5095": 0.06978298447341853
+        },
+        "footnote": {
+          "ap50": 0.20997814067120998,
+          "ap5095": 0.13665997368967667
+        }
+      },
+      "textarea_ap5095": 0.11562294541650293,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.8938356164383562,
+            "mean_matched_iou": 0.6635039724666243,
+            "tp": 783,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.8253424657534246,
+            "mean_matched_iou": 0.6841287538371397,
+            "tp": 723,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.27886056971514245,
+            "mean_matched_iou": 0.637453675715098,
+            "tp": 186,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.239880059970015,
+            "mean_matched_iou": 0.6731735544432482,
+            "tp": 160,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.2894736842105263,
+            "mean_matched_iou": 0.7917457978230842,
+            "tp": 11,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.2631578947368421,
+            "mean_matched_iou": 0.839028174458613,
+            "tp": 10,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "azure_di",
+      "name": "Azure DI prebuilt-layout",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.294847263736011,
+      "shared_ap5095": 0.10254160565368624,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.5065077469595548,
+          "ap5095": 0.18030028000054577
+        },
+        "page-footer": {
+          "ap50": 0.3004478373519265,
+          "ap5095": 0.09220541663829632
+        },
+        "footnote": {
+          "ap50": 0.07758620689655173,
+          "ap5095": 0.03511912032221667
+        }
+      },
+      "textarea_ap5095": 0.14790498168008476,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.5901826484018264,
+            "mean_matched_iou": 0.6810061617712289,
+            "tp": 517,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.5468036529680366,
+            "mean_matched_iou": 0.7018744139650505,
+            "tp": 479,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.9475262368815592,
+            "mean_matched_iou": 0.5388497184666257,
+            "tp": 632,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.49325337331334335,
+            "mean_matched_iou": 0.6820584560325227,
+            "tp": 329,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.7105263157894737,
+            "mean_matched_iou": 0.4985171552663143,
+            "tp": 27,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.34210526315789475,
+            "mean_matched_iou": 0.7592086074892477,
+            "tp": 13,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "aws_textract",
+      "name": "AWS Textract Layout",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.018001483784301116,
+      "shared_ap5095": 0.003851152913360347,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.0007244626901714562,
+          "ap5095": 0.0003863801014247766
+        },
+        "page-footer": {
+          "ap50": 0.05327998866273189,
+          "ap5095": 0.011167078638656264
+        },
+        "footnote": {
+          "ap50": 0.0,
+          "ap5095": 0.0
+        }
+      },
+      "textarea_ap5095": 0.122921510415734,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.010273972602739725,
+            "mean_matched_iou": 0.5422764810371553,
+            "tp": 9,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.0045662100456621,
+            "mean_matched_iou": 0.7014305927094019,
+            "tp": 4,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.6731634182908546,
+            "mean_matched_iou": 0.4434368497333845,
+            "tp": 449,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.2158920539730135,
+            "mean_matched_iou": 0.6312673291422302,
+            "tp": 144,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 38
+          }
+        }
+      }
+    },
+    {
+      "id": "google_docai",
+      "name": "Google DocAI Layout Parser",
+      "group": "off_the_shelf",
+      "role": "other",
+      "dataset_tag": "v4",
+      "n_pages": 833,
+      "shared_ap50": 0.029445347795081362,
+      "shared_ap5095": 0.005802708172312709,
+      "shared_per_class": {
+        "page-header": {
+          "ap50": 0.05026120847414467,
+          "ap5095": 0.008379744305247459
+        },
+        "page-footer": {
+          "ap50": 0.03807483491109942,
+          "ap5095": 0.009028380211690671
+        },
+        "footnote": {
+          "ap50": 0.0,
+          "ap5095": 0.0
+        }
+      },
+      "textarea_ap5095": 0.0360445788715251,
+      "diagnostic": {
+        "page-header": {
+          "iou0.1": {
+            "recall": 0.4840182648401826,
+            "mean_matched_iou": 0.46016578535957053,
+            "tp": 424,
+            "npos": 876
+          },
+          "iou0.5": {
+            "recall": 0.1324200913242009,
+            "mean_matched_iou": 0.5905261226393819,
+            "tp": 116,
+            "npos": 876
+          }
+        },
+        "page-footer": {
+          "iou0.1": {
+            "recall": 0.11394302848575712,
+            "mean_matched_iou": 0.5160628967803118,
+            "tp": 76,
+            "npos": 667
+          },
+          "iou0.5": {
+            "recall": 0.05847076461769116,
+            "mean_matched_iou": 0.6335283494000696,
+            "tp": 39,
+            "npos": 667
+          }
+        },
+        "footnote": {
+          "iou0.1": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 38
+          },
+          "iou0.5": {
+            "recall": 0.0,
+            "mean_matched_iou": 0.0,
+            "tp": 0,
+            "npos": 38
+          }
+        }
+      }
+    }
+  ]
+}

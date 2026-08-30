@@ -1,0 +1,271 @@
+{
+  "n_pages": 4999,
+  "n_missing_pred": 0,
+  "conf": 0.5,
+  "coco_shared": {
+    "per_class": {
+      "page-header": {
+        "ap50": 0.008411457076326949,
+        "ap5095": 0.00233325394684283
+      },
+      "text-area": {
+        "ap50": 0.00034438226431338786,
+        "ap5095": 0.0001364982231963178
+      },
+      "footnote": {
+        "ap50": 0.007012712035237377,
+        "ap5095": 0.0016623946163428543
+      },
+      "page-footer": {
+        "ap50": 0.044170813565387546,
+        "ap5095": 0.009464659035152798
+      }
+    },
+    "mean_ap50": 0.019864994225650624,
+    "mean_ap5095": 0.004486769199446161,
+    "n_gt": 37687,
+    "n_dt": 28509,
+    "n_images": 4999
+  },
+  "coco_all_four_including_textarea": {
+    "per_class": {
+      "page-header": {
+        "ap50": 0.008411457076326949,
+        "ap5095": 0.00233325394684283
+      },
+      "text-area": {
+        "ap50": 0.00034438226431338786,
+        "ap5095": 0.0001364982231963178
+      },
+      "footnote": {
+        "ap50": 0.007012712035237377,
+        "ap5095": 0.0016623946163428543
+      },
+      "page-footer": {
+        "ap50": 0.044170813565387546,
+        "ap5095": 0.009464659035152798
+      }
+    },
+    "mean_ap50": 0.014984841235316314,
+    "mean_ap5095": 0.0033992014553836996,
+    "n_gt": 37687,
+    "n_dt": 28509,
+    "n_images": 4999
+  },
+  "iou_diagnostic": {
+    "page-header": {
+      "iou0.1": {
+        "recall": 0.5344622697563874,
+        "mean_matched_iou": 0.33736329578435015,
+        "tp": 1799,
+        "npos": 3366
+      },
+      "iou0.5": {
+        "recall": 0.06862745098039216,
+        "mean_matched_iou": 0.6266792147699346,
+        "tp": 231,
+        "npos": 3366
+      }
+    },
+    "page-footer": {
+      "iou0.1": {
+        "recall": 0.7954431647471207,
+        "mean_matched_iou": 0.4015518681010101,
+        "tp": 3177,
+        "npos": 3994
+      },
+      "iou0.5": {
+        "recall": 0.15673510265398097,
+        "mean_matched_iou": 0.6108051454715205,
+        "tp": 626,
+        "npos": 3994
+      }
+    },
+    "footnote": {
+      "iou0.1": {
+        "recall": 0.35142118863049093,
+        "mean_matched_iou": 0.3733519392854996,
+        "tp": 136,
+        "npos": 387
+      },
+      "iou0.5": {
+        "recall": 0.08785529715762273,
+        "mean_matched_iou": 0.6190741357246491,
+        "tp": 34,
+        "npos": 387
+      }
+    }
+  },
+  "textarea_granularity_mismatch": true,
+  "textarea_note": "Our text-area is a page/column envelope; DocLayNet Text is paragraph-level. Do not average text-area AP into the shared mean.",
+  "op_doclaynet": {
+    "conf": 0.5,
+    "per_class": {
+      "page-header": {
+        "P": 0.09473684210526316,
+        "R": 0.029411764705882353,
+        "F1": 0.044887780548628436,
+        "meanIoU": 0.6109321418857585,
+        "tp": 99,
+        "fp": 946,
+        "fn": 3267,
+        "npos": 3366
+      },
+      "text-area": {
+        "P": 0.011420557002604689,
+        "R": 0.001903807615230461,
+        "F1": 0.003263576765623658,
+        "meanIoU": 0.6396536404848785,
+        "tp": 57,
+        "fp": 4934,
+        "fn": 29883,
+        "npos": 29940
+      },
+      "footnote": {
+        "P": 0.06862745098039216,
+        "R": 0.03617571059431524,
+        "F1": 0.047377326565143825,
+        "meanIoU": 0.6170832060136686,
+        "tp": 14,
+        "fp": 190,
+        "fn": 373,
+        "npos": 387
+      },
+      "page-footer": {
+        "P": 0.17579351238228114,
+        "R": 0.12618928392588882,
+        "F1": 0.14691735898557062,
+        "meanIoU": 0.6143014753886322,
+        "tp": 504,
+        "fp": 2363,
+        "fn": 3490,
+        "npos": 3994
+      }
+    },
+    "mean_F1": 0.060611510716241636
+  },
+  "contamination": {
+    "header-footer": {
+      "gt": 7360,
+      "det": 604,
+      "absorbed": 3769,
+      "clean": 2987,
+      "recoverable": 102,
+      "hidden": 3769,
+      "in_ta": 3871,
+      "as_ta": 3,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 3,
+      "detected_rate": 0.08206521739130435,
+      "contamination_rate": 0.5120923913043478,
+      "clean_miss_rate": 0.40584239130434785,
+      "recoverable_contamination_rate": 0.013858695652173913,
+      "hidden_contamination_rate": 0.5120923913043478,
+      "total_in_ta_rate": 0.5259510869565217,
+      "as_textarea_rate": 0.0004076086956521739,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0004076086956521739
+    },
+    "footnote": {
+      "gt": 387,
+      "det": 14,
+      "absorbed": 273,
+      "clean": 100,
+      "recoverable": 7,
+      "hidden": 273,
+      "in_ta": 280,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.03617571059431524,
+      "contamination_rate": 0.7054263565891473,
+      "clean_miss_rate": 0.25839793281653745,
+      "recoverable_contamination_rate": 0.01808785529715762,
+      "hidden_contamination_rate": 0.7054263565891473,
+      "total_in_ta_rate": 0.7235142118863049,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    },
+    "header": {
+      "gt": 3366,
+      "det": 99,
+      "absorbed": 2467,
+      "clean": 800,
+      "recoverable": 45,
+      "hidden": 2467,
+      "in_ta": 2512,
+      "as_ta": 3,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 3,
+      "detected_rate": 0.029411764705882353,
+      "contamination_rate": 0.7329174093879977,
+      "clean_miss_rate": 0.23767082590612001,
+      "recoverable_contamination_rate": 0.013368983957219251,
+      "hidden_contamination_rate": 0.7329174093879977,
+      "total_in_ta_rate": 0.7462863933452168,
+      "as_textarea_rate": 0.00089126559714795,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.00089126559714795
+    },
+    "footer": {
+      "gt": 3994,
+      "det": 504,
+      "absorbed": 1303,
+      "clean": 2187,
+      "recoverable": 56,
+      "hidden": 1303,
+      "in_ta": 1359,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.12618928392588882,
+      "contamination_rate": 0.32623935903855783,
+      "clean_miss_rate": 0.5475713570355534,
+      "recoverable_contamination_rate": 0.014021031547320982,
+      "hidden_contamination_rate": 0.32623935903855783,
+      "total_in_ta_rate": 0.3402603905858788,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    }
+  },
+  "led": {
+    "header": {
+      "gt": 3366,
+      "pred": 1045,
+      "missing": 2715,
+      "merge": 4,
+      "split": 9,
+      "hallucination": 382,
+      "matched": 651
+    },
+    "footer": {
+      "gt": 3994,
+      "pred": 2867,
+      "missing": 1643,
+      "merge": 4,
+      "split": 9,
+      "hallucination": 510,
+      "matched": 2351
+    },
+    "footnote": {
+      "gt": 387,
+      "pred": 204,
+      "missing": 282,
+      "merge": 24,
+      "split": 0,
+      "hallucination": 137,
+      "matched": 105
+    },
+    "header-footer": {
+      "gt": 7360,
+      "pred": 3912,
+      "missing": 4100,
+      "merge": 10,
+      "split": 27,
+      "hallucination": 624,
+      "matched": 3260
+    }
+  }
+}
