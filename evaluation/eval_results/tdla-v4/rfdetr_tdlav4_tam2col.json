@@ -1,0 +1,40 @@
+{
+  "id": "rfdetr_tdlav4_tam2col",
+  "name": "RF-DETR-Large tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "framework": "rfdetr (RFDETRLarge, pytorch_lightning)",
+  "checkpoint": "s3://bec.bdrc.io/models/hff-detection/tdlav4/weights/rfdetr_tdlav4_tam2col_best_ema.pth",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/rfdetr_tdlav4_tam2col/preds/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "training": {
+    "recipe": "RFDETRLarge, resolution 1008, batch 4, grad_accum 2, lr 1e-4, epochs 100, patience 20",
+    "early_stopped": true,
+    "best_epoch": 31,
+    "best_ema_map": 0.8142,
+    "note": "Early-stopped after 20 epochs with no EMA-mAP improvement past epoch 31. Weights + full run dir + eval synced to tdlav4/{weights,runs,eval}/."
+  },
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.926,
+    "best_mean_conf": 0.25,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.948 },
+      "text-area": { "F1": 0.996 },
+      "footnote": { "F1": 0.835 }
+    },
+    "grid": [
+      { "conf": 0.05, "hf_F1": 0.830, "ta_F1": 0.993, "fn_F1": 0.446, "mean_F1": 0.756 },
+      { "conf": 0.10, "hf_F1": 0.924, "ta_F1": 0.995, "fn_F1": 0.710, "mean_F1": 0.876 },
+      { "conf": 0.15, "hf_F1": 0.944, "ta_F1": 0.995, "fn_F1": 0.776, "mean_F1": 0.905 },
+      { "conf": 0.20, "hf_F1": 0.947, "ta_F1": 0.995, "fn_F1": 0.805, "mean_F1": 0.916 },
+      { "conf": 0.25, "hf_F1": 0.948, "ta_F1": 0.996, "fn_F1": 0.835, "mean_F1": 0.926 },
+      { "conf": 0.30, "hf_F1": 0.948, "ta_F1": 0.996, "fn_F1": 0.821, "mean_F1": 0.922 },
+      { "conf": 0.50, "hf_F1": 0.947, "ta_F1": 0.996, "fn_F1": 0.821, "mean_F1": 0.921 }
+    ],
+    "note": "Best mean-F1 at conf 0.25; header-footer and text-area are flat across a wide 0.15-0.75 plateau, footnote peaks at 0.25. Runner-up to the RT-DETR-l seed mean (0.944), ahead of heron (0.917) and DocLayout-YOLO (0.897)."
+  }
+}

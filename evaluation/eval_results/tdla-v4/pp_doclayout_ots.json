@@ -1,0 +1,35 @@
+{
+  "id": "pp_doclayout_ots",
+  "name": "PP-DocLayout-L (off-the-shelf, v4)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "framework": "paddleocr 3.7.0 LayoutDetection (paddlepaddle-gpu 3.0.0), model PP-DocLayout-L, no Tibetan fine-tuning",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/ots/pp_doclayout/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "notes": "Off-the-shelf PP-DocLayout-L run on the leak-free v4 833-page test (source dataset_tdlav4_tam2col/images/test) on paddlocr_job_v1 (A10G). Label normalisation header/page_header->0, footer/page_footer/page_number->3, footnote->2, text/plain_text/paragraph->1. Predicted at threshold 0.05 so the canonical sweep can explore the operating point. Best of the three off-the-shelf open-weight detectors, driven by the only real footnote class (0.677).",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.670,
+    "best_mean_conf": 0.30,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.464 },
+      "text-area": { "F1": 0.869 },
+      "footnote": { "F1": 0.677 }
+    },
+    "grid": [
+      { "conf": 0.00, "hf_F1": 0.394, "ta_F1": 0.924, "fn_F1": 0.227, "mean_F1": 0.515 },
+      { "conf": 0.10, "hf_F1": 0.452, "ta_F1": 0.916, "fn_F1": 0.299, "mean_F1": 0.556 },
+      { "conf": 0.15, "hf_F1": 0.467, "ta_F1": 0.901, "fn_F1": 0.414, "mean_F1": 0.594 },
+      { "conf": 0.20, "hf_F1": 0.471, "ta_F1": 0.888, "fn_F1": 0.524, "mean_F1": 0.628 },
+      { "conf": 0.25, "hf_F1": 0.467, "ta_F1": 0.877, "fn_F1": 0.587, "mean_F1": 0.643 },
+      { "conf": 0.30, "hf_F1": 0.464, "ta_F1": 0.869, "fn_F1": 0.677, "mean_F1": 0.670 },
+      { "conf": 0.35, "hf_F1": 0.452, "ta_F1": 0.854, "fn_F1": 0.688, "mean_F1": 0.665 },
+      { "conf": 0.50, "hf_F1": 0.408, "ta_F1": 0.811, "fn_F1": 0.700, "mean_F1": 0.640 },
+      { "conf": 0.70, "hf_F1": 0.315, "ta_F1": 0.591, "fn_F1": 0.471, "mean_F1": 0.459 },
+      { "conf": 0.90, "hf_F1": 0.004, "ta_F1": 0.155, "fn_F1": 0.146, "mean_F1": 0.102 }
+    ]
+  }
+}

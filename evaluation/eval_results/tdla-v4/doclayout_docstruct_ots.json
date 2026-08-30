@@ -1,0 +1,33 @@
+{
+  "id": "doclayout_docstruct_ots",
+  "name": "DocLayout-YOLO DocStructBench (off-the-shelf, v4)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "framework": "doclayout_yolo (YOLOv10) fork, DocStructBench weights doclayout_yolo_docstructbench_imgsz1024.pt, no Tibetan fine-tuning",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/ots/doclayout_docstruct/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "notes": "Off-the-shelf DocLayout-YOLO (DocStructBench) run on the leak-free v4 833-page test (source dataset_tdlav4_tam2col/images/test) on paddlocr_job_v1 (A10G), imgsz 1024, no-fuse predictor (g2l_crm fuse bug). DocStructBench->our schema map {0 title, 1 plain text -> 1 text-area; 2 abandon -> 0 header; 7 table_footnote -> 2 footnote; else dropped}. DocStructBench has no genuine footnote class (only table_footnote, which never fires on Tibetan), so footnote F1 is 0 by construction. Predicted at threshold 0.05 for the canonical sweep.",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.502,
+    "best_mean_conf": 0.15,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.615 },
+      "text-area": { "F1": 0.889 },
+      "footnote": { "F1": 0.000 }
+    },
+    "grid": [
+      { "conf": 0.00, "hf_F1": 0.584, "ta_F1": 0.914, "fn_F1": 0.000, "mean_F1": 0.499 },
+      { "conf": 0.10, "hf_F1": 0.607, "ta_F1": 0.896, "fn_F1": 0.000, "mean_F1": 0.501 },
+      { "conf": 0.15, "hf_F1": 0.615, "ta_F1": 0.889, "fn_F1": 0.000, "mean_F1": 0.502 },
+      { "conf": 0.20, "hf_F1": 0.616, "ta_F1": 0.881, "fn_F1": 0.000, "mean_F1": 0.499 },
+      { "conf": 0.30, "hf_F1": 0.613, "ta_F1": 0.861, "fn_F1": 0.000, "mean_F1": 0.491 },
+      { "conf": 0.50, "hf_F1": 0.591, "ta_F1": 0.831, "fn_F1": 0.000, "mean_F1": 0.474 },
+      { "conf": 0.70, "hf_F1": 0.518, "ta_F1": 0.752, "fn_F1": 0.000, "mean_F1": 0.423 },
+      { "conf": 0.90, "hf_F1": 0.035, "ta_F1": 0.574, "fn_F1": 0.000, "mean_F1": 0.203 }
+    ]
+  }
+}

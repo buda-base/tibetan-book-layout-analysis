@@ -1,0 +1,282 @@
+{
+  "id": "rfdetr_tdlav4",
+  "name": "RF-DETR-Large tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "operating_conf": 0.26,
+  "coco_canonical": {
+    "per_class": {
+      "header-footer": {
+        "ap50": 0.957678230397981,
+        "ap5095": 0.5663658338119164
+      },
+      "text-area": {
+        "ap50": 0.9473279228905226,
+        "ap5095": 0.7298202729339547
+      },
+      "footnote": {
+        "ap50": 0.8701479902215619,
+        "ap5095": 0.7063068702518631
+      }
+    },
+    "mean_ap50": 0.9250513811700217,
+    "mean_ap5095": 0.6674976589992448,
+    "n_gt": 2410,
+    "n_dt": 27100,
+    "n_images": 833
+  },
+  "sweep_canonical": {
+    "best_mean_F1": 0.9127937291592371,
+    "best_mean_conf": 0.26,
+    "best_per_class": {
+      "header-footer": {
+        "F1": 0.9487765089722675,
+        "conf": 0.26
+      },
+      "text-area": {
+        "F1": 0.9553140096618358,
+        "conf": 0.53
+      },
+      "footnote": {
+        "F1": 0.8354430379746836,
+        "conf": 0.24
+      }
+    },
+    "at_best_mean": {
+      "per_class": {
+        "header-footer": {
+          "P": 0.9553219448094612,
+          "R": 0.9423201555411536,
+          "F1": 0.9487765089722675,
+          "meanIoU": 0.808317224266726,
+          "tp": 1454,
+          "fp": 68,
+          "fn": 89,
+          "npos": 1543
+        },
+        "text-area": {
+          "P": 0.9541616405307599,
+          "R": 0.9541616405307599,
+          "F1": 0.9541616405307599,
+          "meanIoU": 0.8726407531672672,
+          "tp": 791,
+          "fp": 38,
+          "fn": 38,
+          "npos": 829
+        },
+        "footnote": {
+          "P": 0.8048780487804879,
+          "R": 0.868421052631579,
+          "F1": 0.8354430379746836,
+          "meanIoU": 0.8864002682503631,
+          "tp": 33,
+          "fp": 8,
+          "fn": 5,
+          "npos": 38
+        }
+      },
+      "mean_F1": 0.9127937291592371
+    }
+  },
+  "op_canonical": {
+    "conf": 0.26,
+    "per_class": {
+      "header-footer": {
+        "P": 0.9553219448094612,
+        "R": 0.9423201555411536,
+        "F1": 0.9487765089722675,
+        "meanIoU": 0.808317224266726,
+        "tp": 1454,
+        "fp": 68,
+        "fn": 89,
+        "npos": 1543
+      },
+      "text-area": {
+        "P": 0.9541616405307599,
+        "R": 0.9541616405307599,
+        "F1": 0.9541616405307599,
+        "meanIoU": 0.8726407531672672,
+        "tp": 791,
+        "fp": 38,
+        "fn": 38,
+        "npos": 829
+      },
+      "footnote": {
+        "P": 0.8048780487804879,
+        "R": 0.868421052631579,
+        "F1": 0.8354430379746836,
+        "meanIoU": 0.8864002682503631,
+        "tp": 33,
+        "fp": 8,
+        "fn": 5,
+        "npos": 38
+      }
+    },
+    "mean_F1": 0.9127937291592371
+  },
+  "hidden_trespass": {
+    "header-footer": {
+      "HT": 0.02000843654780728,
+      "R": 0.002123567567557274,
+      "total_bleed": 0.022132004115364555,
+      "count_contamination_rate": 0.01101749837977965,
+      "n_gt": 1543,
+      "n_undetected": 89,
+      "n_detected": 1454,
+      "n_hidden_absorbed": 17,
+      "area_G_px": 35313005.12469589,
+      "area_E_inter_U_px": 706558.022349871,
+      "area_E_inter_D_px": 74989.552395788
+    },
+    "footnote": {
+      "HT": 0.21584058617654484,
+      "R": 0.00972364664689381,
+      "total_bleed": 0.22556423282343865,
+      "count_contamination_rate": 0.13157894736842105,
+      "n_gt": 38,
+      "n_undetected": 5,
+      "n_detected": 33,
+      "n_hidden_absorbed": 5,
+      "area_G_px": 7947826.694361329,
+      "area_E_inter_U_px": 1715463.57254054,
+      "area_E_inter_D_px": 77281.85838671966
+    }
+  },
+  "contamination": {
+    "header-footer": {
+      "gt": 1543,
+      "det": 1454,
+      "absorbed": 17,
+      "clean": 72,
+      "recoverable": 0,
+      "hidden": 17,
+      "in_ta": 17,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.9423201555411536,
+      "contamination_rate": 0.01101749837977965,
+      "clean_miss_rate": 0.046662346079066754,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.01101749837977965,
+      "total_in_ta_rate": 0.01101749837977965,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    },
+    "footnote": {
+      "gt": 38,
+      "det": 33,
+      "absorbed": 5,
+      "clean": 0,
+      "recoverable": 1,
+      "hidden": 5,
+      "in_ta": 6,
+      "as_ta": 3,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 3,
+      "detected_rate": 0.868421052631579,
+      "contamination_rate": 0.13157894736842105,
+      "clean_miss_rate": 0.0,
+      "recoverable_contamination_rate": 0.02631578947368421,
+      "hidden_contamination_rate": 0.13157894736842105,
+      "total_in_ta_rate": 0.15789473684210525,
+      "as_textarea_rate": 0.07894736842105263,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.07894736842105263
+    },
+    "header": {
+      "gt": 876,
+      "det": 826,
+      "absorbed": 15,
+      "clean": 35,
+      "recoverable": 0,
+      "hidden": 15,
+      "in_ta": 15,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.9429223744292238,
+      "contamination_rate": 0.017123287671232876,
+      "clean_miss_rate": 0.03995433789954338,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.017123287671232876,
+      "total_in_ta_rate": 0.017123287671232876,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    },
+    "footer": {
+      "gt": 667,
+      "det": 628,
+      "absorbed": 2,
+      "clean": 37,
+      "recoverable": 0,
+      "hidden": 2,
+      "in_ta": 2,
+      "as_ta": 0,
+      "dual_as_ta": 0,
+      "hidden_as_ta": 0,
+      "detected_rate": 0.9415292353823088,
+      "contamination_rate": 0.0029985007496251873,
+      "clean_miss_rate": 0.05547226386806597,
+      "recoverable_contamination_rate": 0.0,
+      "hidden_contamination_rate": 0.0029985007496251873,
+      "total_in_ta_rate": 0.0029985007496251873,
+      "as_textarea_rate": 0.0,
+      "dual_as_textarea_rate": 0.0,
+      "hidden_as_textarea_rate": 0.0
+    }
+  },
+  "led": {
+    "header": {
+      "gt": 876,
+      "pred": 865,
+      "missing": 20,
+      "merge": 22,
+      "split": 3,
+      "hallucination": 8,
+      "matched": 856
+    },
+    "footer": {
+      "gt": 667,
+      "pred": 657,
+      "missing": 17,
+      "merge": 0,
+      "split": 0,
+      "hallucination": 6,
+      "matched": 650
+    },
+    "footnote": {
+      "gt": 38,
+      "pred": 41,
+      "missing": 4,
+      "merge": 0,
+      "split": 0,
+      "hallucination": 7,
+      "matched": 34
+    },
+    "header-footer": {
+      "gt": 1543,
+      "pred": 1522,
+      "missing": 37,
+      "merge": 22,
+      "split": 3,
+      "hallucination": 14,
+      "matched": 1506
+    }
+  },
+  "cote": {
+    "cote": 0.9744502838110951,
+    "coverage": 0.9769913680464901,
+    "overlap": 0.0007471777589517856,
+    "trespass": 0.00179390647644321,
+    "excess": 0.023434977827148828,
+    "ta_trespass_peripheral_macro": 0.00376385953986992,
+    "ta_trespass_peripheral_micro": 0.0032573628502658796,
+    "ta_trespass_peripheral": 0.0032573628502658796,
+    "n_pages": 829
+  },
+  "wall_s": 38.2
+}

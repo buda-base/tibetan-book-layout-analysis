@@ -1,0 +1,35 @@
+{
+  "id": "docling_heron_ots",
+  "name": "Docling layout-heron (off-the-shelf, v4)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "framework": "HF transformers RTDetrV2ForObjectDetection, checkpoint docling-project/docling-layout-heron, no Tibetan fine-tuning",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/ots/docling_heron/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "notes": "Off-the-shelf Docling layout-heron run on the leak-free v4 833-page test (source dataset_tdlav4_tam2col/images/test) on paddlocr_job_v1 (A10G). Heron id2label mapped page_header->0, page_footer->3, footnote->2, text/title/section_header/list_item/caption/table/formula/...->1 (body). Predicted at threshold 0.05 so the canonical sweep can explore the operating point. Reads text-area near-perfectly (0.993) but only recognises top/bottom page_header/page_footer, so Tibetan side-margin headers/footers drag header-footer to 0.488.",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.588,
+    "best_mean_conf": 0.55,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.488 },
+      "text-area": { "F1": 0.993 },
+      "footnote": { "F1": 0.282 }
+    },
+    "grid": [
+      { "conf": 0.00, "hf_F1": 0.179, "ta_F1": 0.936, "fn_F1": 0.034, "mean_F1": 0.383 },
+      { "conf": 0.10, "hf_F1": 0.301, "ta_F1": 0.963, "fn_F1": 0.098, "mean_F1": 0.454 },
+      { "conf": 0.20, "hf_F1": 0.378, "ta_F1": 0.982, "fn_F1": 0.156, "mean_F1": 0.505 },
+      { "conf": 0.30, "hf_F1": 0.416, "ta_F1": 0.988, "fn_F1": 0.180, "mean_F1": 0.528 },
+      { "conf": 0.40, "hf_F1": 0.450, "ta_F1": 0.989, "fn_F1": 0.218, "mean_F1": 0.552 },
+      { "conf": 0.50, "hf_F1": 0.485, "ta_F1": 0.990, "fn_F1": 0.255, "mean_F1": 0.577 },
+      { "conf": 0.55, "hf_F1": 0.488, "ta_F1": 0.993, "fn_F1": 0.282, "mean_F1": 0.588 },
+      { "conf": 0.65, "hf_F1": 0.481, "ta_F1": 0.987, "fn_F1": 0.290, "mean_F1": 0.586 },
+      { "conf": 0.75, "hf_F1": 0.461, "ta_F1": 0.934, "fn_F1": 0.311, "mean_F1": 0.569 },
+      { "conf": 0.90, "hf_F1": 0.292, "ta_F1": 0.872, "fn_F1": 0.194, "mean_F1": 0.452 }
+    ]
+  }
+}

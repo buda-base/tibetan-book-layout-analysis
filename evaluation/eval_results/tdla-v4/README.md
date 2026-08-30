@@ -108,14 +108,76 @@ collapses recall (0.593). Raw predictions:
 > `run_literature_eval.py` still scores its `surya_vlm_ots` / `chandra_ots` rows
 > on the v2 GT (consistent with the other v2 rows there).
 
+### Off-the-shelf open-weight detectors (no Tibetan fine-tuning)
+
+The same three architectures we fine-tune, run **off-the-shelf** on the identical
+v4 833-page test set (raw preds + sweeps under
+`s3://.../tdlav4/eval/ots/{pp_doclayout,docling_heron,doclayout_docstruct}/`).
+Same canonical pipeline as every row above (`canon_sweep_preds.py`, remap
+`0:0,1:1,2:2,3:0`, IoU≥0.5, best-mean-F1 point). This isolates how much of each
+fine-tune's score comes from Tibetan adaptation vs the pretrained checkpoint.
+
+| model (off-the-shelf) | run name | mean F1 | header-footer | text-area | footnote | conf |
+|---|---|---|---|---|---|---|
+| PP-DocLayout-L (`PP-DocLayout-L`) | `pp_doclayout_ots` | 0.670 | 0.464 | 0.869 | 0.677 | 0.30 |
+| Docling layout-heron (`docling-layout-heron`) | `docling_heron_ots` | 0.588 | 0.488 | 0.993 | 0.282 | 0.55 |
+| DocLayout-YOLO (DocStructBench) | `doclayout_docstruct_ots` | 0.502 | 0.615 | 0.889 | 0.000 | 0.15 |
+
+All three read the **text-area** envelope well (0.87–0.99) — that transfers from
+generic document layout — but collapse on the Tibetan-specific classes. PP-DocLayout-L
+leads (0.670) purely because it is the only one with a usable **footnote** class
+(0.677); its header-footer is weakest (0.464) since it never learned side-margin
+headers. heron reads text-area near-perfectly (0.993) but only knows top/bottom
+`page_header`/`page_footer` (0.488) and low-confidence footnotes (0.282).
+DocLayout-YOLO/DocStructBench has **no genuine footnote class** (only
+`table_footnote`, which never fires here), so footnote F1 is 0 by construction,
+capping it at 0.502. Fine-tuning on v4 lifts every one of these into the
+0.90–0.94 band (see the "Ours" table): +0.23 for DocLayout-YOLO, +0.33 for heron,
+and the footnote class in particular goes from ≤0.68 to 0.78–0.89. So the bulk of
+our numbers is Tibetan adaptation, not the pretrained backbone.
+
 ## Hidden Trespass + COTe (area-based failure analysis)
 
-`evaluation/run_literature_eval.py` now emits, per system, the area-based
+`evaluation/run_literature_eval.py` emits, per system, the area-based
 **Hidden Trespass** `HT_c` (undetected class-*c* GT area that bleeds into the OCR
 crop), its complement `R_c` (detected-but-inside, removable pre-OCR), the total
 `HT_c + R_c`, plus the library **COTe** decomposition (C/O/T/E via `cotescore`
 0.2.0) and the class-resolved **text-area→peripheral** COTe-Trespass. It reports
 Spearman ρ(HT, COTe-Trespass) and ρ(HT, LED-Merge) across systems. Count-based
-contamination is retained as a secondary column. This scorer is dataset-agnostic;
-running it over the full v4 system set is pending assembly of every v4 prediction
-dir (PP-DocLayout + RF-DETR still training).
+contamination is retained as a secondary column.
+
+`evaluation/run_v4_lit_eval.py` runs that same metric code over the **v4 system
+set** (every system above except the still-training PP-DocLayout-L fine-tune) on
+the leak-free 833-page test, each at its own best-mean-F1 operating point. Full
+per-system JSON + tables: [`literature/RESULTS.md`](literature/RESULTS.md); raw
+dump under `s3://.../tdlav4/eval/literature/`.
+
+**Hidden Trespass, canonical (micro-averaged over the 833-page test):**
+
+| system | hf HT | hf total | fn HT | fn total |
+|---|---:|---:|---:|---:|
+| RT-DETR-l (ours, seed0) | 0.008 | 0.010 | 0.037 | 0.092 |
+| Docling layout-heron (ours) | 0.002 | 0.005 | 0.074 | 0.074 |
+| DocLayout-YOLO (ours) | 0.004 | 0.005 | 0.106 | 0.106 |
+| RF-DETR-Large (ours) | 0.020 | 0.022 | 0.216 | 0.226 |
+| Surya 2 VLM | 0.020 | 0.022 | 0.135 | 0.135 |
+| Azure DI | 0.181 | 0.186 | 0.184 | 0.184 |
+| Chandra 2 | 0.019 | 0.019 | 0.020 | 0.020 |
+| DocLayout-YOLO DocStructBench (OTS) | 0.120 | 0.195 | 0.207 | 0.207 |
+| Docling layout-heron (OTS) | 0.078 | 0.211 | 0.090 | 0.122 |
+| PP-DocLayout-L (OTS) | 0.171 | 0.233 | 0.277 | 0.346 |
+| AWS Textract | 0.160 | 0.168 | 0.644 | 0.644 |
+| Google DocAI | 0.438 | 0.443 | 0.929 | 0.929 |
+
+`HT` = the *hidden* (undetected) area bleeding into the OCR crop; `total` =
+`HT + R` (whole text-area→class overlap). Our fine-tunes keep header-footer HT at
+≤0.02 and footnote HT at ≤0.11; the off-the-shelf and commercial systems bleed an
+order of magnitude more — Google DocAI silently drops **93%** of footnote area
+into the body crop, Textract **64%**.
+
+**Cross-check (Spearman, all 12 systems):** ρ(HT, COTe-Trespass
+text-area→peripheral) = **0.979**, so the area-based Hidden Trespass tracks the
+independent library COTe-Trespass almost perfectly; ρ(HT, LED-Merge) = **0.084**,
+i.e. HT is orthogonal to same-class over-merging (LED-Merge measures a different
+failure). The legacy count-based contamination gives ρ = **0.944** / **0.049**
+respectively — the area-based metric is the tighter proxy for COTe-Trespass.
