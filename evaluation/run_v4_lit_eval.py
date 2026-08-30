@@ -40,6 +40,7 @@ SYSTEMS = [
     ("rfdetr_tdlav4",          "RF-DETR-Large tam2col (ours, v4)",           "ours",          "ours"),
     ("docling_heron_tdlav4",   "Docling layout-heron tam2col (ours, v4)",    "ours",          "ours"),
     ("doclayout_tdlav4",       "DocLayout-YOLO tam2col (ours, v4)",          "ours",          "ours"),
+    ("pp_doclayout_tdlav4",    "PP-DocLayout-L tam2col (ours, v4)",          "ours",          "ours"),
     ("pp_doclayout_ots",       "PP-DocLayout-L (off-the-shelf)",             "off_the_shelf", "other"),
     ("docling_heron_ots",      "Docling layout-heron (off-the-shelf)",       "off_the_shelf", "doclaynet_detector"),
     ("doclayout_docstruct_ots","DocLayout-YOLO DocStructBench (off-the-shelf)","off_the_shelf","other"),

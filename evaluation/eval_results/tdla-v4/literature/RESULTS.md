@@ -4,7 +4,7 @@ Area-based failure analysis on the leak-free **v4 833-page test** (`/home/eroux/
 
 - Canonical 3-class space: header+footer combined (matched individually), text-area merged to one page/column envelope, footnote as-is; IoU≥0.5.
 - COTe via `cotescore` 0.2.0; the text-area envelope is the body SSU.
-- Scoring wall-clock: **389.5s** CPU.
+- Scoring wall-clock: **418.0s** CPU.
 
 ## Headline — canonical COCO mAP + F1 @ best-mean point
 
@@ -14,6 +14,7 @@ Area-based failure analysis on the leak-free **v4 833-page test** (`/home/eroux/
 | RF-DETR-Large tam2col (ours, v4) | 0.913 | 0.26 | 0.949 | 0.954 | 0.835 | 0.925 | 0.667 |
 | Docling layout-heron tam2col (ours, v4) | 0.925 | 0.08 | 0.944 | 0.998 | 0.833 | 0.912 | 0.735 |
 | DocLayout-YOLO tam2col (ours, v4) | 0.896 | 0.29 | 0.931 | 0.978 | 0.779 | 0.919 | 0.720 |
+| PP-DocLayout-L tam2col (ours, v4) | 0.958 | 0.68 | 0.951 | 0.998 | 0.925 | 0.959 | 0.781 |
 | PP-DocLayout-L (off-the-shelf) | 0.672 | 0.33 | 0.458 | 0.872 | 0.688 | 0.580 | 0.353 |
 | Docling layout-heron (off-the-shelf) | 0.573 | 0.58 | 0.488 | 0.938 | 0.292 | 0.472 | 0.266 |
 | DocLayout-YOLO DocStructBench (off-the-shelf) | 0.508 | 0.17 | 0.616 | 0.907 | 0.000 | 0.442 | 0.281 |
@@ -44,6 +45,7 @@ the secondary intuition column.
 | RF-DETR-Large tam2col (ours, v4) | 0.020 | 0.002 | 0.022 | 1.1% | 0.216 | 0.010 | 0.226 | 13.2% |
 | Docling layout-heron tam2col (ours, v4) | 0.002 | 0.003 | 0.005 | 0.1% | 0.074 | 0.000 | 0.074 | 5.3% |
 | DocLayout-YOLO tam2col (ours, v4) | 0.004 | 0.002 | 0.005 | 0.2% | 0.106 | 0.000 | 0.106 | 7.9% |
+| PP-DocLayout-L tam2col (ours, v4) | 0.003 | 0.002 | 0.005 | 0.3% | 0.037 | 0.000 | 0.037 | 2.6% |
 | PP-DocLayout-L (off-the-shelf) | 0.171 | 0.062 | 0.233 | 14.6% | 0.277 | 0.069 | 0.346 | 39.5% |
 | Docling layout-heron (off-the-shelf) | 0.078 | 0.133 | 0.211 | 3.9% | 0.090 | 0.031 | 0.122 | 7.9% |
 | DocLayout-YOLO DocStructBench (off-the-shelf) | 0.120 | 0.075 | 0.195 | 6.0% | 0.207 | 0.000 | 0.207 | 23.7% |
@@ -61,6 +63,7 @@ the secondary intuition column.
 | RF-DETR-Large tam2col (ours, v4) | 0.974 | 0.977 | 0.001 | 0.002 | 0.023 | 0.003 | 22 | 37 | 0 | 4 |
 | Docling layout-heron tam2col (ours, v4) | 0.979 | 0.981 | 0.001 | 0.001 | 0.025 | 0.002 | 11 | 19 | 0 | 3 |
 | DocLayout-YOLO tam2col (ours, v4) | 0.942 | 0.944 | 0.001 | 0.001 | 0.022 | 0.003 | 10 | 52 | 0 | 8 |
+| PP-DocLayout-L tam2col (ours, v4) | 0.978 | 0.978 | 0.000 | 0.000 | 0.026 | 0.001 | 15 | 35 | 0 | 1 |
 | PP-DocLayout-L (off-the-shelf) | 0.732 | 0.740 | 0.001 | 0.006 | 0.030 | 0.010 | 3 | 373 | 0 | 16 |
 | Docling layout-heron (off-the-shelf) | 0.902 | 0.911 | 0.005 | 0.005 | 0.017 | 0.006 | 1 | 148 | 0 | 2 |
 | DocLayout-YOLO DocStructBench (off-the-shelf) | 0.772 | 0.780 | 0.004 | 0.005 | 0.035 | 0.007 | 54 | 162 | 0 | 38 |
@@ -72,7 +75,7 @@ the secondary intuition column.
 
 ## Cross-check (Spearman across all systems)
 
-Area-based Hidden Trespass vs library metrics, 12 systems: ρ(HT, COTe-Trespass text-area→peripheral) = **0.979**; ρ(HT, LED-Merge) = **0.084**.
+Area-based Hidden Trespass vs library metrics, 13 systems: ρ(HT, COTe-Trespass text-area→peripheral) = **0.984**; ρ(HT, LED-Merge) = **-0.071**.
 
-Legacy count-based contamination: ρ(contamination, COTe-Trespass) = **0.944**; ρ(contamination, LED-Merge) = **0.049**.
+Legacy count-based contamination: ρ(contamination, COTe-Trespass) = **0.907**; ρ(contamination, LED-Merge) = **-0.033**.
 

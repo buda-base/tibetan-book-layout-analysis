@@ -1,0 +1,43 @@
+{
+  "id": "pp_doclayout_tdlav4_tam2col",
+  "name": "PP-DocLayout-L tam2col (ours, v4)",
+  "group": "ours",
+  "role": "ours",
+  "dataset_tag": "v4",
+  "framework": "PaddleX / PaddleDetection (DETR, PPHGNetV2-L backbone, RT-DETR transformer)",
+  "checkpoint": "s3://bec.bdrc.io/models/hff-detection/tdlav4/weights/pp_doclayout_tdlav4_tam2col_best_model/best_model.pdparams",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/pp_doclayout_tdlav4_tam2col/preds/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": true,
+  "training": {
+    "recipe": "PP-DocLayout-L, 4 classes, 640x640, batch 4, lr 1e-4, grad-clip 0.1, EMA, epochs 100, early stop patience 20",
+    "early_stopped": true,
+    "best_epoch": 75,
+    "best_val_coco_map": 0.8318,
+    "note": "Best model at epoch 75 (val COCO mAP 0.832). The training-box inference export (PIR graph) was built by a newer paddle and failed to load under the eval box's paddle 3.0.0 (`strides is not right`), which is also what crashed the on-box self-eval. Re-exported the graph from best_model.pdparams with paddle 3.0.0 / PaddleDetection on the eval box; weights + full run dir on tdlav4/{weights,runs}/, preds + sweep on tdlav4/eval/."
+  },
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.957,
+    "best_mean_conf": 0.70,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.950 },
+      "text-area": { "F1": 0.997 },
+      "footnote": { "F1": 0.925 }
+    },
+    "grid": [
+      { "conf": 0.10, "hf_F1": 0.910, "ta_F1": 0.995, "fn_F1": 0.892, "mean_F1": 0.932 },
+      { "conf": 0.20, "hf_F1": 0.938, "ta_F1": 0.996, "fn_F1": 0.892, "mean_F1": 0.942 },
+      { "conf": 0.30, "hf_F1": 0.948, "ta_F1": 0.998, "fn_F1": 0.902, "mean_F1": 0.950 },
+      { "conf": 0.40, "hf_F1": 0.953, "ta_F1": 0.998, "fn_F1": 0.914, "mean_F1": 0.955 },
+      { "conf": 0.50, "hf_F1": 0.953, "ta_F1": 0.998, "fn_F1": 0.914, "mean_F1": 0.955 },
+      { "conf": 0.60, "hf_F1": 0.953, "ta_F1": 0.998, "fn_F1": 0.914, "mean_F1": 0.955 },
+      { "conf": 0.70, "hf_F1": 0.950, "ta_F1": 0.997, "fn_F1": 0.925, "mean_F1": 0.957 },
+      { "conf": 0.75, "hf_F1": 0.950, "ta_F1": 0.996, "fn_F1": 0.925, "mean_F1": 0.957 },
+      { "conf": 0.80, "hf_F1": 0.946, "ta_F1": 0.996, "fn_F1": 0.923, "mean_F1": 0.955 },
+      { "conf": 0.85, "hf_F1": 0.885, "ta_F1": 0.996, "fn_F1": 0.923, "mean_F1": 0.935 }
+    ],
+    "note": "Best mean-F1 0.957 at conf 0.70; a very wide 0.40-0.80 plateau (>=0.955). PP-DocLayout-L emits high-confidence boxes, so the operating point sits high. Tops the v4 fine-tune table — its footnote F1 (0.925) is the best of any system, and text-area is near-perfect (0.997)."
+  }
+}

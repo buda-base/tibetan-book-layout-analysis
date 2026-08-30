@@ -47,14 +47,24 @@ individually. Same protocol as the v2 paper tables. Per-model JSON alongside.
 
 | model | mean F1 | header-footer | text-area | footnote | conf |
 |---|---|---|---|---|---|
+| PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | **0.957** | 0.950 | 0.997 | **0.925** | 0.70 |
 | RT-DETR-l (`rtdetr` 5-seed mean ± sd) | 0.944 ± 0.010 | 0.951 | 0.990 | 0.891 | 0.50 |
-| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | **0.926** | 0.948 | 0.996 | 0.835 | 0.25 |
+| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | 0.926 | 0.948 | 0.996 | 0.835 | 0.25 |
 | Docling layout-heron (`docling_heron_tdlav4_tam2col`) | 0.917 | 0.944 | 0.998 | 0.809 | 0.00 |
 | DocLayout-YOLO (`doclayout_tdlav4_tam2col`) | 0.897 | 0.931 | 0.980 | 0.779 | 0.30 |
-| PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | _training_ | | | | |
 
-heron footnote confidence is systematically low, so the best-mean-F1 point keeps
-all boxes; header-footer and text-area are stable across the whole sweep.
+PP-DocLayout-L tops the table at **0.957** (above the RT-DETR seed mean by ~1.3
+sd), driven by the best footnote class of any system (0.925) and near-perfect
+text-area (0.997) over a very wide 0.40–0.80 confidence plateau. heron footnote
+confidence is systematically low, so its best-mean-F1 point keeps all boxes;
+header-footer and text-area are stable across the whole sweep.
+
+> The PP-DocLayout-L fine-tune trained to epoch 75 (val COCO mAP 0.832) but its
+> auto-exported PIR inference graph — built by the training box's newer paddle —
+> would not load under the eval box's paddle 3.0.0 (`strides is not right`), which
+> is what crashed the on-box self-eval. The graph was re-exported from
+> `best_model.pdparams` with paddle 3.0.0 / PaddleDetection on the eval box; the
+> re-exported preds + sweep are what the numbers above and the literature pass use.
 
 **RT-DETR-l seed variance** (`seed-variance-tdlav4/seed_variance.json`, 5
 independent seeds 0–4, identical `tam2col` recipe, scored on the leak-free v4
@@ -63,10 +73,12 @@ min 0.935 / max 0.959), header-footer **0.951 ± 0.006**, text-area
 **0.990 ± 0.003**, footnote **0.891 ± 0.031** (footnote is the volatile class),
 canonical mAP@0.50:0.95 **0.773 ± 0.009**. The single best seed (seed 4) reaches
 mean-F1 0.959. This ± band is the reference spread for reading the single-run
-RF-DETR / heron / DocLayout-YOLO / PP numbers above: RF-DETR (0.926) is ~1.8 sd
-below the RT-DETR seed mean and heron (0.917) / DocLayout-YOLO (0.897) are
-further out, so the ordering RT-DETR > RF-DETR ≳ heron > DocLayout-YOLO is real,
-but any two rows within ~1 sd of each other should be treated as a tie.
+PP-DocLayout-L / RF-DETR / heron / DocLayout-YOLO numbers above: PP-DocLayout-L
+(0.957) sits ~1.3 sd above the RT-DETR seed mean (statistically on par with the
+best single seed), RF-DETR (0.926) is ~1.8 sd below it, and heron (0.917) /
+DocLayout-YOLO (0.897) are further out — so the ordering
+PP-DocLayout-L ≳ RT-DETR > RF-DETR ≳ heron > DocLayout-YOLO is real, but any two
+rows within ~1 sd of each other should be treated as a tie.
 
 ### Commercial layout APIs (off-the-shelf, no Tibetan fine-tuning)
 
@@ -147,7 +159,7 @@ Spearman ρ(HT, COTe-Trespass) and ρ(HT, LED-Merge) across systems. Count-based
 contamination is retained as a secondary column.
 
 `evaluation/run_v4_lit_eval.py` runs that same metric code over the **v4 system
-set** (every system above except the still-training PP-DocLayout-L fine-tune) on
+set** (all 13 systems above, including the PP-DocLayout-L fine-tune) on
 the leak-free 833-page test, each at its own best-mean-F1 operating point. Full
 per-system JSON + tables: [`literature/RESULTS.md`](literature/RESULTS.md); raw
 dump under `s3://.../tdlav4/eval/literature/`.
@@ -156,6 +168,7 @@ dump under `s3://.../tdlav4/eval/literature/`.
 
 | system | hf HT | hf total | fn HT | fn total |
 |---|---:|---:|---:|---:|
+| PP-DocLayout-L (ours) | 0.003 | 0.005 | 0.037 | 0.037 |
 | RT-DETR-l (ours, seed0) | 0.008 | 0.010 | 0.037 | 0.092 |
 | Docling layout-heron (ours) | 0.002 | 0.005 | 0.074 | 0.074 |
 | DocLayout-YOLO (ours) | 0.004 | 0.005 | 0.106 | 0.106 |
@@ -170,14 +183,17 @@ dump under `s3://.../tdlav4/eval/literature/`.
 | Google DocAI | 0.438 | 0.443 | 0.929 | 0.929 |
 
 `HT` = the *hidden* (undetected) area bleeding into the OCR crop; `total` =
-`HT + R` (whole text-area→class overlap). Our fine-tunes keep header-footer HT at
-≤0.02 and footnote HT at ≤0.11; the off-the-shelf and commercial systems bleed an
-order of magnitude more — Google DocAI silently drops **93%** of footnote area
-into the body crop, Textract **64%**.
+`HT + R` (whole text-area→class overlap). The best fine-tune, PP-DocLayout-L,
+keeps both header-footer and footnote HT at ≤0.04 (footnote total 0.037 — it
+detects essentially every footnote it bleeds into); our other fine-tunes stay at
+≤0.02 header-footer / ≤0.11 footnote (RF-DETR's 0.22 footnote HT is the outlier
+and matches its weaker footnote F1). The off-the-shelf and commercial systems
+bleed an order of magnitude more — Google DocAI silently drops **93%** of
+footnote area into the body crop, Textract **64%**.
 
-**Cross-check (Spearman, all 12 systems):** ρ(HT, COTe-Trespass
-text-area→peripheral) = **0.979**, so the area-based Hidden Trespass tracks the
-independent library COTe-Trespass almost perfectly; ρ(HT, LED-Merge) = **0.084**,
+**Cross-check (Spearman, all 13 systems):** ρ(HT, COTe-Trespass
+text-area→peripheral) = **0.984**, so the area-based Hidden Trespass tracks the
+independent library COTe-Trespass almost perfectly; ρ(HT, LED-Merge) = **−0.071**,
 i.e. HT is orthogonal to same-class over-merging (LED-Merge measures a different
-failure). The legacy count-based contamination gives ρ = **0.944** / **0.049**
+failure). The legacy count-based contamination gives ρ = **0.907** / **−0.033**
 respectively — the area-based metric is the tighter proxy for COTe-Trespass.
