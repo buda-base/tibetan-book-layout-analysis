@@ -48,7 +48,8 @@ individually. Same protocol as the v2 paper tables. Per-model JSON alongside.
 | model | mean F1 | header-footer | text-area | footnote | conf |
 |---|---|---|---|---|---|
 | RT-DETR-l (`rtdetr` 5-seed mean ± sd) | 0.944 ± 0.010 | 0.951 | 0.990 | 0.891 | 0.50 |
-| Docling layout-heron (`docling_heron_tdlav4_tam2col`) | **0.917** | 0.944 | 0.998 | 0.809 | 0.00 |
+| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | **0.926** | 0.948 | 0.996 | 0.835 | 0.25 |
+| Docling layout-heron (`docling_heron_tdlav4_tam2col`) | 0.917 | 0.944 | 0.998 | 0.809 | 0.00 |
 | DocLayout-YOLO (`doclayout_tdlav4_tam2col`) | 0.897 | 0.931 | 0.980 | 0.779 | 0.30 |
 | PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | _training_ | | | | |
 
@@ -62,9 +63,10 @@ min 0.935 / max 0.959), header-footer **0.951 ± 0.006**, text-area
 **0.990 ± 0.003**, footnote **0.891 ± 0.031** (footnote is the volatile class),
 canonical mAP@0.50:0.95 **0.773 ± 0.009**. The single best seed (seed 4) reaches
 mean-F1 0.959. This ± band is the reference spread for reading the single-run
-heron / DocLayout-YOLO / PP numbers above: the ~0.02–0.05 gaps to heron and
-DocLayout-YOLO are several seed-sigmas, so they are real, but the architecture
-ranking within ~1 sigma should be treated as a tie.
+RF-DETR / heron / DocLayout-YOLO / PP numbers above: RF-DETR (0.926) is ~1.8 sd
+below the RT-DETR seed mean and heron (0.917) / DocLayout-YOLO (0.897) are
+further out, so the ordering RT-DETR > RF-DETR ≳ heron > DocLayout-YOLO is real,
+but any two rows within ~1 sd of each other should be treated as a tie.
 
 ### Commercial layout APIs (off-the-shelf, no Tibetan fine-tuning)
 
@@ -84,27 +86,27 @@ margin on Tibetan header/footer geometry.
 
 ### Off-the-shelf Datalab models (Surya 2, Chandra 2)
 
-> **Test-set caveat.** These three rows were scored on the **v2 860-page test
-> split**, not the leak-free v4 833-page test (see `evaluation/Surya_Chandra.md`;
-> its title says "tdlav4" but the body pins the 860-image v2 split). They are the
-> same canonical pipeline (`canon_sweep_preds.py`, remap `0:0,1:1,2:2,3:0`,
-> IoU≥0.5) so the *shape* of the result carries over, but the numbers are **not
-> strictly comparable** to the v4 rows above and are pending a v4 re-run. On that
-> v2 split, our `tam2col` RT-DETR-l scores 0.946 (≈ the 0.944 v4 seed mean), so
-> the relative gaps are indicative.
+Run on the identical v4 833-page test set (all 833 re-inferred — only 116 overlap
+the old v2 test split). Same canonical pipeline (`canon_sweep_preds.py`, remap
+`0:0,1:1,2:2,3:0`, IoU≥0.5). Full write-up: `evaluation/Surya_Chandra.md`.
 
-| model (v2 860-page test) | mean F1 | header-footer | text-area | footnote |
+| model (v4 833-page test) | mean F1 | header-footer | text-area | footnote |
 |---|---|---|---|---|
-| Surya 2 layout VLM (`surya-ocr-2`) | 0.776 | 0.878 | 0.988 | 0.463 |
-| Surya fast layout (RF-DETR, `surya_layout2`) | 0.774 | 0.895 | 0.989 | 0.439 |
-| Chandra 2 (`chandra-ocr-2`) | 0.551 | 0.702 | 0.670 | 0.281 |
+| Surya 2 layout VLM (`surya-ocr-2`) | 0.777 | 0.865 | 0.993 | 0.474 |
+| Chandra 2 (`chandra-ocr-2`) | 0.593 | 0.699 | 0.695 | 0.385 |
 
-Surya's 650 M VLM is a dead heat with the tiny RF-DETR fast-layout model and both
-sit ~0.17 mean-F1 below our fine-tuned detector, mostly on footnotes (≤0.46 vs our
-0.89). Chandra 2 has no layout-only mode — it fully OCRs the page and derives
-blocks from the transcription, so on Tibetan (which it cannot read) it loops to
-the token cap and collapses recall. Raw predictions:
-`s3://.../off-the-shelf-eval/{surya_vlm,chandra_vlm}/`.
+Surya's 650 M VLM reads header/footer and text-area well (0.87 / 0.99) but only
+0.47 on footnotes, leaving it at 0.777 — above the commercial APIs yet ~0.17
+mean-F1 below our fine-tuned detector (0.944). Chandra 2 has no layout-only mode —
+it fully OCRs the page and derives blocks from the transcription, so on Tibetan
+(which it cannot read) it loops to the 4000-token cap (avg 3,196 tok/page) and
+collapses recall (0.593). Raw predictions:
+`s3://.../off-the-shelf-eval-tdlav4/{surya_vlm,chandra_vlm}/`.
+
+> The earlier v2 860-page run gave nearly identical figures (Surya 0.776, Chandra
+> 0.551), so the split does not change the story; these v4 numbers are canonical.
+> `run_literature_eval.py` still scores its `surya_vlm_ots` / `chandra_ots` rows
+> on the v2 GT (consistent with the other v2 rows there).
 
 ## Hidden Trespass + COTe (area-based failure analysis)
 
