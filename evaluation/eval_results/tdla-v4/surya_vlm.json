@@ -1,0 +1,31 @@
+{
+  "id": "surya_vlm",
+  "name": "Surya 2 layout VLM (off-the-shelf, v4)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "framework": "surya-ocr 0.22.1, checkpoint datalab-to/surya-ocr-2, vLLM v0.20.1 (bf16, MTP), A10G/4090",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/off-the-shelf-eval-tdlav4/surya_vlm/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": false,
+  "notes": "Re-inferred on the full leak-free v4 833-page test (source dataset_tdlav4_tam2col/images/test). Confidence is page-level (mean decode prob), not per-box, so it is effectively un-thresholdable; the operating point is conf 0.00 (all boxes). Full write-up: evaluation/Surya_Chandra.md. Matches its v2 860-page run (0.776) almost exactly.",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.777,
+    "best_mean_conf": 0.0,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.865 },
+      "text-area": { "F1": 0.993 },
+      "footnote": { "F1": 0.474 }
+    },
+    "grid": [
+      { "conf": 0.00, "hf_F1": 0.865, "ta_F1": 0.993, "fn_F1": 0.474, "mean_F1": 0.777 },
+      { "conf": 0.75, "hf_F1": 0.865, "ta_F1": 0.993, "fn_F1": 0.474, "mean_F1": 0.777 },
+      { "conf": 0.80, "hf_F1": 0.836, "ta_F1": 0.947, "fn_F1": 0.474, "mean_F1": 0.752 },
+      { "conf": 0.85, "hf_F1": 0.378, "ta_F1": 0.453, "fn_F1": 0.123, "mean_F1": 0.318 },
+      { "conf": 0.90, "hf_F1": 0.071, "ta_F1": 0.099, "fn_F1": 0.000, "mean_F1": 0.056 }
+    ],
+    "note": "Flat across conf 0.00-0.75 (page-level score assigned to every box on a page), then collapses. Best mean-F1 keeps all boxes. Footnote (0.474) is the bottleneck; header-footer/text-area are strong."
+  }
+}

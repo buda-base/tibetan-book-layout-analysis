@@ -1,0 +1,27 @@
+{
+  "id": "chandra",
+  "name": "Chandra 2 (off-the-shelf, v4)",
+  "group": "off_the_shelf",
+  "role": "other",
+  "dataset_tag": "v4",
+  "framework": "chandra-ocr 0.2.0, checkpoint datalab-to/chandra-ocr-2, vLLM v0.17.0 (Qwen3.5, bf16), A10G",
+  "pred_dir": "s3://bec.bdrc.io/models/hff-detection/off-the-shelf-eval-tdlav4/chandra_vlm/labels",
+  "remap": "0:0,1:1,2:2,3:0",
+  "n_test_images": 833,
+  "has_scores": false,
+  "notes": "Re-inferred on the full leak-free v4 833-page test. ocr_layout prompt: no layout-only mode, so it fully OCRs the page and derives blocks from the transcription. On Tibetan (which it cannot read) it loops to the 4000-token cap (avg 3,196 tok/page), truncating page bottoms and collapsing recall. Retries disabled. No per-block confidence -> single un-thresholdable operating point. Full write-up: evaluation/Surya_Chandra.md.",
+  "sweep_canonical": {
+    "iou": 0.5,
+    "best_mean_F1": 0.593,
+    "best_mean_conf": 0.0,
+    "per_class_at_best_mean": {
+      "header-footer": { "F1": 0.699 },
+      "text-area": { "F1": 0.695 },
+      "footnote": { "F1": 0.385 }
+    },
+    "grid": [
+      { "conf": 0.00, "hf_F1": 0.699, "ta_F1": 0.695, "fn_F1": 0.385, "mean_F1": 0.593 }
+    ],
+    "note": "No per-block confidence: the sweep is flat at every threshold (single operating point). Recall collapse from the token-cap truncation drags text-area down to 0.695 and footnote to 0.385."
+  }
+}
