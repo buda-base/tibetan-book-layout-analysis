@@ -43,26 +43,41 @@ Metric = mean of per-class F1 over {header-footer, text-area, footnote}, with
 text-area merged to one envelope per page and header+footer combined but matched
 individually. Same protocol as the v2 paper tables. Per-model JSON alongside.
 
+> **Unified scorer (Aug 2026).** F1, canonical COCO mAP, Hidden-Trespass / COTe /
+> LED are now all produced by a single path — `run_v4_lit_eval.py` +
+> `literature_metrics.py` — at each system's own best-mean-F1 operating point, so
+> the headline table and the HT/COTe pass report one F1 per system. The earlier
+> `canon_sweep_preds.py` headline diverged from it for two models: the text-area
+> envelope is now rebuilt from only the boxes above the operating confidence
+> (was: one envelope from all boxes gated by max-conf, which RF-DETR's spurious
+> low-confidence body boxes inflated → text-area F1 0.954 vs 0.996), and the
+> operating point is chosen on a 0.01 grid (was 0.05, which pinned heron's
+> footnote at 0.809 instead of 0.833). See
+> [`UNIFIED_SCORING.md`](UNIFIED_SCORING.md).
+
 ### Ours (fine-tuned on v4)
 
-Last column is the DocLayNet-aligned **shared mAP@50:95** (page-header /
-page-footer / footnote, text-area excluded; see
+Columns: canonical per-class F1 + mean at the best-mean-F1 conf, canonical COCO
+mAP (mean over the 3 classes), and the DocLayNet-aligned **shared mAP@50:95**
+(page-header / page-footer / footnote, text-area excluded; see
 [`DOCLAYNET_SHARED.md`](DOCLAYNET_SHARED.md)) — a stricter, cross-corpus-comparable
 number on the same predictions.
 
-| model | mean F1 | header-footer | text-area | footnote | conf | shared mAP@50:95 |
-|---|---|---|---|---|---|---:|
-| PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | **0.957** | 0.950 | 0.997 | **0.925** | 0.70 | 0.641 |
-| RT-DETR-l (`rtdetr` 5-seed mean ± sd) | 0.944 ± 0.010 | 0.951 | 0.990 | 0.891 | 0.50 | **0.650** |
-| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | 0.926 | 0.948 | 0.996 | 0.835 | 0.25 | 0.604 |
-| Docling layout-heron (`docling_heron_tdlav4_tam2col`) | 0.917 | 0.944 | 0.998 | 0.809 | 0.00 | 0.593 |
-| DocLayout-YOLO (`doclayout_tdlav4_tam2col`) | 0.897 | 0.931 | 0.980 | 0.779 | 0.30 | 0.586 |
+| model | mean F1 | header-footer | text-area | footnote | conf | mean AP50 | mean AP50-95 | shared mAP@50:95 |
+|---|---|---|---|---|---|---:|---:|---:|
+| RT-DETR-l (`rtdetr_tdlav4_tam2col`, seed0) | **0.959** | 0.952 | 0.999 | **0.925** | 0.74 | 0.974 | 0.786 | **0.650** |
+| PP-DocLayout-L (`pp_doclayout_tdlav4_tam2col`) | 0.958 | 0.951 | 0.997 | **0.925** | 0.68 | 0.959 | 0.781 | 0.641 |
+| RF-DETR-Large (`rfdetr_tdlav4_tam2col`) | 0.927 | 0.949 | 0.996 | 0.835 | 0.26 | 0.925 | 0.667 | 0.604 |
+| Docling layout-heron (`docling_heron_tdlav4_tam2col`) | 0.925 | 0.944 | 0.998 | 0.833 | 0.08 | 0.912 | 0.735 | 0.593 |
+| DocLayout-YOLO (`doclayout_tdlav4_tam2col`) | 0.897 | 0.931 | 0.980 | 0.779 | 0.29 | 0.919 | 0.720 | 0.586 |
 
-PP-DocLayout-L tops the table at **0.957** (above the RT-DETR seed mean by ~1.3
-sd), driven by the best footnote class of any system (0.925) and near-perfect
-text-area (0.997) over a very wide 0.40–0.80 confidence plateau. heron footnote
-confidence is systematically low, so its best-mean-F1 point keeps all boxes;
-header-footer and text-area are stable across the whole sweep.
+RT-DETR-l (seed0) and PP-DocLayout-L top the table at **0.959 / 0.958** — a
+dead heat — both with the best footnote class of any system (0.925) and
+near-perfect text-area. Under the unified scorer RF-DETR (0.927) and heron
+(0.925) are also a tie (the old two-driver split had flipped their order). All
+five fine-tunes sit in a tight 0.90–0.96 band; header-footer and text-area are
+stable across the whole sweep, footnote is the volatile class that sets the
+operating point.
 
 > The PP-DocLayout-L fine-tune trained to epoch 75 (val COCO mAP 0.832) but its
 > auto-exported PIR inference graph — built by the training box's newer paddle —
@@ -71,19 +86,45 @@ header-footer and text-area are stable across the whole sweep.
 > `best_model.pdparams` with paddle 3.0.0 / PaddleDetection on the eval box; the
 > re-exported preds + sweep are what the numbers above and the literature pass use.
 
+The RT-DETR-l row above is the **seed0** run scored through the unified path
+(0.959 @ conf 0.74), the same dump used everywhere else and the tam2col row of
+the curriculum ablation ([`CURRICULUM.md`](CURRICULUM.md)).
+
 **RT-DETR-l seed variance** (`seed-variance-tdlav4/seed_variance.json`, 5
 independent seeds 0–4, identical `tam2col` recipe, scored on the leak-free v4
-833-page test, conf 0.50): canonical mean-F1 **0.944 ± 0.010** (sample sd;
-min 0.935 / max 0.959), header-footer **0.951 ± 0.006**, text-area
-**0.990 ± 0.003**, footnote **0.891 ± 0.031** (footnote is the volatile class),
-canonical mAP@0.50:0.95 **0.773 ± 0.009**. The single best seed (seed 4) reaches
-mean-F1 0.959. This ± band is the reference spread for reading the single-run
-PP-DocLayout-L / RF-DETR / heron / DocLayout-YOLO numbers above: PP-DocLayout-L
-(0.957) sits ~1.3 sd above the RT-DETR seed mean (statistically on par with the
-best single seed), RF-DETR (0.926) is ~1.8 sd below it, and heron (0.917) /
-DocLayout-YOLO (0.897) are further out — so the ordering
-PP-DocLayout-L ≳ RT-DETR > RF-DETR ≳ heron > DocLayout-YOLO is real, but any two
+833-page test). Measured under the *prior* fixed-envelope / conf-0.50 scoring:
+canonical mean-F1 **0.944 ± 0.010** (sample sd; min 0.935 / max 0.959),
+header-footer **0.951 ± 0.006**, text-area **0.990 ± 0.003**, footnote
+**0.891 ± 0.031** (footnote is the volatile class), canonical mAP@0.50:0.95
+**0.773 ± 0.009**. This ± band is the reference spread for reading the single-run
+numbers above: the two lead rows (RT-DETR-l seed0 0.959, PP-DocLayout-L 0.958)
+are within noise of each other, RF-DETR (0.927) and heron (0.925) are a second
+tie ~1.5 sd below, and DocLayout-YOLO (0.897) trails — so the ordering
+RT-DETR ≈ PP-DocLayout-L > RF-DETR ≈ heron > DocLayout-YOLO is real, but any two
 rows within ~1 sd of each other should be treated as a tie.
+
+### Label-scheme ablation (curriculum), leak-free on the final architecture
+
+The five label variants (baseline / tam / tam2col / 3cls / 3cls_tam) retrained on
+RT-DETR-l with the exact v4 recipe and scored on the v4 833-page test with the
+unified evaluator. Full tables + verdict: [`CURRICULUM.md`](CURRICULUM.md);
+JSON `curriculum/metrics.json`.
+
+| variant | mean F1 | mean AP50-95 | native text-area AP50-95 (own / common-GT) |
+|---|---:|---:|---:|
+| baseline | 0.958 | 0.707 | 0.717 / 0.717 |
+| tam | 0.946 | 0.785 | 0.962 / 0.410 |
+| **tam2col** (production) | **0.959** | **0.786** | 0.964 / 0.422 |
+| 3cls | 0.945 | 0.707 | 0.744 / 0.744 |
+| 3cls_tam | 0.938 | 0.760 | 0.965 / 0.407 |
+
+All three original conclusions hold on the leak-free split: keep header/footer
+separate (merging drops footnote F1 to 0.894/0.864, the two lowest); merged
+text-area lifts canonical text-area AP50-95 (0.742→0.935→0.958); `tam2col` is the
+best production choice (top mean F1 / AP50-95). The "merged box inflates per-class
+AP" **artifact reproduces and is stronger** — against a common multi-box GT the
+envelope predictors collapse to 0.41–0.42 vs baseline's 0.717 (gap widened from
+0.22 on the old dev split to 0.31 leak-free).
 
 ### Commercial layout APIs (off-the-shelf, no Tibetan fine-tuning)
 
@@ -114,7 +155,7 @@ the old v2 test split). Same canonical pipeline (`canon_sweep_preds.py`, remap
 
 Surya's 650 M VLM reads header/footer and text-area well (0.87 / 0.99) but only
 0.47 on footnotes, leaving it at 0.777 — above the commercial APIs yet ~0.17
-mean-F1 below our fine-tuned detector (0.944). Chandra 2 has no layout-only mode —
+mean-F1 below our fine-tuned detectors (0.96). Chandra 2 has no layout-only mode —
 it fully OCRs the page and derives blocks from the transcription, so on Tibetan
 (which it cannot read) it loops to the 4000-token cap (avg 3,196 tok/page) and
 collapses recall (0.593). Raw predictions:
@@ -137,8 +178,8 @@ fine-tune's score comes from Tibetan adaptation vs the pretrained checkpoint.
 | model (off-the-shelf) | run name | mean F1 | header-footer | text-area | footnote | conf |
 |---|---|---|---|---|---|---|
 | PP-DocLayout-L (`PP-DocLayout-L`) | `pp_doclayout_ots` | 0.670 | 0.464 | 0.869 | 0.677 | 0.30 |
-| Docling layout-heron (`docling-layout-heron`) | `docling_heron_ots` | 0.588 | 0.488 | 0.993 | 0.282 | 0.55 |
-| DocLayout-YOLO (DocStructBench) | `doclayout_docstruct_ots` | 0.502 | 0.615 | 0.889 | 0.000 | 0.15 |
+| Docling layout-heron (`docling-layout-heron`) | `docling_heron_ots` | 0.590 | 0.488 | 0.989 | 0.292 | 0.58 |
+| DocLayout-YOLO (DocStructBench) | `doclayout_docstruct_ots` | 0.503 | 0.605 | 0.904 | 0.000 | 0.08 |
 
 All three read the **text-area** envelope well (0.87–0.99) — that transfers from
 generic document layout — but collapse on the Tibetan-specific classes. PP-DocLayout-L

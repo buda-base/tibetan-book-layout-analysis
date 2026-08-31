@@ -204,6 +204,51 @@ Corrected framings (pick one):
   it is **0.92 → 0.98** (`baseline` no-merge AP50 0.916 vs `tam` merged AP50
   0.980).
 
+> **Superseded for the paper by the leak-free v4 re-run** (below). The 860-page
+> numbers above are the old development split; the paper reports the v4 833-page
+> figures.
+
+### Leak-free v4 curriculum re-run (final architecture)
+
+The label-scheme ablation was re-run on the **served architecture RT-DETR-l** and
+the **leak-free v4 split**, scored with the **unified evaluator**. Full tables +
+verdict: [`tdla-v4/CURRICULUM.md`](tdla-v4/CURRICULUM.md); JSON
+`tdla-v4/curriculum/metrics.json`; scorer `evaluation/score_curricula.py`.
+
+Training (one `g5.xlarge` per non-tam2col variant, A10G, `/opt/pytorch` python,
+ultralytics 8.4.135):
+
+```
+RTDETR("rtdetr-l.pt").train(data=<curriculum>/data.yaml, imgsz=1024, epochs=100,
+    batch=8, patience=20, device=0, seed=0, deterministic=True, amp=True)
+# then dump test preds at conf=0.05 (xywhn + per-box conf), upload to
+#   s3://bec.bdrc.io/models/hff-detection/tdlav4/eval/rtdetr_tdlav4_<mode>/preds/
+# weights + native_ap.json + train.log -> tdlav4/curricula/<mode>/
+```
+
+`baseline`/`tam`/`3cls`/`3cls_tam` retrained (early-stopped at epochs ~53–61);
+`tam2col` = the production seed0 fine-tune dump (identical recipe), reused so the
+ablation's `tam2col` row equals the headline RT-DETR-l row. Curriculum labels for
+each variant are built by `data/build_curricula.py` from the `canonical-git@v4`
+base and archived at `s3://.../tdlav4/curricula/<mode>_labels.tar.gz`.
+
+Native text-area AP is emitted two ways (both un-merged): **(a)** vs each
+variant's own scheme, **(b)** vs a common multi-box GT (baseline's raw labels).
+Definition (b) is the artifact yardstick and reproduces the old note's finding
+**more strongly** — the baseline−`tam` gap (native AP50-95) widens from 0.223 (860
+dev) to 0.307 (v4 leak-free). All three original conclusions hold on the leak-free
+split (see `CURRICULUM.md`).
+
+### Unified F1 / mAP scoring (one driver)
+
+The v4 canonical F1/mAP for all 13 systems is produced by a single path —
+`run_v4_lit_eval.py` + `literature_metrics.py` — at each system's own
+best-mean-F1 operating point, so the headline table and the HT/COTe pass report
+one F1 per system. The fix: the canonical text-area envelope is rebuilt from only
+the boxes above the operating confidence (`apply_schema(..., conf_floor)`), on a
+0.01 grid. Diagnosis + per-system deltas: [`tdla-v4/UNIFIED_SCORING.md`](tdla-v4/UNIFIED_SCORING.md).
+The same operating point drives that system's Hidden-Trespass / COTe / LED values.
+
 ## Google Document AI Layout Parser (bounding-box bug, now testable)
 
 The blog note said Document AI's Layout Parser tags Tibetan text correctly but

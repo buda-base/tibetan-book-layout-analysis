@@ -4,20 +4,20 @@ Area-based failure analysis on the leak-free **v4 833-page test** (`/home/eroux/
 
 - Canonical 3-class space: header+footer combined (matched individually), text-area merged to one page/column envelope, footnote as-is; IoU≥0.5.
 - COTe via `cotescore` 0.2.0; the text-area envelope is the body SSU.
-- Scoring wall-clock: **418.0s** CPU.
+- Scoring wall-clock: **350.4s** CPU.
 
 ## Headline — canonical COCO mAP + F1 @ best-mean point
 
 | system | mean F1 | conf | hf F1 | ta F1 | fn F1 | mean AP50 | mean AP50-95 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| RT-DETR-l tam2col (ours, v4; seed0) | 0.957 | 0.74 | 0.952 | 0.994 | 0.925 | 0.974 | 0.786 |
-| RF-DETR-Large tam2col (ours, v4) | 0.913 | 0.26 | 0.949 | 0.954 | 0.835 | 0.925 | 0.667 |
+| RT-DETR-l tam2col (ours, v4; seed0) | 0.959 | 0.74 | 0.952 | 0.999 | 0.925 | 0.974 | 0.786 |
+| RF-DETR-Large tam2col (ours, v4) | 0.927 | 0.26 | 0.949 | 0.996 | 0.835 | 0.925 | 0.667 |
 | Docling layout-heron tam2col (ours, v4) | 0.925 | 0.08 | 0.944 | 0.998 | 0.833 | 0.912 | 0.735 |
-| DocLayout-YOLO tam2col (ours, v4) | 0.896 | 0.29 | 0.931 | 0.978 | 0.779 | 0.919 | 0.720 |
-| PP-DocLayout-L tam2col (ours, v4) | 0.958 | 0.68 | 0.951 | 0.998 | 0.925 | 0.959 | 0.781 |
-| PP-DocLayout-L (off-the-shelf) | 0.672 | 0.33 | 0.458 | 0.872 | 0.688 | 0.580 | 0.353 |
-| Docling layout-heron (off-the-shelf) | 0.573 | 0.58 | 0.488 | 0.938 | 0.292 | 0.472 | 0.266 |
-| DocLayout-YOLO DocStructBench (off-the-shelf) | 0.508 | 0.17 | 0.616 | 0.907 | 0.000 | 0.442 | 0.281 |
+| DocLayout-YOLO tam2col (ours, v4) | 0.897 | 0.29 | 0.931 | 0.980 | 0.779 | 0.919 | 0.720 |
+| PP-DocLayout-L tam2col (ours, v4) | 0.958 | 0.68 | 0.951 | 0.997 | 0.925 | 0.959 | 0.781 |
+| PP-DocLayout-L (off-the-shelf) | 0.670 | 0.30 | 0.464 | 0.869 | 0.677 | 0.580 | 0.353 |
+| Docling layout-heron (off-the-shelf) | 0.590 | 0.58 | 0.488 | 0.989 | 0.292 | 0.472 | 0.266 |
+| DocLayout-YOLO DocStructBench (off-the-shelf) | 0.503 | 0.08 | 0.605 | 0.904 | 0.000 | 0.442 | 0.281 |
 | Surya 2 layout VLM (surya-ocr-2) | 0.777 | 0.00 | 0.865 | 0.993 | 0.474 | 0.656 | 0.404 |
 | Chandra 2 (chandra-ocr-2) | 0.593 | 0.00 | 0.699 | 0.695 | 0.385 | 0.411 | 0.231 |
 | Azure DI prebuilt-layout | 0.618 | 0.00 | 0.611 | 0.990 | 0.252 | 0.489 | 0.331 |
@@ -46,9 +46,9 @@ the secondary intuition column.
 | Docling layout-heron tam2col (ours, v4) | 0.002 | 0.003 | 0.005 | 0.1% | 0.074 | 0.000 | 0.074 | 5.3% |
 | DocLayout-YOLO tam2col (ours, v4) | 0.004 | 0.002 | 0.005 | 0.2% | 0.106 | 0.000 | 0.106 | 7.9% |
 | PP-DocLayout-L tam2col (ours, v4) | 0.003 | 0.002 | 0.005 | 0.3% | 0.037 | 0.000 | 0.037 | 2.6% |
-| PP-DocLayout-L (off-the-shelf) | 0.171 | 0.062 | 0.233 | 14.6% | 0.277 | 0.069 | 0.346 | 39.5% |
+| PP-DocLayout-L (off-the-shelf) | 0.178 | 0.069 | 0.247 | 15.2% | 0.277 | 0.069 | 0.346 | 39.5% |
 | Docling layout-heron (off-the-shelf) | 0.078 | 0.133 | 0.211 | 3.9% | 0.090 | 0.031 | 0.122 | 7.9% |
-| DocLayout-YOLO DocStructBench (off-the-shelf) | 0.120 | 0.075 | 0.195 | 6.0% | 0.207 | 0.000 | 0.207 | 23.7% |
+| DocLayout-YOLO DocStructBench (off-the-shelf) | 0.100 | 0.162 | 0.262 | 6.3% | 0.241 | 0.000 | 0.241 | 26.3% |
 | Surya 2 layout VLM (surya-ocr-2) | 0.020 | 0.001 | 0.022 | 0.8% | 0.135 | 0.000 | 0.135 | 10.5% |
 | Chandra 2 (chandra-ocr-2) | 0.019 | 0.001 | 0.019 | 0.8% | 0.020 | 0.000 | 0.020 | 2.6% |
 | Azure DI prebuilt-layout | 0.181 | 0.005 | 0.186 | 9.8% | 0.184 | 0.000 | 0.184 | 21.1% |
@@ -64,9 +64,9 @@ the secondary intuition column.
 | Docling layout-heron tam2col (ours, v4) | 0.979 | 0.981 | 0.001 | 0.001 | 0.025 | 0.002 | 11 | 19 | 0 | 3 |
 | DocLayout-YOLO tam2col (ours, v4) | 0.942 | 0.944 | 0.001 | 0.001 | 0.022 | 0.003 | 10 | 52 | 0 | 8 |
 | PP-DocLayout-L tam2col (ours, v4) | 0.978 | 0.978 | 0.000 | 0.000 | 0.026 | 0.001 | 15 | 35 | 0 | 1 |
-| PP-DocLayout-L (off-the-shelf) | 0.732 | 0.740 | 0.001 | 0.006 | 0.030 | 0.010 | 3 | 373 | 0 | 16 |
+| PP-DocLayout-L (off-the-shelf) | 0.742 | 0.751 | 0.002 | 0.007 | 0.032 | 0.011 | 3 | 351 | 0 | 16 |
 | Docling layout-heron (off-the-shelf) | 0.902 | 0.911 | 0.005 | 0.005 | 0.017 | 0.006 | 1 | 148 | 0 | 2 |
-| DocLayout-YOLO DocStructBench (off-the-shelf) | 0.772 | 0.780 | 0.004 | 0.005 | 0.035 | 0.007 | 54 | 162 | 0 | 38 |
+| DocLayout-YOLO DocStructBench (off-the-shelf) | 0.797 | 0.812 | 0.008 | 0.007 | 0.049 | 0.008 | 90 | 106 | 0 | 38 |
 | Surya 2 layout VLM (surya-ocr-2) | 0.921 | 0.922 | 0.000 | 0.001 | 0.006 | 0.003 | 2 | 56 | 0 | 5 |
 | Chandra 2 (chandra-ocr-2) | 0.619 | 0.620 | 0.000 | 0.000 | 0.003 | 0.001 | 2 | 572 | 0 | 27 |
 | Azure DI prebuilt-layout | 0.914 | 0.919 | 0.000 | 0.005 | 0.015 | 0.007 | 11 | 236 | 0 | 11 |
@@ -75,7 +75,7 @@ the secondary intuition column.
 
 ## Cross-check (Spearman across all systems)
 
-Area-based Hidden Trespass vs library metrics, 13 systems: ρ(HT, COTe-Trespass text-area→peripheral) = **0.984**; ρ(HT, LED-Merge) = **-0.071**.
+Area-based Hidden Trespass vs library metrics, 13 systems: ρ(HT, COTe-Trespass text-area→peripheral) = **0.978**; ρ(HT, LED-Merge) = **-0.071**.
 
-Legacy count-based contamination: ρ(contamination, COTe-Trespass) = **0.907**; ρ(contamination, LED-Merge) = **-0.033**.
+Legacy count-based contamination: ρ(contamination, COTe-Trespass) = **0.874**; ρ(contamination, LED-Merge) = **-0.033**.
 

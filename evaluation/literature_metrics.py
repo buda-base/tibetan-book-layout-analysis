@@ -133,16 +133,26 @@ def load_sizes(img_dir: Path, cache: Path | None = None) -> dict:
 # schema transforms
 # ---------------------------------------------------------------------------
 
-def apply_schema(boxes, schema: str, W: int, H: int):
+def apply_schema(boxes, schema: str, W: int, H: int, conf_floor: float = 0.0):
     """Return {class_name: [(xyxy_px, conf), ...]}.
 
     schema 'canonical': header+footer -> header-footer (no envelope);
                         text-area -> one envelope (max conf);
                         footnote unchanged.
     schema 'doclaynet': 4 native classes, no merge.
+
+    `conf_floor` drops boxes below the threshold BEFORE grouping/enveloping.
+    This matters for the canonical text-area envelope: at a given operating
+    point the OCR crop must be built only from predictions the model would
+    actually keep, so sub-threshold body boxes do not inflate the envelope
+    (matches eval_pred_files.py / the headline sweep, and is consistent with
+    the confidence gating already used by hidden_trespass / contamination /
+    cote / led). GT boxes carry conf 1.0 and are unaffected.
     """
     px = []
     for b in boxes:
+        if b.get("conf", 1.0) < conf_floor:
+            continue
         px.append({**b, "xyxy": to_px(b, W, H)})
     if schema == "canonical":
         grouped = {n: [] for n in CANON.values()}
@@ -315,13 +325,15 @@ def operating_points(pages, schema: str, conf: float):
     pred = {n: {} for n in names}
     for stem, W, H, gboxes, pboxes in pages:
         g = apply_schema(gboxes, schema, W, H)
-        p = apply_schema(pboxes, schema, W, H)
+        # gate predictions at the operating point BEFORE enveloping, so the
+        # text-area envelope reflects only kept boxes.
+        p = apply_schema(pboxes, schema, W, H, conf_floor=conf)
         for n in names:
             if g[n]:
                 gt[n][stem] = [xy for xy, _ in g[n]]
             if p[n]:
                 pred[n][stem] = p[n]
-    per = {n: _pr_class(gt[n], pred[n], conf) for n in names}
+    per = {n: _pr_class(gt[n], pred[n], conf=0.0) for n in names}
     f1s = [per[n]["F1"] for n in names]
     return {"conf": conf, "per_class": per,
             "mean_F1": float(np.mean(f1s)) if f1s else 0.0}
@@ -364,22 +376,28 @@ def iou_recall_diagnostic(pages, schema: str, classes, ious=(0.1, 0.5),
 def best_f1_sweep(pages, schema: str, grid=None):
     grid = grid if grid is not None else SWEEP
     names = class_names(schema)
-    # materialise once
+    # GT is confidence-independent -> materialise once. Predictions must be
+    # re-gated + re-enveloped per confidence (the text-area envelope shrinks as
+    # sub-threshold body boxes drop out), so cache raw pred boxes and rebuild.
     gt = {n: {} for n in names}
-    pred = {n: {} for n in names}
+    page_preds = []
     for stem, W, H, gboxes, pboxes in pages:
         g = apply_schema(gboxes, schema, W, H)
-        p = apply_schema(pboxes, schema, W, H)
         for n in names:
             if g[n]:
                 gt[n][stem] = [xy for xy, _ in g[n]]
-            if p[n]:
-                pred[n][stem] = p[n]
+        page_preds.append((stem, W, H, pboxes))
     best_mean = (-1.0, None)
     per_class_best = {n: (-1.0, None) for n in names}
     at = {}
     for conf in grid:
-        per = {n: _pr_class(gt[n], pred[n], conf) for n in names}
+        pred = {n: {} for n in names}
+        for stem, W, H, pboxes in page_preds:
+            p = apply_schema(pboxes, schema, W, H, conf_floor=conf)
+            for n in names:
+                if p[n]:
+                    pred[n][stem] = p[n]
+        per = {n: _pr_class(gt[n], pred[n], conf=0.0) for n in names}
         mean = float(np.mean([per[n]["F1"] for n in names]))
         at[conf] = {"per_class": per, "mean_F1": mean}
         if mean > best_mean[0]:
