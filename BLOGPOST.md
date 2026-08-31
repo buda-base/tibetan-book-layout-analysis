@@ -473,18 +473,17 @@ The bigger takeaways, though, are the ones we didn't expect going in:
 
 Everything is open. The primary trained model (with usage and thresholds) is
 on the Hugging Face Hub at
-[BDRC/Tibetan-Modern-Book-Layout-Detection-RTDETR](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection-RTDETR)
-(MIT); the two runner-up architectures from the bake-off above are published
-alongside it, at
-[BDRC/Tibetan-Modern-Book-Layout-Detection-RFDETR](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection-RFDETR)
-(Apache-2.0) and
-[BDRC/Tibetan-Modern-Book-Layout-Detection-DocLayout-YOLO](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection-DocLayout-YOLO)
-(AGPL-3.0, inherited from DocLayout-YOLO's own codebase — check that license
-fits your use case before adopting it over the other two). The cleaned,
+[BDRC/TiBLA-RTDETR](https://huggingface.co/BDRC/TiBLA-RTDETR)
+(AGPL-3.0, inherited from the Ultralytics RT-DETR weights); if you need a
+permissive license, two Apache-2.0 alternatives are published alongside it, at
+[BDRC/TiBLA-PP-DocLayout-L](https://huggingface.co/BDRC/TiBLA-PP-DocLayout-L)
+(matching RT-DETR-l's scores) and
+[BDRC/TiBLA-RFDETR](https://huggingface.co/BDRC/TiBLA-RFDETR)
+(a lighter PyTorch-native option). The cleaned,
 audited dataset is at
-[BDRC/TDLA-Training-Dataset-v2](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset-v2);
+[BDRC/TiBLAD](https://huggingface.co/datasets/BDRC/TiBLAD);
 and all training, evaluation, and threshold-sweep code lives in the
-[tibetan-book-layout-analysis](https://github.com/buda-base/tibetan-book-layout-analysis)
+[tibla](https://github.com/buda-base/tibla)
 repository. Every number in this post is reproducible from the scripts there.
 
 ## Limitations

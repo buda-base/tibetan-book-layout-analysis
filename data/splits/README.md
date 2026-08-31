@@ -1,7 +1,7 @@
 # Split lists by dataset tag
 
 These files are copies of `train.txt` / `val.txt` / `test.txt` from
-[BDRC/TDLA-Training-Dataset](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset)
+[BDRC/TiBLAD](https://huggingface.co/datasets/BDRC/TiBLAD)
 at the matching git tag. Paths are YOLO-style (`./images/<split>/<stem>.jpg`).
 
 | Directory | Tag | Images | Test |

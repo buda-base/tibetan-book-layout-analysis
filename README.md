@@ -1,4 +1,4 @@
-# Tibetan Book Layout Analysis
+# TiBLA — Tibetan Book Layout Analysis
 
 Training code, data pipeline, evaluation, and reproducible recipes for a
 **document-layout detector for modern Tibetan books**. The model finds four
@@ -6,8 +6,10 @@ structural regions on every page image — **header**, **text-area**,
 **footnote**, and **footer** — as a preprocessing step for OCR and etext
 production.
 
-- **Model (weights + usage):** [BDRC/Tibetan-Modern-Book-Layout-Detection](https://huggingface.co/BDRC/Tibetan-Modern-Book-Layout-Detection) on the Hugging Face Hub
-- **Dataset:** [BDRC/TDLA-Training-Dataset-v2](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset-v2) (gated, fair-use)
+- **Primary model:** [BDRC/TiBLA-RTDETR](https://huggingface.co/BDRC/TiBLA-RTDETR) (RT-DETR-l, AGPL-3.0) on the Hugging Face Hub
+- **Permissive (Apache-2.0) alternatives:** [BDRC/TiBLA-PP-DocLayout-L](https://huggingface.co/BDRC/TiBLA-PP-DocLayout-L) · [BDRC/TiBLA-RFDETR](https://huggingface.co/BDRC/TiBLA-RFDETR)
+- **Dataset:** [BDRC/TiBLAD](https://huggingface.co/datasets/BDRC/TiBLAD) (gated, fair-use)
+- **Paper:** [buda-base/papers](https://github.com/buda-base/papers) (`papers/2026-tibetan-book-layout`) — *arXiv link forthcoming*
 - **Write-up:** [`BLOGPOST.md`](BLOGPOST.md) — the full story: data cleaning, the model bake-off, and the evaluation lessons
 
 ## The result in one paragraph
@@ -22,9 +24,9 @@ footnote localization, and handles two-column layouts correctly.
 
 One serving detail matters: use **per-class confidence thresholds**
 (header/footer ≈ 0.60, text-area ≈ 0.55, footnote ≈ 0.25). A native per-class
-sweep shows this lifts header/footer precision ~0.83 → ~0.95 and text-area
-~0.955 → ~0.98 at almost no recall cost. See the model card and
-`inference/infer.py`.
+sweep shows this lifts header/footer precision ~0.94 → ~0.96 and text-area
+~0.987 → ~0.994 at almost no recall cost (leak-free v4 test). See the model card
+and `inference/infer.py`.
 
 ## Repository layout
 
@@ -104,7 +106,7 @@ combine them into a single `header-footer` class as loss-free post-processing.
 Code in this repository is released under the [MIT License](LICENSE). The page
 images in the dataset are distributed on a fair-use basis with **no content
 license** — you are responsible for your own rights analysis (see the
-[dataset card](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset-v2)).
+[dataset card](https://huggingface.co/datasets/BDRC/TiBLAD)).
 
 ## Acknowledgements
 

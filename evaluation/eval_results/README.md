@@ -1,8 +1,8 @@
 # Dataset versions and where numbers live
 
-Hub dataset: [BDRC/TDLA-Training-Dataset](https://huggingface.co/datasets/BDRC/TDLA-Training-Dataset)
-(same repo as `BDRC/Tibetan-Modern-Book-Layout-Detection`). **Always name the
-git tag**, never “the TDLA test set”.
+Hub dataset: [BDRC/TiBLAD](https://huggingface.co/datasets/BDRC/TiBLAD)
+(paired with the models `BDRC/TiBLA-RTDETR`, `BDRC/TiBLA-PP-DocLayout-L`,
+`BDRC/TiBLA-RFDETR`). **Always name the git tag**, never "the TDLA test set".
 
 | Tag | Images (train / val / test) | Split unit | What it is |
 | --- | --- | --- | --- |
