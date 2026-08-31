@@ -90,18 +90,34 @@ The RT-DETR-l row above is the **seed0** run scored through the unified path
 (0.959 @ conf 0.74), the same dump used everywhere else and the tam2col row of
 the curriculum ablation ([`CURRICULUM.md`](CURRICULUM.md)).
 
-**RT-DETR-l seed variance** (`seed-variance-tdlav4/seed_variance.json`, 5
-independent seeds 0–4, identical `tam2col` recipe, scored on the leak-free v4
-833-page test). Measured under the *prior* fixed-envelope / conf-0.50 scoring:
-canonical mean-F1 **0.944 ± 0.010** (sample sd; min 0.935 / max 0.959),
-header-footer **0.951 ± 0.006**, text-area **0.990 ± 0.003**, footnote
-**0.891 ± 0.031** (footnote is the volatile class), canonical mAP@0.50:0.95
-**0.773 ± 0.009**. This ± band is the reference spread for reading the single-run
-numbers above: the two lead rows (RT-DETR-l seed0 0.959, PP-DocLayout-L 0.958)
-are within noise of each other, RF-DETR (0.927) and heron (0.925) are a second
-tie ~1.5 sd below, and DocLayout-YOLO (0.897) trails — so the ordering
-RT-DETR ≈ PP-DocLayout-L > RF-DETR ≈ heron > DocLayout-YOLO is real, but any two
-rows within ~1 sd of each other should be treated as a tie.
+**RT-DETR-l seed variance** (5 independent seeds 0–4, identical `tam2col` recipe,
+leak-free v4 833-page test), **re-scored under the unified scorer** (each seed at
+its own best-mean-F1 conf) so the band matches the headline: canonical mean-F1
+**0.961 ± 0.009** (sample sd; min 0.947 / max 0.970), header-footer
+**0.947 ± 0.004**, text-area **0.998 ± 0.001**, footnote **0.937 ± 0.024**
+(footnote is the volatile class), canonical mAP@0.50:0.95 **0.773 ± 0.009**
+(conf-independent — unchanged from the old band), shared mAP@0.50:0.95
+**0.643 ± 0.006**. Full table + per-seed rows:
+[`THRESHOLDS_AND_SEED_VARIANCE.md`](THRESHOLDS_AND_SEED_VARIANCE.md);
+JSON `seed_variance_unified.json`. The mean (0.961) is the recommended headline;
+seed0 (0.959, the served checkpoint, in the table above) sits just below it.
+This ± band is the reference spread for reading the single-run numbers above: the
+two lead rows (RT-DETR-l 0.959, PP-DocLayout-L 0.958) are within noise of each
+other, RF-DETR (0.927) and heron (0.925) are a second tie ~1.5 sd below, and
+DocLayout-YOLO (0.897) trails — so the ordering RT-DETR ≈ PP-DocLayout-L >
+RF-DETR ≈ heron > DocLayout-YOLO is real, but any two rows within ~1 sd of each
+other should be treated as a tie.
+
+**Served per-class thresholds** (h/f ≈ 0.60, text-area ≈ 0.55, footnote ≈ 0.25),
+re-established leak-free on the served seed0 model: full P/R/F1 sweep per class
+(canonical + native text-area) in
+[`THRESHOLDS_AND_SEED_VARIANCE.md`](THRESHOLDS_AND_SEED_VARIANCE.md) (JSON
+`served_thresholds.json`). Raising h/f 0.25→0.60 buys +0.028 precision for −0.014
+recall; text-area 0.25→0.55 (native) buys +0.007 precision at no recall cost; the
+global best-mean-F1 conf is 0.74 and one global knob costs 0.0085 mean F1 vs
+per-class tuning. Footnote is the exception on the leak-free test (only 38 GT
+boxes): F1-optimal is ~0.87, but the served 0.25 is a recall-safe operational
+choice.
 
 ### Label-scheme ablation (curriculum), leak-free on the final architecture
 
